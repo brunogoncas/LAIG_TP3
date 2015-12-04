@@ -277,7 +277,7 @@ verify_NEW(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode):-
 		)
 	),
 	!, 
-	move_Piece(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode).
+	move_Piece(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode, NewBoard).
 														
 verify_NEW(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode):-
 	((
@@ -317,7 +317,7 @@ very_path(Row, InitialCol, InitialCol).
 * Mover a peças																				*
 *********************************************************************************************/
 
-move_Piece(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, 'k', Game_mode):-
+move_Piece(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, 'k', Game_mode, OBoard):-
 	(C_NEW == 11;
 	C_NEW == 1;
 	R_NEW == 1;
@@ -328,14 +328,14 @@ move_Piece(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, 'k', Game_mode):-
 	print_board(OBoard),
 	write('Acabou o jogo! Ganhou o jogador 2!\n').
 	
-move_Piece(1, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode):-
+move_Piece(1, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode, NewBoard):-
 	search_row(Board, ' ', C_OLD, R_OLD, 1, OB),
 	search_row(OB, Piece, C_NEW, R_NEW, 1, OBoard),
 	verify_king_eaten(OBoard, NewBoard),
 	write('Acabou o jogo! Ganhou o jogador 1!\n'), !.
 	
  
-move_Piece(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode):- 
+move_Piece(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode, FFBoard):- 
 	(
 		(
 			Piece == 'k', 

@@ -6,7 +6,7 @@
   <rotation axis="y" angle="70" />
   <rotation axis="z" angle="20" />
   <scale sx="0.5" sy="0.5" sz="0.5" />
-  <reference length="0" />
+  <reference length="20" />
 </INITIALS>
 <ILLUMINATION>
   <ambient r="0.1" g="0.1" b="0.1" a="0.1" />
@@ -59,6 +59,10 @@
   <file path="textures/brown.png" />
   <amplif_factor s="1" t="1" />
 </TEXTURE>
+<TEXTURE id="board">
+  <file path="textures/board2.png" />
+  <amplif_factor s="1" t="1" />
+</TEXTURE>
 </TEXTURES>
 <MATERIALS>
   <MATERIAL id="mat_metal">
@@ -106,15 +110,28 @@
   <NODE id="root">
     <MATERIAL id="mat_normal" />
     <TEXTURE id="null" />
-    <ROTATION axis="y" angle="30" />
     <DESCENDANTS>
+	  <DESCENDANT id="tab" />
       <DESCENDANT id="tabuleiro" />
     </DESCENDANTS>
   </NODE>
+  
+  <NODE id="tab">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="board" />
+	<TRANSLATION x="0" y="0" z="0" />
+	<SCALE sx="20" sy="20" sz="20" />
+	<ROTATION axis="x" angle="-90" />
+	<DESCENDANTS>
+	  <DESCENDANT id="quad_1x1" />
+	 </DESCENDANTS>
+	</NODE>
+	
   <NODE id="tabuleiro">
     <MATERIAL id="null" />
-    <TEXTURE id="null" />
-    <SCALE sx="4" sy="2" sz="2" />
+    <TEXTURE id="clear" />
+    <SCALE sx="1.8" sy="1.8" sz="1.8" />
+	<TRANSLATION x="-5" y="0" z="-5" />
     <DESCENDANTS>
 
       <DESCENDANT id="Row1" />
@@ -136,7 +153,7 @@
 
   <NODE id="Row1">
     <MATERIAL id="null" />
-    <TEXTURE id="null" />
+    <TEXTURE id="clear" />
     <TRANSLATION x="0" y="0" z="0" />
     <DESCENDANTS>
     <DESCENDANT id="Place011" />
@@ -154,7 +171,7 @@
   </NODE>
   <NODE id="Row2">
     <MATERIAL id="null" />
-    <TEXTURE id="tab_gray" />
+    <TEXTURE id="clear" />
     <TRANSLATION x="1" y="0" z="0" />
     <DESCENDANTS>
     <DESCENDANT id="Place021" />
@@ -172,7 +189,7 @@
   </NODE>
   <NODE id="Row3">
     <MATERIAL id="null" />
-    <TEXTURE id="tab_gray" />
+    <TEXTURE id="clear" />
     <TRANSLATION x="2" y="0" z="0" />
     <DESCENDANTS>
     <DESCENDANT id="Place031" />
@@ -190,7 +207,7 @@
   </NODE>
   <NODE id="Row4">
     <MATERIAL id="null" />
-    <TEXTURE id="tab_gray" />
+    <TEXTURE id="clear" />
     <TRANSLATION x="3" y="0" z="0" />
     <DESCENDANTS>
     <DESCENDANT id="Place041" />
@@ -208,7 +225,7 @@
   </NODE>
   <NODE id="Row5">
     <MATERIAL id="null" />
-    <TEXTURE id="tab_gray" />
+    <TEXTURE id="clear" />
     <TRANSLATION x="4" y="0" z="0" />
     <DESCENDANTS>
     <DESCENDANT id="Place051" />
@@ -226,7 +243,7 @@
   </NODE>
   <NODE id="Row6">
     <MATERIAL id="null" />
-    <TEXTURE id="tab_gray" />
+    <TEXTURE id="clear" />
     <TRANSLATION x="5" y="0" z="0" />
     <DESCENDANTS>
     <DESCENDANT id="Place061" />
@@ -244,7 +261,7 @@
   </NODE>
   <NODE id="Row7">
     <MATERIAL id="null" />
-    <TEXTURE id="tab_gray" />
+    <TEXTURE id="clear" />
     <TRANSLATION x="6" y="0" z="0" />
     <DESCENDANTS>
     <DESCENDANT id="Place071" />
@@ -263,7 +280,7 @@
   <NODE id="Row8">
     <MATERIAL id="null" />
 
-    <TEXTURE id="tab_gray" />
+    <TEXTURE id="clear" />
     <TRANSLATION x="7" y="0" z="0" />
     <DESCENDANTS>
     <DESCENDANT id="Place081" />
@@ -281,7 +298,7 @@
   </NODE>
   <NODE id="Row9">
     <MATERIAL id="null" />
-    <TEXTURE id="tab_gray" />
+    <TEXTURE id="clear" />
     <TRANSLATION x="8" y="0" z="0" />
     <DESCENDANTS>
     <DESCENDANT id="Place091" />
@@ -299,7 +316,7 @@
   </NODE>
   <NODE id="Row10">
     <MATERIAL id="null" />
-    <TEXTURE id="tab_gray" />
+    <TEXTURE id="clear" />
     <TRANSLATION x="9" y="0" z="0" />
     <DESCENDANTS>
     <DESCENDANT id="Place101" />
@@ -317,7 +334,7 @@
   </NODE>
   <NODE id="Row11">
     <MATERIAL id="null" />
-    <TEXTURE id="tab_gray" />
+    <TEXTURE id="null" />
     <TRANSLATION x="10" y="0" z="0" />
     <DESCENDANTS>
     <DESCENDANT id="Place111" />
@@ -336,7 +353,7 @@
 
   <NODE id="Place011">
     <MATERIAL id="null" />
-    <TEXTURE id="tab_brown" />
+    <TEXTURE id="null" />
     <TRANSLATION x="0" y="0" z="0" />
     <DESCENDANTS>
       <DESCENDANT id="Plane" />

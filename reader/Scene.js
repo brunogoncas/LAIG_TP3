@@ -250,12 +250,12 @@ Scene.prototype.DisplayNode = function (node, material, texture, matrix) {
 	var actualMaterial = node.material;
 	if (actualMaterial == "null") { actualMaterial = material; }
 
+	//console.log("Node ID: " + node.id);
 	var actualTexture = node.texture;
+	//console.log("Node Texture: " + actualTexture);
     if (actualTexture == "null") { actualTexture = texture; }
     else if (actualTexture == "clear") { actualTexture = "null"; }
-
-
-
+	//console.log("ActualTexture: " + actualTexture);
 
 	var actualMatrix = mat4.create();
 	mat4.identity(actualMatrix);
@@ -293,11 +293,13 @@ Scene.prototype.DisplayNode = function (node, material, texture, matrix) {
 				 if (textureDisplay != undefined) {
 					if(materialDisplay != undefined){
 						materialDisplay.appearance.setTexture(textureDisplay.textureCGF);
+						//console.log("Node id: " + node.id + " ; Texture : " + actualTexture);
 					}
 				 }
 
 				  if(materialDisplay != undefined){
 					materialDisplay.appearance.apply();
+					materialDisplay.appearance.setTexture(null);
 				  }
 
 				  else {
@@ -310,7 +312,9 @@ Scene.prototype.DisplayNode = function (node, material, texture, matrix) {
 				this.multMatrix(actualMatrix);
         this.registerForPick(pickingindex, leaf);
         pickingindex++;
-				leaf.display();
+				
+				//if(node.id != "Place011")
+					leaf.display();
 				this.popMatrix();
 			}
         }

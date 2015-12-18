@@ -1,0 +1,577 @@
+<SCENE>
+
+	<INITIALS>
+		<frustum near="1.5" far="500" />
+		<translation x="0" y="0" z="0" />
+		<rotation axis="x" angle="0" />
+		<rotation axis="y" angle="0" />
+		<rotation axis="z" angle="0" />
+		<scale sx="1" sy="1" sz="1" />
+		<reference length="6" />
+	</INITIALS>
+
+
+	<ANIMATIONS>
+		<ANIMATION id="flag_animation" span="10" type="linear">
+			<CONTROLPOINT xx="0" yy="-44" zz="0" />
+			<CONTROLPOINT xx="0" yy="0" zz="0" />
+		</ANIMATION>
+		<ANIMATION id="paperPlane_animation" span="4" type="linear">
+			<CONTROLPOINT xx="0" yy="-7" zz="0" />
+			<CONTROLPOINT xx="0" yy="0" zz="0" />
+		</ANIMATION>
+		<ANIMATION id="circular" span="3" type="circular" center="0 0 0" radius="0" startang="160" rotang="-430"/>
+	</ANIMATIONS>
+
+
+	<ILLUMINATION>
+        <ambient r="0" g="0" b="0" a="1" />
+        <background r="0.6" g="0.6" b="0.6" a="1" />
+    </ILLUMINATION>
+
+
+	<LIGHTS>
+        <LIGHT id="light_default">
+            <enable value="1" />
+            <position x="5" y="60" z="5" w="1" />
+            <ambient r="0.5" g="0.5" b="0.5" a="1" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1" />
+            <specular r="0.5" g="0.5" b="0.5" a="1" />
+        </LIGHT>
+		<LIGHT id="light_lamp">
+            <enable value="1" />
+            <position x="0.7" y="3.4" z="0.7" w="1" />
+            <specular r="1.0" g="0.92" b="0" a="1.0" />
+            <diffuse r="0.3" g="0.25" b="0" a="1.0" />
+            <ambient r="0.1" g="0.08" b="0" a="1.0" />
+        </LIGHT>        
+    </LIGHTS>
+
+
+	<TEXTURES>
+		<TEXTURE id="wall_pattern">
+            <file path="textures/wall_paper.jpg" />
+            <amplif_factor s="1" t="1" />
+        </TEXTURE>
+        <TEXTURE id="floor_pattern">
+            <file path="textures/floor_dirt.jpg" />
+            <amplif_factor s="1" t="1" />
+        </TEXTURE>
+        <TEXTURE id="chair_pattern">
+            <file path="textures/bordeaux.jpg" />
+            <amplif_factor s="1" t="1" />
+        </TEXTURE>
+        <TEXTURE id="lamp_top_pattern">
+            <file path="textures/beje.jpg" />
+            <amplif_factor s="1" t="1" />
+        </TEXTURE>
+        <TEXTURE id="lamp_support_pattern">
+            <file path="textures/brown.jpg" />
+            <amplif_factor s="1" t="1" />
+        </TEXTURE>
+        <TEXTURE id="painting1">
+            <file path="textures/ogrito.jpg" />
+            <amplif_factor s="1" t="1" />
+        </TEXTURE>
+        <TEXTURE id="painting2">
+            <file path="textures/mona_lisa.jpg" />
+            <amplif_factor s="1" t="1" />
+        </TEXTURE>
+        <TEXTURE id="painting3">
+            <file path="textures/salvadordali.jpg" />
+            <amplif_factor s="1" t="1" />
+        </TEXTURE>
+        <TEXTURE id="paper">
+            <file path="textures/paper.jpg" />
+            <amplif_factor s="1" t="1" />
+        </TEXTURE>
+        <TEXTURE id="flag">
+            <file path="textures/flag_france.jpg" />
+            <amplif_factor s="1" t="1" />
+        </TEXTURE>
+        <TEXTURE id="steel">
+            <file path="textures/steel.jpg" />
+            <amplif_factor s="1" t="1" />
+        </TEXTURE>
+        <TEXTURE id="tabuleiro">
+            <file path="textures/tabuleiro_pattern.jpg" />
+            <amplif_factor s="1" t="1" />
+        </TEXTURE>
+    </TEXTURES>
+
+
+   	<MATERIALS>
+        <MATERIAL id="default">
+            <shininess value="100" />
+            <specular r="1.0" g="1.0" b="1.0" a="0.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+            <emission r="0" g="0" b="0" a="0" />
+        </MATERIAL>
+    </MATERIALS>
+
+
+	<LEAVES>
+		<LEAF id="rectangle" type="rectangle" args="0 0 1 1" />
+		<LEAF id="peca" type="cylinder" args="0.25 0.4 0.4 20 20" />
+	</LEAVES>
+
+
+	<NODES>
+		<ROOT id="scene" />
+
+	    <NODE id="scene">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<DESCENDANTS>
+				<DESCENDANT id="environment" />
+				<DESCENDANT id="pecas" />
+			</DESCENDANTS>
+		</NODE>
+		
+		<NODE id="environment">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<DESCENDANTS>
+				<DESCENDANT id="floor" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="floor">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<DESCENDANTS>
+				<DESCENDANT id="actual_floor" />									
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="actual_floor">
+			<MATERIAL id="default" />
+			<TEXTURE id="tabuleiro" />
+			<ROTATION axis="x" angle="90"/>
+			<SCALE sx="8" sy="8" sz="0"/>
+			<DESCENDANTS>
+				<DESCENDANT id="rectangle" />												
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="pecas">
+			<MATERIAL id="default" />
+			<TEXTURE id="null" />
+			<ROTATION axis="x" angle="-90"/>
+			<DESCENDANTS>
+				<DESCENDANT id="pecas_brancas" />
+				<DESCENDANT id="pecas_pretas" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="pecas_brancas">
+			<MATERIAL id="default" />
+			<TEXTURE id="paper" />
+			<TRANSLATION x="0.5" y="-0.5" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca_branca0" />
+			    <DESCENDANT id="peca_branca1" />
+				<DESCENDANT id="peca_branca2" />
+				<DESCENDANT id="peca_branca3" />
+				<DESCENDANT id="peca_branca4" />
+				<DESCENDANT id="peca_branca5" />
+				<DESCENDANT id="peca_branca6" />
+				<DESCENDANT id="peca_branca7" />
+				<DESCENDANT id="peca_branca8" />
+				<DESCENDANT id="peca_branca9" />
+				<DESCENDANT id="peca_branca10" />
+				<DESCENDANT id="peca_branca11" />
+				<DESCENDANT id="peca_branca12" />
+				<DESCENDANT id="peca_branca13" />
+				<DESCENDANT id="peca_branca14" />
+				<DESCENDANT id="peca_branca15" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_branca0">
+			<MATERIAL id="default" />
+			<TEXTURE id="paper" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_branca1">
+			<MATERIAL id="default" />
+			<TEXTURE id="paper" />
+			<TRANSLATION x="1" y="0" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_branca2">
+			<MATERIAL id="default" />
+			<TEXTURE id="paper" />
+			<TRANSLATION x="2" y="0" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_branca3">
+			<MATERIAL id="default" />
+			<TEXTURE id="paper" />
+			<TRANSLATION x="3" y="0" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_branca4">
+			<MATERIAL id="default" />
+			<TEXTURE id="paper" />
+			<TRANSLATION x="4" y="0" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_branca5">
+			<MATERIAL id="default" />
+			<TEXTURE id="paper" />
+			<TRANSLATION x="5" y="0" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_branca6">
+			<MATERIAL id="default" />
+			<TEXTURE id="paper" />
+			<TRANSLATION x="6" y="0" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_branca7">
+			<MATERIAL id="default" />
+			<TEXTURE id="paper" />
+			<TRANSLATION x="7" y="0" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_branca8">
+			<MATERIAL id="default" />
+			<TEXTURE id="paper" />
+			<TRANSLATION x="0" y="-1" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_branca9">
+			<MATERIAL id="default" />
+			<TEXTURE id="paper" />
+			<TRANSLATION x="1" y="-1" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_branca10">
+			<MATERIAL id="default" />
+			<TEXTURE id="paper" />
+			<TRANSLATION x="2" y="-1" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_branca11">
+			<MATERIAL id="default" />
+			<TEXTURE id="paper" />
+			<TRANSLATION x="3" y="-1" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_branca12">
+			<MATERIAL id="default" />
+			<TEXTURE id="paper" />
+			<TRANSLATION x="4" y="-1" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_branca13">
+			<MATERIAL id="default" />
+			<TEXTURE id="paper" />
+			<TRANSLATION x="5" y="-1" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_branca14">
+			<MATERIAL id="default" />
+			<TEXTURE id="paper" />
+			<TRANSLATION x="6" y="-1" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_branca15">
+			<MATERIAL id="default" />
+			<TEXTURE id="paper" />
+			<TRANSLATION x="7" y="-1" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="pecas_pretas">
+			<MATERIAL id="default" />
+			<TEXTURE id="wall_pattern" />
+			<TRANSLATION x="0.5" y="-7.5" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca_preta0" />
+				<DESCENDANT id="peca_preta1" />
+				<DESCENDANT id="peca_preta2" />
+				<DESCENDANT id="peca_preta3" />
+				<DESCENDANT id="peca_preta4" />
+				<DESCENDANT id="peca_preta5" />
+				<DESCENDANT id="peca_preta6" />
+				<DESCENDANT id="peca_preta7" />
+				<DESCENDANT id="peca_preta8" />
+				<DESCENDANT id="peca_preta9" />
+				<DESCENDANT id="peca_preta10" />
+				<DESCENDANT id="peca_preta11" />
+				<DESCENDANT id="peca_preta12" />
+				<DESCENDANT id="peca_preta13" />
+				<DESCENDANT id="peca_preta14" />
+				<DESCENDANT id="peca_preta15" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_preta0">
+			<MATERIAL id="default" />
+			<TEXTURE id="wall_pattern" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_preta1">
+			<MATERIAL id="default" />
+			<TEXTURE id="wall_pattern" />
+			<TRANSLATION x="1" y="0" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_preta2">
+			<MATERIAL id="default" />
+			<TEXTURE id="wall_pattern" />
+			<TRANSLATION x="2" y="0" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_preta3">
+			<MATERIAL id="default" />
+			<TEXTURE id="wall_pattern" />
+			<TRANSLATION x="3" y="0" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_preta4">
+			<MATERIAL id="default" />
+			<TEXTURE id="wall_pattern" />
+			<TRANSLATION x="4" y="0" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_preta5">
+			<MATERIAL id="default" />
+			<TEXTURE id="wall_pattern" />
+			<TRANSLATION x="5" y="0" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_preta6">
+			<MATERIAL id="default" />
+			<TEXTURE id="wall_pattern" />
+			<TRANSLATION x="6" y="0" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_preta7">
+			<MATERIAL id="default" />
+			<TEXTURE id="wall_pattern" />
+			<TRANSLATION x="7" y="0" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_preta8">
+			<MATERIAL id="default" />
+			<TEXTURE id="wall_pattern" />
+			<TRANSLATION x="7" y="1" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_preta9">
+			<MATERIAL id="default" />
+			<TEXTURE id="wall_pattern" />
+			<TRANSLATION x="6" y="1" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_preta10">
+			<MATERIAL id="default" />
+			<TEXTURE id="wall_pattern" />
+			<TRANSLATION x="5" y="1" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_preta11">
+			<MATERIAL id="default" />
+			<TEXTURE id="wall_pattern" />
+			<TRANSLATION x="4" y="1" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_preta12">
+			<MATERIAL id="default" />
+			<TEXTURE id="wall_pattern" />
+			<TRANSLATION x="3" y="1" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_preta13">
+			<MATERIAL id="default" />
+			<TEXTURE id="wall_pattern" />
+			<TRANSLATION x="2" y="1" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_preta14">
+			<MATERIAL id="default" />
+			<TEXTURE id="wall_pattern" />
+			<TRANSLATION x="1" y="1" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="peca_preta15">
+			<MATERIAL id="default" />
+			<TEXTURE id="wall_pattern" />
+			<TRANSLATION x="0" y="1" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="peca" />
+			</DESCENDANTS>
+		</NODE>
+
+		<NODE id="cube">
+			<MATERIAL id="default" />
+			<TEXTURE id="null" />
+			<DESCENDANTS>
+	           	<DESCENDANT id="face_top" />
+	           	<DESCENDANT id="face_bot" />
+	           	<DESCENDANT id="face_left" />
+	           	<DESCENDANT id="face_right" />
+	           	<DESCENDANT id="face_back" />
+	           	<DESCENDANT id="face_front" />
+	       	</DESCENDANTS>
+		</NODE>
+
+  		<NODE id="face_top">
+      		<MATERIAL id="null" />
+      		<TEXTURE id="null" />
+      		<TRANSLATION x="0" y="1" z="0" />
+      		<ROTATION axis="x" angle="90"/>
+      		<DESCENDANTS>
+      		    <DESCENDANT id="rectangle" />
+      		</DESCENDANTS>
+  		</NODE>
+
+	  	<NODE id="face_bot">
+	      	<MATERIAL id="null" />
+	      	<TEXTURE id="null" />
+	      	<TRANSLATION x="0" y="0" z="1" />
+	      	<ROTATION axis="x" angle="-90"/>
+	      	<DESCENDANTS>
+	          	<DESCENDANT id="rectangle" />
+	      	</DESCENDANTS>
+	  	</NODE>
+
+	  	<NODE id="face_left">
+	      	<MATERIAL id="null" />
+	      	<TEXTURE id="null" />
+	      	<TRANSLATION x="0" y="0" z="1" />
+	      	<ROTATION axis="y" angle="90"/>
+	      	<DESCENDANTS>
+	          	<DESCENDANT id="rectangle" />
+	      	</DESCENDANTS>
+	  	</NODE>
+
+	  	<NODE id="face_right">
+	     	<MATERIAL id="null" />
+	    	<TEXTURE id="null" />
+	      	<TRANSLATION x="1" y="0" z="0" />
+	      	<ROTATION axis="y" angle="-90"/>
+	      	<DESCENDANTS>
+	          	<DESCENDANT id="rectangle" />
+	      	</DESCENDANTS>
+	  	</NODE>
+
+	  	<NODE id="face_back">
+	      	<MATERIAL id="null" />
+	      	<TEXTURE id="null" />
+	      	<TRANSLATION x="0" y="0" z="0" />
+	      	<DESCENDANTS>
+	          	<DESCENDANT id="rectangle" />
+	      	</DESCENDANTS>
+	  	</NODE>
+
+	  	<NODE id="face_front">
+	      	<MATERIAL id="null" />
+	      	<TEXTURE id="null" />
+	      	<TRANSLATION x="0" y="1" z="1" />
+	      	<ROTATION axis="x" angle="180"/>
+	      	<DESCENDANTS>
+	          	<DESCENDANT id="rectangle" />
+	      	</DESCENDANTS>
+	  	</NODE>
+
+	</NODES>	
+
+	
+</SCENE>

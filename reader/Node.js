@@ -1,4 +1,4 @@
-function Node(id, material, texture, animations) {
+function Node(id, material, texture, animations, pickingid) {
     this.id = id;
 	this.material = material;
 	this.texture = texture;
@@ -6,11 +6,12 @@ function Node(id, material, texture, animations) {
 	this.descendants = [];
 	this.primitive = null;
 	this.animations = animations;
-	
+  this.pickingid = pickingid/10;
+
 	this.animationsObj = [];
 	this.activeAnimation = null;
 	this.currentAnimation = 0;
-	
+
 };
 
 Node.prototype = Object.create(Object.prototype);

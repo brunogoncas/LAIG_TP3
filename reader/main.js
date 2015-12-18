@@ -39,6 +39,7 @@ function getUrlVars() {
     return vars;
 }
 
+
 serialInclude(['../lib/CGF.js', 'Scene.js', 'Parser.js', 'Texture.js', 'Interface.js', 'Material.js', 'Node.js',
 'primitives/Rectangle.js', 'primitives/Cylinder.js', 'primitives/Sphere.js', 'primitives/Triangle.js',
 'primitives/CylinderCircle.js', 'primitives/CylinderShell.js', 'primitives/Vehicle.js',
@@ -54,11 +55,11 @@ main=function()
   //teste
 
   console.log("entrou");
-  makeRequest();
+//makeRequest();
 
 
 
-/*
+
 	// Standard application, scene and interface setup
     var app = new CGFapplication(document.body);
     var myScene = new Scene();
@@ -70,7 +71,7 @@ main=function()
 	// get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml
 	// or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor)
 
-	var filename=getUrlVars()['file'] || "1/scene.lsx";
+	var filename=getUrlVars()['file'] || "1/table.lsx";
 
 	// create and load graph, and associate it to scene.
 	// Check console for loading errors
@@ -80,7 +81,7 @@ main=function()
 		myInterface.setActiveCamera(myScene.camera);
 	 app.setInterface(myInterface);
 	// start
-    app.run(); */
+    app.run();
 }
 
 ]);

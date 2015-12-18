@@ -1,4 +1,4 @@
-function Node(id, material, texture, animations, pickingid) {
+function Node(id, material, texture, animations, pickingtable) {
     this.id = id;
 	this.material = material;
 	this.texture = texture;
@@ -6,7 +6,7 @@ function Node(id, material, texture, animations, pickingid) {
 	this.descendants = [];
 	this.primitive = null;
 	this.animations = animations;
-  this.pickingid = pickingid/10;
+	this.pickingtable = pickingtable;
 
 	this.animationsObj = [];
 	this.activeAnimation = null;

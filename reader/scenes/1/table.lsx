@@ -63,6 +63,10 @@
   <file path="textures/board2.png" />
   <amplif_factor s="1" t="1" />
 </TEXTURE>
+<TEXTURE id="wood">
+  <file path="textures/wood.png" />
+  <amplif_factor s="1" t="1" />
+</TEXTURE>
 </TEXTURES>
 <MATERIALS>
   <MATERIAL id="mat_metal">
@@ -111,27 +115,98 @@
     <MATERIAL id="mat_normal" />
     <TEXTURE id="null" />
     <DESCENDANTS>
-	  <DESCENDANT id="tab" />
-      <DESCENDANT id="tabuleiro" />
+	  <DESCENDANT id="tabuleiro" />
+	  <DESCENDANT id="tabuleiro_pick" />
+	  <DESCENDANT id="king" />
     </DESCENDANTS>
   </NODE>
   
-  <NODE id="tab">
+  <NODE id="king">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="tab_gray" />
+    <DESCENDANTS>
+	  <DESCENDANT id="cyl" />
+    </DESCENDANTS>
+  </NODE>
+  
+  <NODE id="tabuleiro">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="null" />
+	<DESCENDANTS>
+	  <DESCENDANT id="top" />
+	  <DESCENDANT id="sides" />
+	 </DESCENDANTS>
+	</NODE>
+	
+	<NODE id="top">
     <MATERIAL id="mat_normal" />
     <TEXTURE id="board" />
-	<TRANSLATION x="0" y="0" z="0" />
-	<SCALE sx="20" sy="20" sz="20" />
+	<SCALE sx="22" sy="22" sz="22" />
 	<ROTATION axis="x" angle="-90" />
 	<DESCENDANTS>
 	  <DESCENDANT id="quad_1x1" />
 	 </DESCENDANTS>
 	</NODE>
 	
-  <NODE id="tabuleiro">
+	<NODE id="sides">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="null" />
+	<DESCENDANTS>
+	  <DESCENDANT id="side_front" />
+	  <DESCENDANT id="side_left" />
+	  <DESCENDANT id="side_right" />
+	  <DESCENDANT id="side_back" />
+	 </DESCENDANTS>
+	</NODE>
+	
+	<NODE id="side_front">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="wood" />
+	<SCALE sx="22" sy="0.5" sz="1" />
+	<TRANSLATION x="0" y="-0.5" z="11" />
+	<DESCENDANTS>
+	  <DESCENDANT id="quad_1x1" />
+	 </DESCENDANTS>
+	</NODE>
+	
+	<NODE id="side_left">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="wood" />
+	<ROTATION axis="y" angle="-90" />
+	<SCALE sx="22" sy="0.5" sz="1" />
+	<TRANSLATION x="0" y="-0.5" z="11" />
+	<DESCENDANTS>
+	  <DESCENDANT id="quad_1x1" />
+	 </DESCENDANTS>
+	</NODE>
+	
+	<NODE id="side_right">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="wood" />
+	<ROTATION axis="y" angle="90" />
+	<SCALE sx="22" sy="0.5" sz="1" />
+	<TRANSLATION x="0" y="-0.5" z="11" />
+	<DESCENDANTS>
+	  <DESCENDANT id="quad_1x1" />
+	 </DESCENDANTS>
+	</NODE>
+	
+	<NODE id="side_back">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="wood" />
+	<ROTATION axis="y" angle="180" />
+	<SCALE sx="22" sy="0.5" sz="1" />
+	<TRANSLATION x="0" y="-0.5" z="11" />
+	<DESCENDANTS>
+	  <DESCENDANT id="quad_1x1" />
+	 </DESCENDANTS>
+	</NODE>
+	
+  <NODE id="tabuleiro_pick">
     <MATERIAL id="null" />
     <TEXTURE id="clear" />
-    <SCALE sx="1.8" sy="1.8" sz="1.8" />
-	<TRANSLATION x="-5" y="0" z="-5" />
+    <SCALE sx="2" sy="2" sz="2" />
+	<TRANSLATION x="-5" y="0.005" z="-5" />
     <DESCENDANTS>
 
       <DESCENDANT id="Row1" />
@@ -353,7 +428,7 @@
 
   <NODE id="Place011">
     <MATERIAL id="null" />
-    <TEXTURE id="null" />
+    <TEXTURE id="tab_gray" />
     <TRANSLATION x="0" y="0" z="0" />
     <DESCENDANTS>
       <DESCENDANT id="Plane" />

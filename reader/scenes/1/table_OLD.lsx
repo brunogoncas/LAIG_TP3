@@ -1,0 +1,1416 @@
+<SCENE>
+<INITIALS>
+  <frustum near="0.1" far="500" />
+  <translation x="-19" y="-12" z="-12" />
+  <rotation axis="x" angle="-30" />
+  <rotation axis="y" angle="70" />
+  <rotation axis="z" angle="20" />
+  <scale sx="0.5" sy="0.5" sz="0.5" />
+  <reference length="20" />
+</INITIALS>
+<ILLUMINATION>
+  <ambient r="0.1" g="0.1" b="0.1" a="0.1" />
+  <background r="0" g="0" b="0" a="1" />
+</ILLUMINATION>
+<LIGHTS>
+  <LIGHT id="Sun">
+    <enable value="1" />
+    <position x="7" y="7" z="7" w="1" />
+    <ambient r="1" g="1" b="1" a="1" />
+    <diffuse r="1" g="1" b="1" a="1" />
+    <specular r="1" g="1" b="1" a="1" />
+  </LIGHT>
+  <LIGHT id="Street Lamp 1 - L">
+    <enable value="1" />
+    <position x="-6.75" y="4.5" z="9.5" w="1" />
+    <ambient r="0.2" g="0.2" b="0.2" a="0.2" />
+    <diffuse r="0.8" g="0.8" b="0.8" a="1" />
+    <specular r="0.8" g="0.8" b="0.8" a="1" />
+  </LIGHT>
+  <LIGHT id="Street Lamp 1 - R">
+    <enable value="1" />
+    <position x="-5.25" y="4.5" z="9.5" w="1" />
+    <ambient r="0.2" g="0.2" b="0.2" a="0.2" />
+    <diffuse r="0.8" g="0.8" b="0.8" a="1" />
+    <specular r="0.8" g="0.8" b="0.8" a="1" />
+  </LIGHT>
+  <LIGHT id="Street Lamp 2 - L">
+    <enable value="1" />
+    <position x="7.75" y="4.5" z="9.5" w="1" />
+    <ambient r="0.2" g="0.2" b="0.2" a="0.2" />
+    <diffuse r="0.8" g="0.8" b="0.8" a="1" />
+    <specular r="0.8" g="0.8" b="0.8" a="1" />
+  </LIGHT>
+  <LIGHT id="Street Lamp 2 - R">
+    <enable value="1" />
+    <position x="9.25" y="4.5" z="9.5" w="1" />
+    <ambient r="0.2" g="0.2" b="0.2" a="0.2" />
+    <diffuse r="0.8" g="0.8" b="0.8" a="1" />
+    <specular r="0.8" g="0.8" b="0.8" a="1" />
+  </LIGHT>
+</LIGHTS>
+
+<TEXTURES>
+<TEXTURE id="tab_gray">
+  <file path="textures/gray.png" />
+  <amplif_factor s="1" t="1" />
+</TEXTURE>
+<TEXTURE id="tab_brown">
+  <file path="textures/brown.png" />
+  <amplif_factor s="1" t="1" />
+</TEXTURE>
+<TEXTURE id="board">
+  <file path="textures/board2.png" />
+  <amplif_factor s="1" t="1" />
+</TEXTURE>
+<TEXTURE id="wood">
+  <file path="textures/wood.png" />
+  <amplif_factor s="1" t="1" />
+</TEXTURE>
+</TEXTURES>
+<MATERIALS>
+  <MATERIAL id="mat_metal">
+    <shininess value="10" />
+    <specular r="1" g="1" b="1" a="1" />
+    <diffuse r="0.7" g="0.7" b="0.7" a="1" />
+    <ambient r="0.5" g="0.5" b="0.5" a="1" />
+    <emission r="0" g="0" b="0" a="0" />
+  </MATERIAL>
+  <MATERIAL id="mat_normal">
+    <shininess value="1" />
+    <specular r="0.1" g="0.1" b="0.1" a="1" />
+    <diffuse r="1" g="1" b="1" a="1" />
+    <ambient r="0.5" g="0.5" b="0.5" a="0.5" />
+    <emission r="0" g="0" b="0" a="0" />
+  </MATERIAL>
+  <MATERIAL id="mat_border">
+    <shininess value="10" />
+    <specular r="0.4" g="0.2" b="0" a="1" />
+    <diffuse r="0" g="0" b="0" a="1" />
+    <ambient r="0.4" g="0.2" b="0" a="1" />
+    <emission r="0" g="0" b="0" a="0" />
+  </MATERIAL>
+  <MATERIAL id="mat_streetlamp">
+    <shininess value="10" />
+    <specular r="0.2" g="0.2" b="0.2" a="1" />
+    <diffuse r="0.2" g="0.2" b="0.2" a="1" />
+    <ambient r="0.2" g="0.2" b="0.2" a="1" />
+    <emission r="0" g="0" b="0" a="0" />
+  </MATERIAL>
+</MATERIALS>
+
+<LEAVES>
+  <!-- General -->
+  <LEAF id="quad_1x1" type="rectangle" args="-0.5 0.5 0.5 -0.5" />
+  <LEAF id="cyl" type="cylinder" args="1 1 1 3 20" />
+  <LEAF id="sph" type="sphere" args="1 20 20" />
+  <LEAF id="pyramid_side" type="triangle" args="0.5 0 0.5 0.5 0 -0.5 0 1 0" />
+  <LEAF id="tri" type="triangle" args="0 0 0.5 1 0 0 0 1.5 0" />
+  <LEAF id="Plane" type="plane" parts="10" />
+</LEAVES>
+
+<NODES>
+  <ROOT id="root" />
+  <NODE id="root">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="null" />
+    <DESCENDANTS>
+	  <DESCENDANT id="tabuleiro_pick" />
+	  <DESCENDANT id="tabuleiro" />
+	  <DESCENDANT id="king" />
+    </DESCENDANTS>
+  </NODE>
+  
+   <NODE id="king">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="tab_gray" />
+    <DESCENDANTS>
+	  <DESCENDANT id="cyl" />
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="tabuleiro">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="null" />
+	<DESCENDANTS>
+	  <DESCENDANT id="top" />
+	  <DESCENDANT id="sides" />
+	 </DESCENDANTS>
+	</NODE>
+	
+	<NODE id="top">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="board" />
+	<SCALE sx="22" sy="22" sz="22" />
+	<ROTATION axis="x" angle="-90" />
+	<DESCENDANTS>
+	  <DESCENDANT id="quad_1x1" />
+	 </DESCENDANTS>
+	</NODE>
+	
+	<NODE id="sides">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="null" />
+	<DESCENDANTS>
+	  <DESCENDANT id="side_front" />
+	  <DESCENDANT id="side_left" />
+	  <DESCENDANT id="side_right" />
+	  <DESCENDANT id="side_back" />
+	 </DESCENDANTS>
+	</NODE>
+	
+	<NODE id="side_front">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="wood" />
+	<SCALE sx="22" sy="0.5" sz="1" />
+	<TRANSLATION x="0" y="-0.5" z="11" />
+	<DESCENDANTS>
+	  <DESCENDANT id="quad_1x1" />
+	 </DESCENDANTS>
+	</NODE>
+	
+	<NODE id="side_left">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="wood" />
+	<ROTATION axis="y" angle="-90" />
+	<SCALE sx="22" sy="0.5" sz="1" />
+	<TRANSLATION x="0" y="-0.5" z="11" />
+	<DESCENDANTS>
+	  <DESCENDANT id="quad_1x1" />
+	 </DESCENDANTS>
+	</NODE>
+	
+	<NODE id="side_right">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="wood" />
+	<ROTATION axis="y" angle="90" />
+	<SCALE sx="22" sy="0.5" sz="1" />
+	<TRANSLATION x="0" y="-0.5" z="11" />
+	<DESCENDANTS>
+	  <DESCENDANT id="quad_1x1" />
+	 </DESCENDANTS>
+	</NODE>
+	
+	<NODE id="side_back">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="wood" />
+	<ROTATION axis="y" angle="180" />
+	<SCALE sx="22" sy="0.5" sz="1" />
+	<TRANSLATION x="0" y="-0.5" z="11" />
+	<DESCENDANTS>
+	  <DESCENDANT id="quad_1x1" />
+	 </DESCENDANTS>
+	</NODE>
+	
+  <NODE id="tabuleiro_pick">
+    <MATERIAL id="null" />
+    <TEXTURE id="clear" />
+    <SCALE sx="2" sy="2" sz="2" />
+	<TRANSLATION x="-5" y="0.0" z="-5" />
+    <DESCENDANTS>
+
+      <DESCENDANT id="Row1" />
+      <DESCENDANT id="Row2" />
+      <DESCENDANT id="Row3" />
+      <DESCENDANT id="Row4" />
+      <DESCENDANT id="Row5" />
+      <DESCENDANT id="Row6" />
+      <DESCENDANT id="Row7" />
+      <DESCENDANT id="Row8" />
+      <DESCENDANT id="Row9" />
+      <DESCENDANT id="Row10" />
+      <DESCENDANT id="Row11" />
+
+    </DESCENDANTS>
+
+  </NODE>
+
+
+  <NODE id="Row1">
+    <MATERIAL id="null" />
+    <TEXTURE id="clear" />
+    <TRANSLATION x="0" y="0" z="0" />
+    <DESCENDANTS>
+    <DESCENDANT id="Place011" />
+    <DESCENDANT id="Place012" />
+    <DESCENDANT id="Place013" />
+    <DESCENDANT id="Place014" />
+    <DESCENDANT id="Place015" />
+    <DESCENDANT id="Place016" />
+    <DESCENDANT id="Place017" />
+    <DESCENDANT id="Place018" />
+    <DESCENDANT id="Place019" />
+    <DESCENDANT id="Place0110" />
+    <DESCENDANT id="Place0111" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Row2">
+    <MATERIAL id="null" />
+    <TEXTURE id="clear" />
+    <TRANSLATION x="1" y="0" z="0" />
+    <DESCENDANTS>
+    <DESCENDANT id="Place021" />
+    <DESCENDANT id="Place022" />
+    <DESCENDANT id="Place023" />
+    <DESCENDANT id="Place024" />
+    <DESCENDANT id="Place025" />
+    <DESCENDANT id="Place026" />
+    <DESCENDANT id="Place027" />
+    <DESCENDANT id="Place028" />
+    <DESCENDANT id="Place029" />
+    <DESCENDANT id="Place0210" />
+    <DESCENDANT id="Place0211" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Row3">
+    <MATERIAL id="null" />
+    <TEXTURE id="clear" />
+    <TRANSLATION x="2" y="0" z="0" />
+    <DESCENDANTS>
+    <DESCENDANT id="Place031" />
+    <DESCENDANT id="Place032" />
+    <DESCENDANT id="Place033" />
+    <DESCENDANT id="Place034" />
+    <DESCENDANT id="Place035" />
+    <DESCENDANT id="Place036" />
+    <DESCENDANT id="Place037" />
+    <DESCENDANT id="Place038" />
+    <DESCENDANT id="Place039" />
+    <DESCENDANT id="Place0310" />
+    <DESCENDANT id="Place0311" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Row4">
+    <MATERIAL id="null" />
+    <TEXTURE id="clear" />
+    <TRANSLATION x="3" y="0" z="0" />
+    <DESCENDANTS>
+    <DESCENDANT id="Place041" />
+    <DESCENDANT id="Place042" />
+    <DESCENDANT id="Place043" />
+    <DESCENDANT id="Place044" />
+    <DESCENDANT id="Place045" />
+    <DESCENDANT id="Place046" />
+    <DESCENDANT id="Place047" />
+    <DESCENDANT id="Place048" />
+    <DESCENDANT id="Place049" />
+    <DESCENDANT id="Place0410" />
+    <DESCENDANT id="Place0411" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Row5">
+    <MATERIAL id="null" />
+    <TEXTURE id="clear" />
+    <TRANSLATION x="4" y="0" z="0" />
+    <DESCENDANTS>
+    <DESCENDANT id="Place051" />
+    <DESCENDANT id="Place052" />
+    <DESCENDANT id="Place053" />
+    <DESCENDANT id="Place054" />
+    <DESCENDANT id="Place055" />
+    <DESCENDANT id="Place056" />
+    <DESCENDANT id="Place057" />
+    <DESCENDANT id="Place058" />
+    <DESCENDANT id="Place059" />
+    <DESCENDANT id="Place0510" />
+    <DESCENDANT id="Place0511" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Row6">
+    <MATERIAL id="null" />
+    <TEXTURE id="clear" />
+    <TRANSLATION x="5" y="0" z="0" />
+    <DESCENDANTS>
+    <DESCENDANT id="Place061" />
+    <DESCENDANT id="Place062" />
+    <DESCENDANT id="Place063" />
+    <DESCENDANT id="Place064" />
+    <DESCENDANT id="Place065" />
+    <DESCENDANT id="Place066" />
+    <DESCENDANT id="Place067" />
+    <DESCENDANT id="Place068" />
+    <DESCENDANT id="Place069" />
+    <DESCENDANT id="Place0610" />
+    <DESCENDANT id="Place0611" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Row7">
+    <MATERIAL id="null" />
+    <TEXTURE id="clear" />
+    <TRANSLATION x="6" y="0" z="0" />
+    <DESCENDANTS>
+    <DESCENDANT id="Place071" />
+    <DESCENDANT id="Place072" />
+    <DESCENDANT id="Place073" />
+    <DESCENDANT id="Place074" />
+    <DESCENDANT id="Place075" />
+    <DESCENDANT id="Place076" />
+    <DESCENDANT id="Place077" />
+    <DESCENDANT id="Place078" />
+    <DESCENDANT id="Place079" />
+    <DESCENDANT id="Place0710" />
+    <DESCENDANT id="Place0711" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Row8">
+    <MATERIAL id="null" />
+
+    <TEXTURE id="clear" />
+    <TRANSLATION x="7" y="0" z="0" />
+    <DESCENDANTS>
+    <DESCENDANT id="Place081" />
+    <DESCENDANT id="Place082" />
+    <DESCENDANT id="Place083" />
+    <DESCENDANT id="Place084" />
+    <DESCENDANT id="Place085" />
+    <DESCENDANT id="Place086" />
+    <DESCENDANT id="Place087" />
+    <DESCENDANT id="Place088" />
+    <DESCENDANT id="Place089" />
+    <DESCENDANT id="Place0810" />
+    <DESCENDANT id="Place0811" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Row9">
+    <MATERIAL id="null" />
+    <TEXTURE id="clear" />
+    <TRANSLATION x="8" y="0" z="0" />
+    <DESCENDANTS>
+    <DESCENDANT id="Place091" />
+    <DESCENDANT id="Place092" />
+    <DESCENDANT id="Place093" />
+    <DESCENDANT id="Place094" />
+    <DESCENDANT id="Place095" />
+    <DESCENDANT id="Place096" />
+    <DESCENDANT id="Place097" />
+    <DESCENDANT id="Place098" />
+    <DESCENDANT id="Place099" />
+    <DESCENDANT id="Place0910" />
+    <DESCENDANT id="Place0911" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Row10">
+    <MATERIAL id="null" />
+    <TEXTURE id="clear" />
+    <TRANSLATION x="9" y="0" z="0" />
+    <DESCENDANTS>
+    <DESCENDANT id="Place101" />
+    <DESCENDANT id="Place102" />
+    <DESCENDANT id="Place103" />
+    <DESCENDANT id="Place104" />
+    <DESCENDANT id="Place105" />
+    <DESCENDANT id="Place106" />
+    <DESCENDANT id="Place107" />
+    <DESCENDANT id="Place108" />
+    <DESCENDANT id="Place109" />
+    <DESCENDANT id="Place1010" />
+    <DESCENDANT id="Place1011" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Row11">
+    <MATERIAL id="null" />
+    <TEXTURE id="null" />
+    <TRANSLATION x="10" y="0" z="0" />
+    <DESCENDANTS>
+    <DESCENDANT id="Place111" />
+    <DESCENDANT id="Place112" />
+    <DESCENDANT id="Place113" />
+    <DESCENDANT id="Place114" />
+    <DESCENDANT id="Place115" />
+    <DESCENDANT id="Place116" />
+    <DESCENDANT id="Place117" />
+    <DESCENDANT id="Place118" />
+    <DESCENDANT id="Place119" />
+    <DESCENDANT id="Place1110" />
+    <DESCENDANT id="Place1111" />
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="Place011">
+    <MATERIAL id="null" />
+    <TEXTURE id="null" />
+    <TRANSLATION x="0" y="0" z="0" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place012">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="1" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place013">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="2" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place014">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="3" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place015">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="4" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place016">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="5" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place017">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="6" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place018">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="7" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place019">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="8" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place0110">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="9" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place0111">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="10" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="Place021">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="0" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place022">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="1" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place023">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="2" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place024">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="3" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place025">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="4" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place026">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="5" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place027">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="6" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place028">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="7" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place029">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="8" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place0210">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="9" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place0211">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="10" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="Place031">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="0" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place032">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="1" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place033">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="2" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place034">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="3" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place035">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="4" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place036">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="5" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place037">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="6" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place038">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="7" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place039">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="8" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place0310">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="9" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place0311">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="10" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="Place041">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="0" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place042">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="1" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place043">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="2" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place044">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="3" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place045">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="4" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place046">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="5" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place047">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="6" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place048">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="7" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place049">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="8" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place0410">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="9" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place0411">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="10" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="Place051">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="0" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place052">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="1" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place053">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="2" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place054">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="3" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place055">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="4" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place056">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="5" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place057">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="6" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place058">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="7" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place059">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="8" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place0510">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="9" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place0511">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="10" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="Place061">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="0" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place062">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="1" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place063">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="2" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place064">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="3" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place065">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="4" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place066">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="5" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place067">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="6" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place068">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="7" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place069">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="8" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place0610">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="9" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place0611">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="10" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="Place071">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="0" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place072">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="1" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place073">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="2" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place074">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="3" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place075">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="4" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place076">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="5" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place077">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="6" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place078">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="7" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place079">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="8" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place0710">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="9" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place0711">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="10" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="Place081">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="0" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place082">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="1" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place083">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="2" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place084">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="3" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place085">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="4" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place086">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="5" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place087">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="6" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place088">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="7" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place089">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="8" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place0810">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="9" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place0811">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="10" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="Place091">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="0" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place092">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="1" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place093">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="2" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place094">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="3" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place095">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="4" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place096">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="5" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place097">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="6" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place098">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="7" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place099">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="8" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place0910">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="9" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place0911">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="10" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="Place101">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="0" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place102">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="1" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place103">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="2" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place104">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="3" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place105">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="4" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place106">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="5" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place107">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="6" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place108">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="7" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place109">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="8" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place1010">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="9" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place1011">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="10" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="Place111">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="0" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place112">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="1" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place113">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="2" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place114">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="3" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place115">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="4" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place116">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="5" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place117">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="6" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place118">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="7" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place119">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="8" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place1110">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_gray" />
+    <TRANSLATION x="0" y="0" z="9" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+  <NODE id="Place1111">
+    <MATERIAL id="null" />
+    <TEXTURE id="tab_brown" />
+    <TRANSLATION x="0" y="0" z="10" />
+    <DESCENDANTS>
+      <DESCENDANT id="Plane" />
+    </DESCENDANTS>
+  </NODE>
+
+
+
+</NODES>
+
+<PIECES>
+
+</PIECES>
+
+</SCENE>

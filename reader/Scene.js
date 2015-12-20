@@ -15,8 +15,8 @@ Scene.prototype.init = function (application) {
   this.gl.enable(this.gl.DEPTH_TEST);
   this.gl.depthFunc(this.gl.LEQUAL);
     this.gl.enable(this.gl.CULL_FACE);
-  this.gl.blendFunc(this.gl.SRC_ALPHA,this.gl.ONE_MINUS_SRC_ALPHA);
-  this.gl.depthMask(false);
+ // this.gl.blendFunc(this.gl.SRC_ALPHA,this.gl.ONE_MINUS_SRC_ALPHA);
+  //this.gl.depthMask(false);
 
     this.enableTextures(true);
 

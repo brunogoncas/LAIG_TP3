@@ -127,7 +127,6 @@
   <NODE id="root">
     <MATERIAL id="mat_normal" />
     <TEXTURE id="null" />
-	<TRANSLATION x="5.5" y="0" z="5.5" />
     <DESCENDANTS>
 	  <DESCENDANT id="tabuleiro" />
 	  <DESCENDANT id="tabuleiro_pick" />
@@ -207,7 +206,6 @@
   <NODE id="tabuleiro">
     <MATERIAL id="mat_normal" />
     <TEXTURE id="null" />
-	<TRANSLATION x="0" y="0" z="0" />
 	<DESCENDANTS>
 	  <DESCENDANT id="top" />
 	  <DESCENDANT id="sides" />

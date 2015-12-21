@@ -104,8 +104,8 @@ print_header_line(_).
 
 % Require your Prolog Files here
 
-parse_input(handshake, batatas).
-parse_input(teste, Board) :-board(X), move_Piece(1,2,6,3,6,X,'b',1,Board).
+parse_input(init, Board):-board(Board).
+parse_input(move(Player,OldX,OldY,NewX,NewY,Piece), NewBoard) :-move_Piece(Player,OldX,OldY,NewX,NewY,Board,Piece,1,NewBoard).
 parse_input(quit, goodbye).
 
 test(_,[],N) :- N =< 0.

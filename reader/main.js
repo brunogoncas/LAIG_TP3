@@ -22,10 +22,19 @@ function getPrologRequest(requestString, onSuccess, onError, port)
 
 }
 
-function makeRequest()
+function initRequest()
 {
   // Get Parameter Values
-  var requestString = "teste";
+  var requestString = "init";
+
+  // Make Request
+  getPrologRequest(requestString, handleReply);
+}
+
+function moveRequest(Player,OldX,OldY,NewX,NewY,Piece)
+{
+  // Get Parameter Values
+  var requestString = "move("+Player+","+OldX+","+OldY+","+NewX+","+NewY+","+Piece+")";
 
   // Make Request
   getPrologRequest(requestString, handleReply);
@@ -61,7 +70,6 @@ serialInclude(['../lib/CGF.js', 'Scene.js', 'Parser.js', 'Texture.js', 'Interfac
 'primitives/CylinderCircle.js', 'primitives/CylinderShell.js', 'primitives/Vehicle.js',
 'primitives/Plane.js', 'primitives/Patch.js', 'primitives/Terrain.js',
 'animations/CircularAnimation.js', 'animations/LinearAnimation.js',
-'jogo/Piece.js', 'jogo/GameState.js',
 
 
 
@@ -71,8 +79,8 @@ main=function()
 {
   //teste
 
-  console.log("entrou");
-  makeRequest();
+
+
 
 
 

@@ -38,31 +38,31 @@ column_row(11).
 *********************************************************************************************/
 
 board([
-	[	'x',	' ',	' ',	'b',	'b',	'b',	'b',	'b',	' ',	' ',	'x'	],
-	[	' ',	' ',	' ',	' ',	' ',	'b',	' ',	' ',	' ',	' ',	' '	],
-	[	' ',	' ', 	' ', 	' ', 	' ', 	' ',	' ',	' ',	' ',	' ',	' '	],
-	[	'b',	' ',	' ', 	' ', 	' ', 	'w', 	' ', 	' ', 	' ',	' ', 	'b'	],
-	[	'b',	' ',	' ', 	' ', 	'w', 	'w', 	'w', 	' ', 	' ', 	' ',	'b'	],
-	[	'b', 	'b', 	' ', 	'w', 	'w', 	'k', 	'w', 	'w',	' ',	'b',	'b'	],
-	[	'b', 	' ', 	' ', 	' ', 	'w', 	'w', 	'w', 	' ', 	' ',	' ',	'b'	],
-	[	'b', 	' ',	' ', 	' ', 	' ', 	'w', 	' ', 	' ', 	' ',	' ',	'b'	],
-	[	' ', 	' ', 	' ', 	' ',	' ', 	' ', 	' ', 	' ', 	' ',	' ',	' '	],
-	[	' ', 	' ', 	' ', 	' ',	' ', 	'b', 	' ', 	' ', 	' ',	' ',	' '	],
-	[	'x', 	' ', 	' ', 	'b',	'b', 	'b', 	'b', 	'b', 	' ',	' ',	'x'	]
+	[	'x',	'e',	'e',	'b',	'b',	'b',	'b',	'b',	'e',	'e',	'x'	],
+	[	'e',	'e',	'e',	'e',	'e',	'b',	'e',	'e',	'e',	'e',	'e'	],
+	[	'e',	'e', 	'e', 	'e', 	'e', 	'e',	'e',	'e',	'e',	'e',	'e'	],
+	[	'b',	'e',	'e', 	'e', 	'e', 	'w', 	'e', 	'e', 	'e',	'e', 	'b'	],
+	[	'b',	'e',	'e', 	'e', 	'w', 	'w', 	'w', 	'e', 	'e', 	'e',	'b'	],
+	[	'b', 	'b', 	'e', 	'w', 	'w', 	'k', 	'w', 	'w',	'e',	'b',	'b'	],
+	[	'b', 	'e', 	'e', 	'e', 	'w', 	'w', 	'w', 	'e', 	'e',	'e',	'b'	],
+	[	'b', 	'e',	'e', 	'e', 	'e', 	'w', 	'e', 	'e', 	'e',	'e',	'b'	],
+	[	'e', 	'e', 	'e', 	'e',	'e', 	'e', 	'e', 	'e', 	'e',	'e',	'e'	],
+	[	'e', 	'e', 	'e', 	'e',	'e', 	'b', 	'e', 	'e', 	'e',	'e',	'e'	],
+	[	'x', 	'e', 	'e', 	'b',	'b', 	'b', 	'b', 	'b', 	'e',	'e',	'x'	]
 ]).
 
 board2([
-	[	'x',	' ',	' ',	'b',	'b',	'b',	'b',	'b',	' ',	'b',	'x'	],
-	[	' ',	' ',	' ',	'w',	' ',	'b',	' ',	' ',	' ',	' ',	' '	],
-	[	' ',	' ', 	' ', 	' ', 	'b', 	'k',	'b',	' ',	'b',	' ',	' '	],
-	[	' ',	' ',	'b',	'w',	' ',	' ',	' ',	' ',	' ',	' ',	' '	],
-	[	' ',	' ', 	'w', 	' ', 	'b', 	'b',	'b',	' ',	'b',	' ',	' '	],
-	[	'b', 	'w', 	' ', 	'w', 	'b', 	' ', 	'w', 	'w',	' ',	'b',	'b'	],
-	[	'b', 	' ', 	'b', 	'b', 	'w', 	'w', 	'w', 	' ', 	' ',	' ',	'b'	],
-	[	'b', 	' ',	' ', 	' ', 	' ', 	'w', 	' ', 	' ', 	' ',	' ',	'b'	],
-	[	' ', 	'b', 	'w', 	' ',	' ', 	' ', 	' ', 	'b', 	' ',	' ',	' '	],
-	[	' ', 	' ', 	' ', 	' ',	' ', 	'b', 	' ', 	' ', 	' ',	' ',	' '	],
-	[	'x', 	' ', 	' ', 	'b',	'b', 	'b', 	'b', 	'b', 	' ',	' ',	'x'	]
+	[	'x',	'e',	'e',	'b',	'b',	'b',	'b',	'b',	'e',	'b',	'x'	],
+	[	'e',	'e',	'e',	'w',	'e',	'b',	'e',	'e',	'e',	'e',	'e'	],
+	[	'e',	'e', 	'e', 	'e', 	'b', 	'k',	'b',	'e',	'b',	'e',	'e'	],
+	[	'e',	'e',	'b',	'w',	'e',	'e',	'e',	'e',	'e',	'e',	'e'	],
+	[	'e',	'e', 	'w', 	'e', 	'b', 	'b',	'b',	'e',	'b',	'e',	'e'	],
+	[	'b', 	'w', 	'e', 	'w', 	'b', 	'e', 	'w', 	'w',	'e',	'b',	'b'	],
+	[	'b', 	'e', 	'b', 	'b', 	'w', 	'w', 	'w', 	'e', 	'e',	'e',	'b'	],
+	[	'b', 	'e',	'e', 	'e', 	'e', 	'w', 	'e', 	'e', 	'e',	'e',	'b'	],
+	[	'e', 	'b', 	'w', 	'e',	'e', 	'e', 	'e', 	'b', 	'e',	'e',	'e'	],
+	[	'e', 	'e', 	'e', 	'e',	'e', 	'b', 	'e', 	'e', 	'e',	'e',	'e'	],
+	[	'x', 	'e', 	'e', 	'b',	'b', 	'b', 	'b', 	'b', 	'e',	'e',	'x'	]
 ]).
 
 /********************************************************************************************
@@ -241,7 +241,7 @@ verify_NEW(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode):-
 	nth(C_NEW, R_LIST, Elem),
 	((Piece == 'k',
 		Elem == 'T');
-	(Elem == ' ')),
+	(Elem == 'e')),
 	(
 		(
 			C_OLD == C_NEW, %Vertical
@@ -306,7 +306,7 @@ very_path(Row, FinalCol, FinalCol).
 very_path(Row, InitialCol, FinalCol):-
 									AuxIndex is InitialCol+1,
 									nth(AuxIndex, Row, Piece),
-									Piece == ' ',
+									Piece == 'e',
 									!,
 									very_path(Row, AuxIndex, FinalCol).
 
@@ -323,13 +323,13 @@ move_Piece(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, 'k', Game_mode, OBoard):-
 	R_NEW == 1;
 	R_NEW == 11),
 	!,
-	search_row(Board, ' ', C_OLD, R_OLD, 1, OB),
+	search_row(Board, 'e', C_OLD, R_OLD, 1, OB),
 	search_row(OB, 'k', C_NEW, R_NEW, 1, OBoard),
 	print_board(OBoard),
 	write('Acabou o jogo! Ganhou o jogador 2!\n').
 
 move_Piece(1, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode, NewBoard):-
-	search_row(Board, ' ', C_OLD, R_OLD, 1, OB),
+	search_row(Board, 'e', C_OLD, R_OLD, 1, OB),
 	search_row(OB, Piece, C_NEW, R_NEW, 1, OBoard),
 	verify_king_eaten(OBoard, NewBoard),
 	write('Acabou o jogo! Ganhou o jogador 1!\n'), !.
@@ -343,7 +343,7 @@ move_Piece(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode, FFBoard)
 			R_OLD == 6,
 			search_row(Board, 'T', C_OLD, R_OLD, 1, OB)
 		);
-		(search_row(Board, ' ', C_OLD, R_OLD, 1, OB))
+		(search_row(Board, 'e', C_OLD, R_OLD, 1, OB))
 	),
 	search_row(OB, Piece, C_NEW, R_NEW, 1, OBoard),
 	(
@@ -418,7 +418,7 @@ verify_v(Player, X, Y, List, Board, OBoard):-
 	\+ piece_owner(Player, Piece),
 	piece_owner(Player, Left_Piece),
 	piece_owner(Player, Right_Piece),
-	search_row(Board, ' ', Y, X, 1, OBoard).
+	search_row(Board, 'e', Y, X, 1, OBoard).
 
 verify_h(Player, X, Y, List, Board, OBoard):-
 	nth(X, List, Piece),
@@ -430,7 +430,7 @@ verify_h(Player, X, Y, List, Board, OBoard):-
 	\+ piece_owner(Player, Piece),
 	piece_owner(Player, Left_Piece),
 	piece_owner(Player, Right_Piece),
-	search_row(Board, ' ', X, Y, 1, OBoard).
+	search_row(Board, 'e', X, Y, 1, OBoard).
 
 /********************************************************************************************
 * Verificar se o rei está em posição de ser removido.										*
@@ -457,7 +457,7 @@ verify_king_eaten(Board, NewBoard):-
 	piece_owner(1, Right_Piece),
 	piece_owner(1, Upper_Piece),
 	piece_owner(1, Down_Piece),
-	search_row(Board, ' ', COL, ROW, 1, OB),
+	search_row(Board, 'e', COL, ROW, 1, OB),
 	print_board(OB).
 
 /********************************************************************************************

@@ -16,7 +16,7 @@ Scene.prototype.init = function (application) {
   this.gl.depthFunc(this.gl.LEQUAL);
     this.gl.enable(this.gl.CULL_FACE);
  // this.gl.blendFunc(this.gl.SRC_ALPHA,this.gl.ONE_MINUS_SRC_ALPHA);
-  //this.gl.depthMask(false);
+ // this.gl.depthMask(false);
 
     this.enableTextures(true);
 
@@ -46,6 +46,12 @@ Scene.prototype.init = function (application) {
     this.animating = true;
 
     this.setUpdatePeriod(20);
+
+    this.initLevels();
+
+    this.inittypes();
+
+    initRequest();
 	
 	this.gameState = new GameState();
 
@@ -306,6 +312,7 @@ Scene.prototype.DisplayNode = function (node, material, texture, matrix) {
                  if (textureDisplay != undefined) {
                     if(materialDisplay != undefined){
                         materialDisplay.appearance.setTexture(textureDisplay.textureCGF);
+                        //console.log("Node id: " + node.id + " ; Texture : " + actualTexture);
                     }
                  }
 
@@ -437,13 +444,39 @@ Scene.prototype.getCoordPicking = function (valuePicking) {
   return coords;
 };
 
-Scene.prototype.getBoard = function () {
+Scene.prototype.getBoard = function ()
+{
 	var newboard = eval(boardFromProlog);
 
 	if(!this.gameState.board.equals(newboard)) {
 		console.log(newboard);
 		this.gameState.board = newboard;
 	}
+};
+
+Scene.prototype.initLevels= function ()
+{
+   this.levels= ["Easy", "Medium", "Hard"];
+};
+
+Scene.prototype.changelevel = function (level)
+{
+
+};
+
+Scene.prototype.inittypes = function ()
+{
+  this.gametypes= ["HvsH", "HvsM", "MvsM"];
+};
+Scene.prototype.changetype = function (type)
+{
+
+};
+
+
+Scene.prototype.undo = function ()
+{
+
 };
 
 // Warn if overriding existing method

@@ -70,7 +70,7 @@ serialInclude(['../lib/CGF.js', 'Scene.js', 'Parser.js', 'Texture.js', 'Interfac
 'primitives/CylinderCircle.js', 'primitives/CylinderShell.js', 'primitives/Vehicle.js',
 'primitives/Plane.js', 'primitives/Patch.js', 'primitives/Terrain.js',
 'animations/CircularAnimation.js', 'animations/LinearAnimation.js',
-
+'jogo/GameState.js', 'jogo/Piece.js',
 
 
 

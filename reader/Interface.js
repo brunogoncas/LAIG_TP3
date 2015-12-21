@@ -37,7 +37,7 @@ Interface.prototype.addLights = function() {
 	group2.add(this.scene, 'anim').name('Stop/Resume Animations');
 	group2.add(this.scene, 'reset').name('Reset Animations'); */
 
-	var group3 = this.gui.addFolder("Nivel de dificuldade");
+	/*var group3 = this.gui.addFolder("Nivel de dificuldade");
 	for (i=0;i<this.scene.levels.length;i++){
 		group3.add(this.scene, 'changelevel', this.scene.levels[i]).name('Nivel '+ this.scene.levels[i]);
 	}
@@ -47,7 +47,7 @@ Interface.prototype.addLights = function() {
 		group4.add(this.scene, 'changetype', this.scene.gametypes[i]).name( this.scene.gametypes[i]);
 	}
 
-	this.gui.add(this.scene, 'undo').name("Undo");
+	this.gui.add(this.scene, 'undo').name("Undo");*/
 
 
 };

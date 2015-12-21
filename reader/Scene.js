@@ -46,6 +46,8 @@ Scene.prototype.init = function (application) {
     this.animating = true;
 
     this.setUpdatePeriod(20);
+	
+	this.gameState = new GameState();
 
 };
 
@@ -304,7 +306,6 @@ Scene.prototype.DisplayNode = function (node, material, texture, matrix) {
                  if (textureDisplay != undefined) {
                     if(materialDisplay != undefined){
                         materialDisplay.appearance.setTexture(textureDisplay.textureCGF);
-                        //console.log("Node id: " + node.id + " ; Texture : " + actualTexture);
                     }
                  }
 
@@ -436,17 +437,41 @@ Scene.prototype.getCoordPicking = function (valuePicking) {
   return coords;
 };
 
-Scene.prototype.getBoard = function ()
-{
+Scene.prototype.getBoard = function () {
+	var newboard = eval(boardFromProlog);
 
-
-
-  var newboard = json.parse("["+boardFromProlog+"]");
-  console.log(newboard[0][0]);
-
-  //console.log(json);
-  /*for(var i=0;i<boardFromProlog.length;i++)
-  {
-    console.log("Linha" + i + " " +boardFromProlog[i]);
-  }*/
+	if(!this.gameState.board.equals(newboard)) {
+		console.log(newboard);
+		this.gameState.board = newboard;
+	}
 };
+
+// Warn if overriding existing method
+if(Array.prototype.equals)
+    console.warn("Overriding existing Array.prototype.equals. Possible causes: New API defines the method, there's a framework conflict or you've got double inclusions in your code.");
+// attach the .equals method to Array's prototype to call it on any array
+Array.prototype.equals = function (array) {
+    // if the other array is a falsy value, return
+    if (!array)
+        return false;
+
+    // compare lengths - can save a lot of time 
+    if (this.length != array.length)
+        return false;
+
+    for (var i = 0, l=this.length; i < l; i++) {
+        // Check if we have nested arrays
+        if (this[i] instanceof Array && array[i] instanceof Array) {
+            // recurse into the nested arrays
+            if (!this[i].equals(array[i]))
+                return false;       
+        }           
+        else if (this[i] != array[i]) { 
+            // Warning - two different object instances will never be equal: {x:20} != {x:20}
+            return false;   
+        }           
+    }       
+    return true;
+}
+// Hide method from for-in loops
+Object.defineProperty(Array.prototype, "equals", {enumerable: false});

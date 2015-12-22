@@ -131,9 +131,6 @@
     <DESCENDANTS>
 	  <DESCENDANT id="tabuleiro" />
 	  <DESCENDANT id="tabuleiro_pick" />
-	  <DESCENDANT id="white_P" />
-	  <DESCENDANT id="black_P" />
-	  <DESCENDANT id="king" />
     </DESCENDANTS>
   </NODE>
   
@@ -148,10 +145,9 @@
   
   <NODE id="king">
     <MATERIAL id="mat_normal" />
-    <TEXTURE id="null" />
+    <TEXTURE id="white_Piece" />
     <DESCENDANTS>
-	  <DESCENDANT id="body" />
-	  <DESCENDANT id="crown" />
+	  <DESCENDANT id="cyl" />
     </DESCENDANTS>
   </NODE>
   

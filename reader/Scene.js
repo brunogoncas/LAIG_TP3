@@ -150,8 +150,6 @@ Scene.prototype.initCameras = function () {
 Scene.prototype.onGraphLoaded = function ()
 {
 
-
-
     if(this.graph.reference != 0) { this.axis = new CGFaxis(this, this.graph.reference); }
 
     this.gl.clearColor(this.graph.background["r"],this.graph.background["g"],this.graph.background["b"],this.graph.background["a"]);
@@ -186,6 +184,57 @@ Scene.prototype.onGraphLoaded = function ()
             this.nodes[NodeIndex].currentAnimation = 1;
         }
     }
+	
+	/*
+	INICIAR TABULEIRO DE JOGO E PECAS
+	*/
+	var z = 0, x = 0;
+	var player;
+	
+	for (z = 0; z < this.gameState.board.length; z++) {
+	
+		for (x = 0; x < this.gameState.board[z].length; x++) {
+			
+			var actualNode;
+
+			switch (this.gameState.board[z][x]) {
+                case "b":
+					actualNode = this.nodes["black_P"];
+					player = 2;
+					
+					var materialDisplay = this.materials[actualNode.material].appearance;
+					var textureDisplay = this.textures[actualNode.texture].textureCGF;
+					this.gameState.Pieces.push(new Piece(this, this.gameState.board[z], player, (x*2)+1, (z*2)+1, true, materialDisplay, textureDisplay));
+				break;
+ 
+                case "w":
+					actualNode = this.nodes["white_P"];
+					player = 1;
+					
+					var materialDisplay = this.materials[actualNode.material].appearance;
+					var textureDisplay = this.textures[actualNode.texture].textureCGF;
+					this.gameState.Pieces.push(new Piece(this, this.gameState.board[z], player, (x*2)+1, (z*2)+1, true, materialDisplay, textureDisplay));
+				break;
+				
+				case "k":
+					actualNode = this.nodes["king"];
+					player = 1;
+					
+					var materialDisplay = this.materials[actualNode.material].appearance;
+					var textureDisplay = this.textures[actualNode.texture].textureCGF;
+					var texture2Display = this.textures["gold"].textureCGF;
+					
+					this.gameState.Pieces.push(new KingPiece(this, this.gameState.board[z], player, (x*2)+1, (z*2)+1, true, materialDisplay, textureDisplay, texture2Display));
+				break;
+				
+				default:
+				break;
+				
+			}
+			
+		}
+	
+	}
 
 
 };
@@ -260,6 +309,19 @@ Scene.prototype.display = function () {
         if(this.reference != 0) { this.axis.display(); }
 
         this.DisplayNode(root_node, root_node.material, root_node.texture, root_node.matrix);
+		
+		
+		for (var i = 0; i < this.gameState.Pieces.length; i++) {
+		/*var matrix = mat4.create();
+        mat4.identity(matrix);
+		mat4.translate(matrix, matrix, [this.gameState.Pieces.posX, 0, this.gameState.Pieces.posZ]);*/
+		
+		this.pushMatrix();
+			this.translate(this.gameState.Pieces[i].posX, 0, this.gameState.Pieces[i].posZ);
+			this.gameState.Pieces[i].display();
+		this.popMatrix();
+		}
+	
     };
 
 };

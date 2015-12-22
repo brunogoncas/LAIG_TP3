@@ -1,11 +1,11 @@
 <SCENE>
 <INITIALS>
-  <frustum near="0.1" far="500" />
-  <translation x="-19" y="-12" z="-12" />
-  <rotation axis="x" angle="-30" />
-  <rotation axis="y" angle="70" />
-  <rotation axis="z" angle="20" />
-  <scale sx="0.5" sy="0.5" sz="0.5" />
+  <frustum near="0.8" far="300" />
+  <translation x="0" y="0" z="0" />
+  <rotation axis="x" angle="0" />
+  <rotation axis="y" angle="0" />
+  <rotation axis="z" angle="0" />
+  <scale sx="0.3" sy="0.3" sz="0.3" />
   <reference length="20" />
 </INITIALS>
 <ILLUMINATION>
@@ -79,6 +79,14 @@
   <file path="textures/gold.png" />
   <amplif_factor s="1" t="1" />
 </TEXTURE>
+<TEXTURE id="wooden-floor">
+  <file path="textures/wooden-floor.jpg" />
+  <amplif_factor s="1" t="1" />
+</TEXTURE>
+<TEXTURE id="wall">
+  <file path="textures/wall.jpg" />
+  <amplif_factor s="1" t="1" />
+</TEXTURE>
 </TEXTURES>
 
 <MATERIALS>
@@ -120,6 +128,7 @@
   <LEAF id="pyramid_side" type="triangle" args="0.5 0 0.5 0.5 0 -0.5 0 1 0" />
   <LEAF id="tri" type="triangle" args="0 0 0.5 1 0 0 0 1.5 0" />
   <LEAF id="Plane" type="plane" parts="10" />
+  <LEAF id="Cube" type="cube"  />
 </LEAVES>
 
 <NODES>
@@ -127,16 +136,146 @@
   <NODE id="root">
     <MATERIAL id="mat_normal" />
     <TEXTURE id="null" />
-	<TRANSLATION x="5.5" y="0" z="5.5" />
+	<!--<TRANSLATION x="5.5" y="0" z="5.5" /> -->
+
     <DESCENDANTS>
+    <DESCENDANT id="cena" />
 	  <DESCENDANT id="tabuleiro" />
 	  <DESCENDANT id="tabuleiro_pick" />
-	  <DESCENDANT id="white_P" />
-	  <DESCENDANT id="black_P" />
-	  <DESCENDANT id="king" />
     </DESCENDANTS>
   </NODE>
-  
+
+  <NODE id="cena">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="null" />
+    <DESCENDANTS>
+	  <DESCENDANT id="mesa" />
+    <DESCENDANT id="piso" />
+    <DESCENDANT id="paredes"/>
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="paredes">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="wall" />
+    <DESCENDANTS>
+    <DESCENDANT id="parede1"/>
+	  <DESCENDANT id="parede2" />
+    <DESCENDANT id="parede3" />
+    <DESCENDANT id="parede4" />
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="parede1">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="wall" />
+    <SCALE sx="120" sy="100" sz="120" />
+    <TRANSLATION x="0" y="0" z="-0.5" />
+    <DESCENDANTS>
+    <DESCENDANT id="quad_1x1" />
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="parede2">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="wall" />
+    <DESCENDANTS>
+    <DESCENDANT id="quad_1x1" />
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="parede3">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="wall" />
+    <DESCENDANTS>
+    <DESCENDANT id="quad_1x1" />
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="parede4">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="wall" />
+    <DESCENDANTS>
+    <DESCENDANT id="quad_1x1" />
+    </DESCENDANTS>
+  </NODE>
+
+
+  <NODE id="piso">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="wooden-floor" />
+    <TRANSLATION x="0" y="-22" z="0" />
+    <SCALE sx="120" sy="0" sz="120" />
+    <ROTATION axis="x" angle="-90" />
+    <DESCENDANTS>
+    <DESCENDANT id="quad_1x1" />
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="mesa">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="wood" />
+    <DESCENDANTS>
+    <DESCENDANT id="top_mesa" />
+    <DESCENDANT id="perna1" />
+    <DESCENDANT id="perna2" />
+    <DESCENDANT id="perna3" />
+    <DESCENDANT id="perna4" />
+    </DESCENDANTS>
+  </NODE>
+
+
+  <NODE id="top_mesa">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="null" />
+    <TRANSLATION x="0" y="0" z="0" />
+    <SCALE sx="40" sy="2" sz="40" />
+    <DESCENDANTS>
+	  <DESCENDANT id="Cube" />
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="perna1">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="null" />
+    <TRANSLATION x="18" y="-10" z="18" />
+    <SCALE sx="2" sy="20" sz="2" />
+    <DESCENDANTS>
+	  <DESCENDANT id="Cube" />
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="perna2">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="null" />
+    <TRANSLATION x="18" y="-10" z="-18" />
+    <SCALE sx="2" sy="20" sz="2" />
+    <DESCENDANTS>
+	  <DESCENDANT id="Cube" />
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="perna3">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="null" />
+    <TRANSLATION x="-18" y="-10" z="18" />
+    <SCALE sx="2" sy="20" sz="2" />
+    <DESCENDANTS>
+	  <DESCENDANT id="Cube" />
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="perna4">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="null" />
+    <TRANSLATION x="-18" y="-10" z="-18" />
+    <SCALE sx="2" sy="20" sz="2" />
+    <DESCENDANTS>
+	  <DESCENDANT id="Cube" />
+    </DESCENDANTS>
+  </NODE>
+
+
   <NODE id="white_P">
     <MATERIAL id="mat_normal" />
     <TEXTURE id="white_Piece" />
@@ -145,16 +284,15 @@
 	  <DESCENDANT id="cyl" />
     </DESCENDANTS>
   </NODE>
-  
+
   <NODE id="king">
     <MATERIAL id="mat_normal" />
-    <TEXTURE id="null" />
+    <TEXTURE id="white_Piece" />
     <DESCENDANTS>
-	  <DESCENDANT id="body" />
-	  <DESCENDANT id="crown" />
+	  <DESCENDANT id="cyl" />
     </DESCENDANTS>
   </NODE>
-  
+
    <NODE id="body">
     <MATERIAL id="mat_normal" />
     <TEXTURE id="white_Piece" />
@@ -164,7 +302,7 @@
 	  <DESCENDANT id="cyl" />
     </DESCENDANTS>
   </NODE>
-  
+
    <NODE id="crown">
     <MATERIAL id="mat_normal" />
     <TEXTURE id="gold" />
@@ -173,7 +311,7 @@
 	  <DESCENDANT id="horizontal" />
     </DESCENDANTS>
   </NODE>
-  
+
    <NODE id="vertical">
     <MATERIAL id="mat_normal" />
     <TEXTURE id="null" />
@@ -183,7 +321,7 @@
 	  <DESCENDANT id="cube" />
     </DESCENDANTS>
   </NODE>
-  
+
    <NODE id="horizontal">
     <MATERIAL id="mat_normal" />
     <TEXTURE id="null" />
@@ -193,7 +331,7 @@
 	  <DESCENDANT id="cube" />
     </DESCENDANTS>
   </NODE>
-  
+
    <NODE id="black_P">
     <MATERIAL id="mat_normal" />
     <TEXTURE id="black_Piece" />
@@ -203,7 +341,7 @@
 	  <DESCENDANT id="cyl" />
     </DESCENDANTS>
   </NODE>
-  
+
   <NODE id="tabuleiro">
     <MATERIAL id="mat_normal" />
     <TEXTURE id="null" />
@@ -212,7 +350,7 @@
 	  <DESCENDANT id="sides" />
 	 </DESCENDANTS>
 	</NODE>
-	
+
 	<NODE id="top">
     <MATERIAL id="mat_normal" />
     <TEXTURE id="board" />
@@ -222,7 +360,7 @@
 	  <DESCENDANT id="quad_1x1" />
 	 </DESCENDANTS>
 	</NODE>
-	
+
 	<NODE id="sides">
     <MATERIAL id="mat_normal" />
     <TEXTURE id="null" />
@@ -233,7 +371,7 @@
 	  <DESCENDANT id="side_back" />
 	 </DESCENDANTS>
 	</NODE>
-	
+
 	<NODE id="side_front">
     <MATERIAL id="mat_normal" />
     <TEXTURE id="wood" />
@@ -243,7 +381,7 @@
 	  <DESCENDANT id="quad_1x1" />
 	 </DESCENDANTS>
 	</NODE>
-	
+
 	<NODE id="side_left">
     <MATERIAL id="mat_normal" />
     <TEXTURE id="wood" />
@@ -254,7 +392,7 @@
 	  <DESCENDANT id="quad_1x1" />
 	 </DESCENDANTS>
 	</NODE>
-	
+
 	<NODE id="side_right">
     <MATERIAL id="mat_normal" />
     <TEXTURE id="wood" />
@@ -265,7 +403,7 @@
 	  <DESCENDANT id="quad_1x1" />
 	 </DESCENDANTS>
 	</NODE>
-	
+
 	<NODE id="side_back">
     <MATERIAL id="mat_normal" />
     <TEXTURE id="wood" />
@@ -276,7 +414,7 @@
 	  <DESCENDANT id="quad_1x1" />
 	 </DESCENDANTS>
 	</NODE>
-	
+
   <NODE id="tabuleiro_pick">
     <MATERIAL id="null" />
     <TEXTURE id="clear" />

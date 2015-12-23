@@ -288,10 +288,13 @@ Scene.prototype.display = function () {
   // Initialize Model-View matrix as identity (no transformation
   this.updateProjectionMatrix();
   this.loadIdentity();
+  
+  //this.camera.setPosition(vec3.fromValues(0,5,20));
+	//this.camera.setTarget(vec3.fromValues(0,0,0));
 
   // Apply transformations corresponding to the camera position relative to the origin
-  this.applyViewMatrix();
-
+ this.applyViewMatrix();
+ 
   // ---- END Background, camera and axis setup
 
   // it is important that things depending on the proper loading of the graph

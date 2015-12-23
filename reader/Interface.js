@@ -24,6 +24,17 @@ Interface.prototype.addLights = function() {
 	this.gui.add(this.scene, 'All_Lights').name("Todas as luzes");
 	this.scene.tickLights = [];
 
+var obj = {
+	name: "David Walsh",
+	num: 23,
+	winner: true
+};
+this.gui.add(obj, "name");
+
+var obj = { add:function(){ console.log("clicked") }};
+
+this.gui.add(obj,'add');
+
 /*	var group = this.gui.addFolder("Luzes");
 
 	//Add ligths

@@ -487,13 +487,20 @@ Scene.prototype.logPicking = function ()
 			var actualZ = Math.abs((this.pickResults[i][0].posZ+10)/2);
 			
           console.log("Picked object: " + this.pickResults[i][0] + ", with x " + actualX +" and z " + actualZ);
-		  
-		  //CHAMAR A FUNCAO MOVE DO PROLOG AQUI
+		  this.gameState.selectedPiece = this.pickResults[i][0];
+		  this.gameState.state++;
         }
 		
 		else if (obj) {
 			var customId = this.pickResults[i][1];
-           console.log("Picked object: " + obj + ", with x " + this.getCoordPicking(customId)[0]+" and z "+this.getCoordPicking(customId)[1]);
+			
+			var newX = this.getCoordPicking(customId)[0];
+			var newZ = this.getCoordPicking(customId)[1];
+			
+			console.log("Picked object: " + obj + ", with x " + newX + " and z " + newZ);
+			
+			//CHAMAR A FUNCAO DO PROLOG AQUI
+			moveRequest(this.gameState.playersTurn, this.gameState.selectedPiece.posX, this.gameState.selectedPiece.posY, newX, newZ, this.gameState.selectedPiece.id);
 		}
       }
       this.pickResults.splice(0,this.pickResults.length);

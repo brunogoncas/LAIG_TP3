@@ -204,7 +204,7 @@ Scene.prototype.onGraphLoaded = function ()
 
         var materialDisplay = this.materials[actualNode.material].appearance;
         var textureDisplay = this.textures[actualNode.texture].textureCGF;
-        this.gameState.Pieces.push(new Piece(this, this.gameState.board[z], player, -11 +(x*2)+1, -11 +(z*2)+1, true, materialDisplay, textureDisplay));
+        this.gameState.Pieces.push(new Piece(this, this.gameState.board[z][x], player, -11 +(x*2)+1, -11 +(z*2)+1, true, materialDisplay, textureDisplay));
         break;
 
         case "w":
@@ -213,7 +213,7 @@ Scene.prototype.onGraphLoaded = function ()
 
         var materialDisplay = this.materials[actualNode.material].appearance;
         var textureDisplay = this.textures[actualNode.texture].textureCGF;
-        this.gameState.Pieces.push(new Piece(this, this.gameState.board[z], player, -11 +(x*2)+1, -11 +(z*2)+1, true, materialDisplay, textureDisplay));
+        this.gameState.Pieces.push(new Piece(this, this.gameState.board[z][x], player, -11 +(x*2)+1, -11 +(z*2)+1, true, materialDisplay, textureDisplay));
         break;
 
         case "k":
@@ -224,7 +224,7 @@ Scene.prototype.onGraphLoaded = function ()
         var textureDisplay = this.textures[actualNode.texture].textureCGF;
         var texture2Display = this.textures["gold"].textureCGF;
 
-        this.gameState.Pieces.push(new KingPiece(this, this.gameState.board[z], player, -11 +(x*2)+1,-11 + (z*2)+1, true, materialDisplay, textureDisplay, texture2Display));
+        this.gameState.Pieces.push(new KingPiece(this, this.gameState.board[z][x], player, -11 +(x*2)+1,-11 + (z*2)+1, true, materialDisplay, textureDisplay, texture2Display));
         break;
 
         default:
@@ -284,6 +284,7 @@ Scene.prototype.display = function () {
   // Clear image and depth buffer everytime we update the scene
   this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
   this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+  this.gl.enable(this.gl.DEPTH_TEST);
 
   // Initialize Model-View matrix as identity (no transformation
   this.updateProjectionMatrix();
@@ -318,11 +319,55 @@ Scene.prototype.display = function () {
       /*var matrix = mat4.create();
       mat4.identity(matrix);
       mat4.translate(matrix, matrix, [this.gameState.Pieces.posX, 0, this.gameState.Pieces.posZ]);*/
+	  
+	  //Por as pecas pretas seleccionaveis
+	  
+	  if(this.gameState.state == 0 && this.gameState.playersTurn == 1 && this.gameState.Pieces[i].id == "b") {
+		//console.log("----");
+		//console.log(this.gameState.Pieces[i].posX);
+		//var actualX = this.gameState.Pieces[i].posX + 5;
+		//console.log(actualX);
+		//console.log(this.gameState.Pieces[i].posZ);
+		//var actualZ = this.gameState.Pieces[i].posZ + 5;
+		//console.log(actualZ);
+		
+		//var idPos = parseInt(actualX + "" + actualZ);
+		//console.log(idPos);
+		
+		this.registerForPick(pickingindex, this.gameState.Pieces[i]);
+		pickingindex++;
+	   
+		this.pushMatrix();
+		this.translate(this.gameState.Pieces[i].posX, 0, this.gameState.Pieces[i].posZ);
+		this.gameState.Pieces[i].display();
+		this.popMatrix();
+	   
+		this.clearPickRegistration();
+	  }
+	  
+	  else if(this.gameState.state == 0 && this.gameState.playersTurn == 2 && (this.gameState.Pieces[i].id == "w" || this.gameState.Pieces[i].id == "k" )) { 
+		//var actualX = this.gameState.Pieces[i].posX + 5;
+		//var actualZ = this.gameState.Pieces[i].posZ + 5;
+		
+		//var idPos = parseInt(actualX + "" + actualZ);
+		
+		this.registerForPick(pickingindex, this.gameState.Pieces[i]);
+		pickingindex++;
+	   
+		this.pushMatrix();
+		this.translate(this.gameState.Pieces[i].posX, 0, this.gameState.Pieces[i].posZ);
+		this.gameState.Pieces[i].display();
+		this.popMatrix();
+	   
+	   this.clearPickRegistration();
+	  }
 
-      this.pushMatrix();
-      this.translate(this.gameState.Pieces[i].posX, 0, this.gameState.Pieces[i].posZ);
-      this.gameState.Pieces[i].display();
-      this.popMatrix();
+      else {
+		  this.pushMatrix();
+		  this.translate(this.gameState.Pieces[i].posX, 0, this.gameState.Pieces[i].posZ);
+		  this.gameState.Pieces[i].display();
+		  this.popMatrix();
+	  }
     }
 
   };
@@ -400,23 +445,24 @@ Scene.prototype.DisplayNode = function (node, material, texture, matrix) {
 
 
         //  else {
-        if(node.pickingtable==true)
+        if(node.pickingtable==true && this.gameState.state == 1)
         {
           if(this.pickMode==true)
           {
             this.registerForPick(pickingindex, leaf);
             pickingindex++;
             leaf.display();
-            this.clearPickRegistration();
+           this.clearPickRegistration();
           }
         }
-        else {
+		
+		else if(node.pickingtable==true && this.gameState.state == 0) {
+			//do nothing
+		}
+		
+	   else {
           leaf.display();
         }
-
-
-        //  }
-
 
         this.popMatrix();
       }
@@ -434,11 +480,21 @@ Scene.prototype.logPicking = function ()
     if (this.pickResults != null && this.pickResults.length > 0) {
       for (var i=0; i< this.pickResults.length; i++) {
         var obj = this.pickResults[i][0];
-        if (obj)
+		
+        if ((this.pickResults[i][0] instanceof Piece) || (this.pickResults[i][0] instanceof KingPiece))
         {
-          var customId = this.pickResults[i][1];
-          console.log("Picked object: " + obj + ", with x " + this.getCoordPicking(customId)[0]+" and y "+this.getCoordPicking(customId)[1]);
+			var actualX = Math.abs((this.pickResults[i][0].posX+10)/2);
+			var actualZ = Math.abs((this.pickResults[i][0].posZ+10)/2);
+			
+          console.log("Picked object: " + this.pickResults[i][0] + ", with x " + actualX +" and z " + actualZ);
+		  
+		  //CHAMAR A FUNCAO MOVE DO PROLOG AQUI
         }
+		
+		else if (obj) {
+			var customId = this.pickResults[i][1];
+           console.log("Picked object: " + obj + ", with x " + this.getCoordPicking(customId)[0]+" and z "+this.getCoordPicking(customId)[1]);
+		}
       }
       this.pickResults.splice(0,this.pickResults.length);
     }
@@ -449,61 +505,63 @@ Scene.prototype.getCoordPicking = function (valuePicking) {
   var coordx;
   var coordy;
   var coords = [];
+
   if(valuePicking<12)
   {
-    coordx=valuePicking;
-    coordy=1;
+	coordx=valuePicking;
+	coordy=1;
   }
   else if(valuePicking>11 && valuePicking<23)
   {
-    coordx=valuePicking-11;
-    coordy=2;
+	coordx=valuePicking-11;
+	coordy=2;
   }
   else if(valuePicking>22 && valuePicking<34)
   {
-    coordx=valuePicking-22;
-    coordy=3;
+	coordx=valuePicking-22;
+	coordy=3;
   }
   else if(valuePicking>33 && valuePicking<45)
   {
-    coordx=valuePicking-33;
-    coordy=4;
+	coordx=valuePicking-33;
+	coordy=4;
   }
   else if(valuePicking>44 && valuePicking<56)
   {
-    coordx=valuePicking-44;
-    coordy=5;
+	coordx=valuePicking-44;
+	coordy=5;
   }
   else if(valuePicking>55 && valuePicking<67)
   {
-    coordx=valuePicking-55;
-    coordy=6;
+	coordx=valuePicking-55;
+	coordy=6;
   }
   else if(valuePicking>66 && valuePicking<78)
   {
-    coordx=valuePicking-66;
-    coordy=7;
+	coordx=valuePicking-66;
+	coordy=7;
   }
   else if(valuePicking>77 && valuePicking<89)
   {
-    coordx=valuePicking-77;
-    coordy=8;
+	coordx=valuePicking-77;
+	coordy=8;
   }
   else if(valuePicking>88 && valuePicking<100)
   {
-    coordx=valuePicking-88;
-    coordy=9;
+	coordx=valuePicking-88;
+	coordy=9;
   }
   else if(valuePicking>99 && valuePicking<111)
   {
-    coordx=valuePicking-99;
-    coordy=10;
+	coordx=valuePicking-99;
+	coordy=10;
   }
   else if(valuePicking>110 && valuePicking<122)
   {
-    coordx=valuePicking-110;
-    coordy=11;
+	coordx=valuePicking-110;
+	coordy=11;
   }
+	
   coords.push(coordx);
   coords.push(coordy);
   return coords;

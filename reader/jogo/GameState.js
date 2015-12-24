@@ -16,6 +16,10 @@ function GameState() {
 	this.Pieces = [];
 	this.whitePieces = [];
 	this.whiteBlack = [];
+	this.playersTurn = 1;
+	
+	//0 - Espera seleccao de peca de jogador, 1 - Espera seleccao de posicao para onde mover
+	this.state = 0;
 
 };
 

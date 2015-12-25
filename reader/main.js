@@ -31,10 +31,13 @@ function initRequest()
   getPrologRequest(requestString, handleReply);
 }
 
-function moveRequest(Player,OldX,OldY,NewX,NewY,Piece)
+function moveRequest(Player,OldX,OldY,NewX,NewY,Board,Piece)
 {
   // Get Parameter Values
-  var requestString = "move("+Player+","+OldX+","+OldY+","+NewX+","+NewY+","+Piece+")";
+  var requestString = "move("+Player+","+OldX+","+OldY+","+NewX+","+NewY+","+Board+","+Piece+")";
+  
+  console.log("MOVE REQUEST");
+  console.log(Board);
 
   // Make Request
   getPrologRequest(requestString, handleReply);
@@ -50,7 +53,7 @@ function handleReply(data){
   boardFromProlog = boardFromProlog.replace(/k/g, String.fromCharCode(39)+"k"+String.fromCharCode(39));
   boardFromProlog = boardFromProlog.replace(/e/g, String.fromCharCode(39)+"e"+String.fromCharCode(39));
 
-
+  console.log("AQUUUUI");
 }
 
 
@@ -69,7 +72,7 @@ serialInclude(['../lib/CGF.js', 'Scene.js', 'Parser.js', 'Texture.js', 'Interfac
 'primitives/Rectangle.js', 'primitives/Cylinder.js', 'primitives/Sphere.js', 'primitives/Triangle.js',
 'primitives/CylinderCircle.js', 'primitives/CylinderShell.js', 'primitives/Vehicle.js',
 'primitives/Plane.js', 'primitives/Patch.js', 'primitives/Terrain.js', 'primitives/cube.js',
-'animations/CircularAnimation.js', 'animations/LinearAnimation.js',
+'animations/CircularAnimation.js', 'animations/LinearAnimation.js', 'animations/PieceAnimation.js',
 'jogo/GameState.js', 'jogo/Piece.js', 'jogo/KingPiece.js',
 
 

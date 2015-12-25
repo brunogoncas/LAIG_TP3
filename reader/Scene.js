@@ -184,6 +184,8 @@ Scene.prototype.onGraphLoaded = function ()
       this.nodes[NodeIndex].currentAnimation = 1;
     }
   }
+  
+  this.gameState.boards.push(this.gameState.board);
 
   /*
   INICIAR TABULEIRO DE JOGO E PECAS
@@ -483,8 +485,8 @@ Scene.prototype.logPicking = function ()
 		
         if ((this.pickResults[i][0] instanceof Piece) || (this.pickResults[i][0] instanceof KingPiece))
         {
-			var actualX = Math.abs((this.pickResults[i][0].posX+10)/2);
-			var actualZ = Math.abs((this.pickResults[i][0].posZ+10)/2);
+			var actualX = Math.abs((this.pickResults[i][0].posX+10)/2)+1;
+			var actualZ = Math.abs((this.pickResults[i][0].posZ+10)/2)+1;
 			
           console.log("Picked object: " + this.pickResults[i][0] + ", with x " + actualX +" and z " + actualZ);
 		  this.gameState.selectedPiece = this.pickResults[i][0];
@@ -494,13 +496,20 @@ Scene.prototype.logPicking = function ()
 		else if (obj) {
 			var customId = this.pickResults[i][1];
 			
+			var actualX = Math.abs((this.gameState.selectedPiece.posX+10)/2)+1;
+			var actualZ = Math.abs((this.gameState.selectedPiece.posZ+10)/2)+1;
+			
 			var newX = this.getCoordPicking(customId)[0];
 			var newZ = this.getCoordPicking(customId)[1];
 			
 			console.log("Picked object: " + obj + ", with x " + newX + " and z " + newZ);
 			
+			var idPiece = this.gameState.selectedPiece.id.charAt(0);
+			
 			//CHAMAR A FUNCAO DO PROLOG AQUI
-			moveRequest(this.gameState.playersTurn, this.gameState.selectedPiece.posX, this.gameState.selectedPiece.posY, newX, newZ, this.gameState.selectedPiece.id);
+			moveRequest(this.gameState.playersTurn, actualX, actualZ, newX, newZ, this.gameState.board, idPiece);
+			this.getBoard();
+			console.log(this.gameState.board);
 		}
       }
       this.pickResults.splice(0,this.pickResults.length);
@@ -581,6 +590,7 @@ Scene.prototype.getBoard = function ()
   if(!this.gameState.board.equals(newboard)) {
     console.log(newboard);
     this.gameState.board = newboard;
+	console.log("MUDOU  TABULEIRO");
   }
 };
 

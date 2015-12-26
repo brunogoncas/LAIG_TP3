@@ -9,6 +9,9 @@ function Piece(scene, id, player, posX, posZ, inGame, material, texture) {
 
   this.material = material;
   this.texture = texture;
+  
+  this.animating = false;
+  this.animations = [];
 
   this.body = new Cylinder(scene, 0.5, 1, 1, 20, 20, 1, 1);
 };

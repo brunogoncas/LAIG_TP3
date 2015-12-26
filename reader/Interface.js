@@ -15,17 +15,25 @@ Interface.prototype.init = function(application) {
 
 	this.gui = new dat.GUI();
 
-	//lights control
-	this.gui.add(this.scene, 'All_Lights').name("Todas as luzes");
-	this.scene.tickLights = [];
-
-
-	this.gui.add(this.scene, 'ambiente', this.scene.ambientes);
 	return true;
 };
 
 Interface.prototype.addLights = function() {
 
+	//lights control
+	this.gui.add(this.scene, 'All_Lights').name("Todas as luzes");
+	this.scene.tickLights = [];
+
+var obj = {
+	name: "David Walsh",
+	num: 23,
+	winner: true
+};
+this.gui.add(obj, "name");
+
+var obj = { add:function(){ console.log("clicked") }};
+
+this.gui.add(obj,'add');
 
 /*	var group = this.gui.addFolder("Luzes");
 
@@ -51,20 +59,6 @@ Interface.prototype.addLights = function() {
 	}
 
 	this.gui.add(this.scene, 'undo').name("Undo");*/
-
-
-};
-
-Interface.prototype.processKeyUp = function(e) {
-
-	if(e.keyCode==39)
-		{	console.log("Carreguei");
-			this.scene.camera.orbit(vec3.fromValues(0, 1, 0),90 * Math.PI / 180);
-		}
-	else if(e.keyCode==37)
-			{	console.log("Carreguei");
-				this.scene.camera.orbit(vec3.fromValues(0, 1, 0),-90 * Math.PI / 180);
-			}
 
 
 };

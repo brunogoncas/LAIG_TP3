@@ -13,11 +13,11 @@ function getPrologRequest(requestString, onSuccess, onError, port)
   request.open('GET', 'http://localhost:'+requestPort+'/'+requestString, true);
 
   request.onload = onSuccess || function(data){console.log("Request successful. Reply: " + data.target.response);
-};
-request.onerror = onError || function(){console.log("Error waiting for response");};
+                                                };
+  request.onerror = onError || function(){console.log("Error waiting for response");};
 
-request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-request.send();
+  request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+  request.send();
 
 
 }
@@ -31,10 +31,13 @@ function initRequest()
   getPrologRequest(requestString, handleReply);
 }
 
-function moveRequest(Player,OldX,OldY,NewX,NewY,Piece)
+function moveRequest(Player,OldX,OldY,NewX,NewY,Board,Piece)
 {
   // Get Parameter Values
-  var requestString = "move("+Player+","+OldX+","+OldY+","+NewX+","+NewY+","+Piece+")";
+  var requestString = "move("+Player+","+OldX+","+OldY+","+NewX+","+NewY+","+Board+","+Piece+")";
+  
+  console.log("MOVE REQUEST");
+  console.log(Board);
 
   // Make Request
   getPrologRequest(requestString, handleReply);
@@ -50,18 +53,18 @@ function handleReply(data){
   boardFromProlog = boardFromProlog.replace(/k/g, String.fromCharCode(39)+"k"+String.fromCharCode(39));
   boardFromProlog = boardFromProlog.replace(/e/g, String.fromCharCode(39)+"e"+String.fromCharCode(39));
 
-
+  console.log("AQUUUUI");
 }
 
 
 
 function getUrlVars() {
-  var vars = {};
-  var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,
-  function(m,key,value) {
-    vars[decodeURIComponent(key)] = decodeURIComponent(value);
-  });
-  return vars;
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,
+    function(m,key,value) {
+      vars[decodeURIComponent(key)] = decodeURIComponent(value);
+    });
+    return vars;
 }
 
 
@@ -69,7 +72,7 @@ serialInclude(['../lib/CGF.js', 'Scene.js', 'Parser.js', 'Texture.js', 'Interfac
 'primitives/Rectangle.js', 'primitives/Cylinder.js', 'primitives/Sphere.js', 'primitives/Triangle.js',
 'primitives/CylinderCircle.js', 'primitives/CylinderShell.js', 'primitives/Vehicle.js',
 'primitives/Plane.js', 'primitives/Patch.js', 'primitives/Terrain.js', 'primitives/cube.js',
-'animations/CircularAnimation.js', 'animations/LinearAnimation.js',
+'animations/CircularAnimation.js', 'animations/LinearAnimation.js', 'animations/PieceAnimation.js',
 'jogo/GameState.js', 'jogo/Piece.js', 'jogo/KingPiece.js',
 
 
@@ -85,34 +88,30 @@ main=function()
 
 
 
-  // Standard application, scene and interface setup
-  var app = new CGFapplication(document.body);
-  var myScene = new Scene();
+	// Standard application, scene and interface setup
+    var app = new CGFapplication(document.body);
+    var myScene = new Scene();
 
-  app.init();
+    app.init();
 
-  app.setScene(myScene);
+    app.setScene(myScene);
 
 
-  // get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml
-  // or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor)
+	// get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml
+	// or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor)
 
-  var filename=getUrlVars()['file'] || "1/table.lsx";
-  var filename2=getUrlVars()['file'] || "1/piquenique.lsx";
+	var filename=getUrlVars()['file'] || "1/table.lsx";
 
-  
-  // create and load graph, and associate it to scene.
-  // Check console for loading errors
-  var parser = new Parser(filename, myScene, "Quarto");
-  var parser2 = new Parser(filename2, myScene, "Piquenique");
-  //var parser3 = new Parser(filename3, myScene , "Outro");
-  //var interface = new Interface(myInterface);
-  var myInterface = new Interface(myScene);
-  myInterface.setActiveCamera(myScene.camera);
-  app.setInterface(myInterface);
-  // start
+	// create and load graph, and associate it to scene.
+	// Check console for loading errors
+	var parser = new Parser(filename, myScene);
+	//var interface = new Interface(myInterface);
+	   var myInterface = new Interface(myScene);
+		myInterface.setActiveCamera(myScene.camera);
+	 app.setInterface(myInterface);
+	// start
 
-  app.run();
+    app.run();
 }
 
 ]);

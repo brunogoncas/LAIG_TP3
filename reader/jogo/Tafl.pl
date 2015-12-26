@@ -352,7 +352,8 @@ move_Piece(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode, FFBoard)
 		verify_left(Player, C_NEW, R_NEW, AuxBoard2, AuxBoard3),
 		verify_right(Player, C_NEW, R_NEW, AuxBoard3, AuxBoard4),
 		FFBoard = AuxBoard4
-	)
+	),
+	print_board(FFBoard).
 	/*,
 	((Player == 1,
 		game_play(2, FFBoard, Game_mode));

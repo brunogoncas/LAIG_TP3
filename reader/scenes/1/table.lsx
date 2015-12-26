@@ -163,7 +163,6 @@
 	  <DESCENDANT id="parede2" />
     <DESCENDANT id="parede3" />
     <DESCENDANT id="parede4" />
-    <DESCENDANT id="tecto" />
     </DESCENDANTS>
   </NODE>
 
@@ -180,9 +179,6 @@
   <NODE id="parede2">
     <MATERIAL id="mat_normal" />
     <TEXTURE id="wall" />
-    <SCALE sx="120" sy="100" sz="120" />
-    <TRANSLATION x="0" y="0" z="0.5" />
-    <ROTATION axis="y" angle="-180" />
     <DESCENDANTS>
     <DESCENDANT id="quad_1x1" />
     </DESCENDANTS>
@@ -191,9 +187,6 @@
   <NODE id="parede3">
     <MATERIAL id="mat_normal" />
     <TEXTURE id="wall" />
-    <SCALE sx="120" sy="100" sz="120" />
-    <TRANSLATION x="0.5" y="0" z="0" />
-    <ROTATION axis="y" angle="-90" />
     <DESCENDANTS>
     <DESCENDANT id="quad_1x1" />
     </DESCENDANTS>
@@ -202,20 +195,6 @@
   <NODE id="parede4">
     <MATERIAL id="mat_normal" />
     <TEXTURE id="wall" />
-    <SCALE sx="120" sy="100" sz="120" />
-    <TRANSLATION x="-0.5" y="0" z="0" />
-    <ROTATION axis="y" angle="90" />
-    <DESCENDANTS>
-    <DESCENDANT id="quad_1x1" />
-    </DESCENDANTS>
-  </NODE>
-
-  <NODE id="tecto">
-    <MATERIAL id="mat_metal" />
-    <TEXTURE id="wall" />
-    <SCALE sx="120" sy="100" sz="120" />
-    <TRANSLATION x="0" y="0.5" z="0" />
-    <ROTATION axis="x" angle="90" />
     <DESCENDANTS>
     <DESCENDANT id="quad_1x1" />
     </DESCENDANTS>
@@ -249,7 +228,7 @@
   <NODE id="top_mesa">
     <MATERIAL id="mat_normal" />
     <TEXTURE id="null" />
-    <TRANSLATION x="0" y="-1.5" z="0" />
+    <TRANSLATION x="0" y="0" z="0" />
     <SCALE sx="40" sy="2" sz="40" />
     <DESCENDANTS>
 	  <DESCENDANT id="Cube" />

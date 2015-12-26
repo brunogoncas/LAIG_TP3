@@ -1,9 +1,9 @@
-function Parser(filename, scene) {
+function Parser(filename, scene, graphname) {
     this.loadedOk = null;
 
     // Establish bidirectional references between scene and graph
     this.scene = scene;
-    scene.graph=this;
+    scene.graph[graphname]=this;
 
     // File reading
     this.reader = new CGFXMLreader();

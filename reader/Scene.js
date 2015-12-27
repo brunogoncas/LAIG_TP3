@@ -341,9 +341,8 @@ Scene.prototype.display = function () {
       mat4.translate(matrix, matrix, [this.gameState.Pieces.posX, 0, this.gameState.Pieces.posZ]);*/
 
 	  //Por as pecas pretas seleccionaveis
-
+//console.log(this.gameState.state);
 	  if(this.gameState.state == 0 && this.gameState.playersTurn == 1 && this.gameState.Pieces[i].id == "b") {
-
 		//console.log(this.gameState.Pieces[i].posX);
 		//var actualX = this.gameState.Pieces[i].posX + 5;
 		//console.log(actualX);
@@ -364,13 +363,12 @@ Scene.prototype.display = function () {
 
 		this.clearPickRegistration();
 	  }
-
+	  
 	  else if(this.gameState.state == 0 && this.gameState.playersTurn == 2 && (this.gameState.Pieces[i].id == "w" || this.gameState.Pieces[i].id == "k" )) {
 		//var actualX = this.gameState.Pieces[i].posX + 5;
 		//var actualZ = this.gameState.Pieces[i].posZ + 5;
 
 		//var idPos = parseInt(actualX + "" + actualZ);
-
 		this.registerForPick(pickingindex, this.gameState.Pieces[i]);
 		pickingindex++;
 
@@ -529,8 +527,6 @@ Scene.prototype.logPicking = function ()
 
 			//CHAMAR A FUNCAO DO PROLOG AQUI
 			moveRequest(this.gameState.playersTurn, actualX, actualZ, newX, newZ, boardFromProlog, idPiece);
-			this.getBoard();
-			console.log(this.gameState.board);
 		}
       }
       this.pickResults.splice(0,this.pickResults.length);
@@ -609,9 +605,17 @@ Scene.prototype.getBoard = function ()
   var newboard = eval(boardFromProlog);
 
   if(!this.gameState.board.equals(newboard)) {
-    console.log(newboard);
+    //console.log(newboard);
     this.gameState.board = newboard;
 	console.log("MUDOU  TABULEIRO");
+	
+	if(this.gameState.playersTurn == 1)
+				this.gameState.playersTurn = 2;
+			
+	else
+		this.gameState.playersTurn = 1;
+				
+	this.gameState.state = 0;
   }
 };
 

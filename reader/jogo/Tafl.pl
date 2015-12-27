@@ -236,7 +236,7 @@ read_move_R_NEW(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode):-
 	),
 	read_move_R_NEW(Player, C_OLD, R_OLD, C_NEW, NR_NEW, Board, Piece, Game_mode).
 
-verify_NEW(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode):-
+verify_NEW(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode, NewBoard):-
 	nth(R_NEW, Board, R_LIST),
 	nth(C_NEW, R_LIST, Elem),
 	((Piece == 'k',
@@ -279,14 +279,16 @@ verify_NEW(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode):-
 	!,
 	move_Piece(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode, NewBoard).
 
-verify_NEW(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode):-
+verify_NEW(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode, NewBoard):-
 	((
 		(Game_mode == 1; (Game_mode == 2, Player == 1)),
 		write('Nao pode mover para esse sitio. Escolha local valido para mover a peca'),
 		nl, nl);
 		(Game_mode == 3; (Game_mode == 2, Player == 2))
 	),
-	read_move_C_OLD(Player, NC_OLD, NR_OLD, Board, Game_mode).
+	NewBoard = Board.
+	/*,
+	read_move_C_OLD(Player, NC_OLD, NR_OLD, Board, Game_mode).*/
 
 /********************************************************************************************
 * Verificar se o caminho até à nova posição desejada está livre.							*

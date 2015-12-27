@@ -105,7 +105,7 @@ print_header_line(_).
 % Require your Prolog Files here
 
 parse_input(init, Board):-board(Board).
-parse_input(move(Player,OldX,OldY,NewX,NewY,Board,Piece), NewBoard) :-move_Piece(Player,OldX,OldY,NewX,NewY,Board,Piece,1,NewBoard).
+parse_input(verify_NEW(Player,OldX,OldY,NewX,NewY,Board,Piece), NewBoard) :-verify_NEW(Player,OldX,OldY,NewX,NewY,Board,Piece,1,NewBoard).
 parse_input(quit, goodbye).
 
 test(_,[],N) :- N =< 0.

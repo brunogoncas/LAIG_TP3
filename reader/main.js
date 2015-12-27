@@ -34,10 +34,9 @@ function initRequest()
 function moveRequest(Player,OldX,OldY,NewX,NewY,Board,Piece)
 {
   // Get Parameter Values
-  var requestString = "move("+Player+","+OldX+","+OldY+","+NewX+","+NewY+","+Board+","+Piece+")";
-
-  console.log("MOVE REQUEST");
-  console.log(Board);
+  var requestString = "verify_NEW("+Player+","+OldX+","+OldY+","+NewX+","+NewY+","+Board+","+Piece+")";
+  //console.log("MOVE REQUEST");
+  //console.log(Board);
 
   // Make Request
   getPrologRequest(requestString, handleReply);

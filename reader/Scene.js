@@ -176,11 +176,11 @@ Scene.prototype.onGraphLoaded = function ()
   for(i=0;i<this.ambientes.length;i++)
   {
     this.nodes[this.ambientes[i]] = this.graph[this.ambientes[i]].nodes;
-    console.log(this.ambientes[i]);
+    //console.log(this.ambientes[i]);
     this.graphRootId[this.ambientes[i]] = this.graph[this.ambientes[i]].root;
-    console.log(this.nodes[this.ambientes[i]][this.graphRootId[this.ambientes[i]]]);
+   // console.log(this.nodes[this.ambientes[i]][this.graphRootId[this.ambientes[i]]]);
     this.root_node[this.ambientes[i]] = this.nodes[this.ambientes[i]][this.graphRootId[this.ambientes[i]]];
-    console.log(this.root_node);
+   // console.log(this.root_node);
 
     this.leaves[this.ambientes[i]] = this.graph[this.ambientes[i]].leaves;
     this.materials[this.ambientes[i]] = this.graph[this.ambientes[i]].materials;
@@ -469,7 +469,7 @@ Scene.prototype.DisplayNode = function (node, material, texture, matrix) {
         {
           if(this.pickMode==true)
           {
-            console.log(pickingindex+ "  "+ leaf);
+            //console.log(pickingindex+ "  "+ leaf);
             this.registerForPick(pickingindex, leaf);
             pickingindex++;
             leaf.display();
@@ -515,13 +515,13 @@ Scene.prototype.logPicking = function ()
 
 		else if (obj) {
 			var customId = this.pickResults[i][1];
-      console.log("CUSTOM ID" + customId);
+			//console.log("CUSTOM ID" + customId);
 
 			var actualX = Math.abs((this.gameState.selectedPiece.posX+10)/2)+1;
 			var actualZ = Math.abs((this.gameState.selectedPiece.posZ+10)/2)+1;
 
-			var newX = this.getCoordPicking(customId)[0];
-			var newZ = this.getCoordPicking(customId)[1];
+			var newZ = this.getCoordPicking(customId)[0];
+			var newX = this.getCoordPicking(customId)[1];
 
 			console.log("Picked object: " + obj + ", with x " + newX + " and z " + newZ);
 

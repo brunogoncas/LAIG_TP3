@@ -35,7 +35,7 @@ function moveRequest(Player,OldX,OldY,NewX,NewY,Board,Piece)
 {
   // Get Parameter Values
   var requestString = "move("+Player+","+OldX+","+OldY+","+NewX+","+NewY+","+Board+","+Piece+")";
-  
+
   console.log("MOVE REQUEST");
   console.log(Board);
 
@@ -53,7 +53,7 @@ function handleReply(data){
   boardFromProlog = boardFromProlog.replace(/k/g, String.fromCharCode(39)+"k"+String.fromCharCode(39));
   boardFromProlog = boardFromProlog.replace(/e/g, String.fromCharCode(39)+"e"+String.fromCharCode(39));
 
-  console.log("AQUUUUI");
+  console.log(boardFromProlog);
 }
 
 
@@ -97,21 +97,26 @@ main=function()
     app.setScene(myScene);
 
 
-	// get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml
-	// or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor)
+    // get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml
+      // or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor)
 
-	var filename=getUrlVars()['file'] || "1/table.lsx";
+      var filename=getUrlVars()['file'] || "1/table.lsx";
+      var filename2=getUrlVars()['file'] || "1/piquenique.lsx";
 
-	// create and load graph, and associate it to scene.
-	// Check console for loading errors
-	var parser = new Parser(filename, myScene);
-	//var interface = new Interface(myInterface);
-	   var myInterface = new Interface(myScene);
-		myInterface.setActiveCamera(myScene.camera);
-	 app.setInterface(myInterface);
-	// start
 
-    app.run();
-}
+      // create and load graph, and associate it to scene.
+      // Check console for loading errors
+      var parser = new Parser(filename, myScene, "Quarto");
+      var parser2 = new Parser(filename2, myScene, "Piquenique");
+      //var parser3 = new Parser(filename3, myScene , "Outro");
+      //var interface = new Interface(myInterface);
+      var myInterface = new Interface(myScene);
+      myInterface.setActiveCamera(myScene.camera);
+      app.setInterface(myInterface);
+      // start
+
+      app.run();
+    }
+
 
 ]);

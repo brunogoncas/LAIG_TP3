@@ -1,5 +1,6 @@
 function Scene() {
   CGFscene.call(this);
+  this.graph=[];
 }
 var pickingindex;
 
@@ -20,20 +21,21 @@ Scene.prototype.init = function (application) {
 
   this.enableTextures(true);
 
-  this.graphRootId;
+  this.graphRootId=[];
   this.nodeGraph = [];
-  var root_node;
+  this.root_node=[];
 
   this.camera.near;
   this.camera.far;
   this.matrixInit;
   this.reference;
 
-  this.leaves;
-  this.materials;
-  this.textures;
-  this.nodes;
-  this.animations;
+
+  this.leaves=[];
+  this.materials=[];
+  this.textures=[];
+  this.nodes=[];
+  this.animations=[];
 
   this.lastTimeUpdate = 0;
 
@@ -54,6 +56,10 @@ Scene.prototype.init = function (application) {
   initRequest();
 
   this.gameState = new GameState();
+
+  this.ambiente="Quarto";
+
+  this.ambientes=["Quarto","Piquenique"];
 
 };
 
@@ -84,8 +90,8 @@ Scene.prototype.update = function(time) {
 
     this.lastTimeUpdate = time;
 
-    for (var NodeIndex in this.nodes) {
-      var node = this.nodes[NodeIndex];
+    for (var NodeIndex in this.nodes[this.ambiente]) {
+      var node = this.nodes[this.ambiente][NodeIndex];
       if(node.animations.length != 0) {
 
         if(!node.animationsObj[node.currentAnimation-1].done) {
@@ -94,7 +100,7 @@ Scene.prototype.update = function(time) {
 
         else {
           if (node.currentAnimation < node.animations.length) {
-            this.nodes[NodeIndex].currentAnimation++;
+            this.nodes[this.ambiente][NodeIndex].currentAnimation++;
           }
         }
       }
@@ -106,23 +112,24 @@ Scene.prototype.update = function(time) {
   }
 };
 
+
 Scene.prototype.initLights = function () {
 
   this.lightsScene = [];
   this.onOff = true;
 
-  for (var i = 0; i < this.graph.lights.length; i++) {
+  for (var i = 0; i < this.graph[this.ambiente].lights.length; i++) {
     var light = new CGFlight(this, i);
 
-    light.setPosition(this.graph.lights[i]["position"]["x"], this.graph.lights[i]["position"]["y"], this.graph.lights[i]["position"]["z"], this.graph.lights[i]["position"]["w"]);
-    light.setAmbient(this.graph.lights[i]["ambient"]["r"], this.graph.lights[i]["ambient"]["g"], this.graph.lights[i]["ambient"]["b"], this.graph.lights[i]["ambient"]["a"]);
-    light.setDiffuse(this.graph.lights[i]["diffuse"]["r"], this.graph.lights[i]["diffuse"]["g"], this.graph.lights[i]["diffuse"]["b"], this.graph.lights[i]["diffuse"]["a"]);
-    light.setSpecular(this.graph.lights[i]["specular"]["r"], this.graph.lights[i]["specular"]["g"], this.graph.lights[i]["specular"]["b"], this.graph.lights[i]["specular"]["a"]);
+    light.setPosition(this.graph[this.ambiente].lights[i]["position"]["x"], this.graph[this.ambiente].lights[i]["position"]["y"], this.graph[this.ambiente].lights[i]["position"]["z"], this.graph[this.ambiente].lights[i]["position"]["w"]);
+    light.setAmbient(this.graph[this.ambiente].lights[i]["ambient"]["r"], this.graph[this.ambiente].lights[i]["ambient"]["g"], this.graph[this.ambiente].lights[i]["ambient"]["b"], this.graph[this.ambiente].lights[i]["ambient"]["a"]);
+    light.setDiffuse(this.graph[this.ambiente].lights[i]["diffuse"]["r"], this.graph[this.ambiente].lights[i]["diffuse"]["g"], this.graph[this.ambiente].lights[i]["diffuse"]["b"], this.graph[this.ambiente].lights[i]["diffuse"]["a"]);
+    light.setSpecular(this.graph[this.ambiente].lights[i]["specular"]["r"], this.graph[this.ambiente].lights[i]["specular"]["g"], this.graph[this.ambiente].lights[i]["specular"]["b"], this.graph[this.ambiente].lights[i]["specular"]["a"]);
 
     this.lightsScene[i] = [];
     this.lightsScene[i]['enabled'] = false;
 
-    if(this.graph.lights[i]["enable"]) {
+    if(this.graph[this.ambiente].lights[i]["enable"]) {
       light.enable();
       this.lightsScene[i]['enabled'] = true;
     }
@@ -132,60 +139,69 @@ Scene.prototype.initLights = function () {
     light.setVisible(false);
     light.update();
     this.lightsScene[i]['light'] = light;
-    this.lightsScene[i]['id'] = this.graph.lights[i]["id"];
+    this.lightsScene[i]['id'] = this.graph[this.ambiente].lights[i]["id"];
 
   }
 
   //Add the lights to interface
-  this.interface.addLights();
+
 };
+
 
 Scene.prototype.initCameras = function () {
   //( fov, near, far, position, target )
   this.camera = new CGFcamera(0.6, 0.1, 500, vec3.fromValues(0,5,20), vec3.fromValues(0, 0, 0));
+
 };
+
 
 // Handler called when the graph is finally loaded.
 // As loading is asynchronous, this may be called already after the application has started the run loop
 Scene.prototype.onGraphLoaded = function ()
 {
 
-  if(this.graph.reference != 0) { this.axis = new CGFaxis(this, this.graph.reference); }
+  if(this.graph[this.ambiente].reference != 0) { this.axis = new CGFaxis(this, this.graph[this.ambiente].reference); }
 
-  this.gl.clearColor(this.graph.background["r"],this.graph.background["g"],this.graph.background["b"],this.graph.background["a"]);
-  this.setGlobalAmbientLight(this.graph.ambient["r"], this.graph.ambient["g"], this.graph.ambient["b"], this.graph.ambient["a"]);
+  this.gl.clearColor(this.graph[this.ambiente].background["r"],this.graph[this.ambiente].background["g"],this.graph[this.ambiente].background["b"],this.graph[this.ambiente].background["a"]);
+  this.setGlobalAmbientLight(this.graph[this.ambiente].ambient["r"], this.graph[this.ambiente].ambient["g"], this.graph[this.ambiente].ambient["b"], this.graph[this.ambiente].ambient["a"]);
 
   this.initLights();
 
-  this.camera.near = this.graph.frustum['near'];
-  this.camera.far = this.graph.frustum['far'];
+  this.camera.near = this.graph[this.ambiente].frustum['near'];
+  this.camera.far = this.graph[this.ambiente].frustum['far'];
 
-  this.matrixInit = this.graph.matrixInit;
-  this.reference = this.graph.reference;
+  this.matrixInit = this.graph[this.ambiente].matrixInit;
+  this.reference = this.graph[this.ambiente].reference;
 
-  this.nodes = this.graph.nodes;
+  for(i=0;i<this.ambientes.length;i++)
+  {
+    this.nodes[this.ambientes[i]] = this.graph[this.ambientes[i]].nodes;
+    console.log(this.ambientes[i]);
+    this.graphRootId[this.ambientes[i]] = this.graph[this.ambientes[i]].root;
+    console.log(this.nodes[this.ambientes[i]][this.graphRootId[this.ambientes[i]]]);
+    this.root_node[this.ambientes[i]] = this.nodes[this.ambientes[i]][this.graphRootId[this.ambientes[i]]];
+    console.log(this.root_node);
 
-  this.graphRootId = this.graph.root;
-  root_node = this.nodes[this.graphRootId];
+    this.leaves[this.ambientes[i]] = this.graph[this.ambientes[i]].leaves;
+    this.materials[this.ambientes[i]] = this.graph[this.ambientes[i]].materials;
+    this.textures[this.ambientes[i]] = this.graph[this.ambientes[i]].textures;
+    this.animations[this.ambientes[i]] = this.graph[this.ambientes[i]].animations;
 
-  this.leaves = this.graph.leaves;
-  this.materials = this.graph.materials;
-  this.textures = this.graph.textures;
-  this.animations = this.graph.animations;
+    for (var NodeIndex in this.nodes[this.ambientes[i]]) {
+      if(this.nodes[this.ambientes[i]][NodeIndex].animations.length != 0) {
+        for (var animationIndex in this.nodes[this.ambientes[i]][NodeIndex].animations) {
 
-  for (var NodeIndex in this.nodes) {
-    if(this.nodes[NodeIndex].animations.length != 0) {
-      for (var animationIndex in this.nodes[NodeIndex].animations) {
+          var animation = this.animations[this.nodes[this.ambientes[i]][NodeIndex].animations[animationIndex]];
+          this.nodes[this.ambientes[i]][NodeIndex].animationsObj.push(animation);
+        }
 
-        var animation = this.animations[this.nodes[NodeIndex].animations[animationIndex]];
-        this.nodes[NodeIndex].animationsObj.push(animation);
+        this.nodes[this.ambientes[i]][NodeIndex].currentAnimation = 1;
       }
-
-      this.nodes[NodeIndex].currentAnimation = 1;
     }
   }
-  
-  this.gameState.boards.push(this.gameState.board);
+
+
+
 
   /*
   INICIAR TABULEIRO DE JOGO E PECAS
@@ -201,30 +217,30 @@ Scene.prototype.onGraphLoaded = function ()
 
       switch (this.gameState.board[z][x]) {
         case "b":
-        actualNode = this.nodes["black_P"];
+        actualNode = this.nodes[this.ambiente]["black_P"];
         player = 2;
 
-        var materialDisplay = this.materials[actualNode.material].appearance;
-        var textureDisplay = this.textures[actualNode.texture].textureCGF;
+        var materialDisplay = this.materials[this.ambiente][actualNode.material].appearance;
+        var textureDisplay = this.textures[this.ambiente][actualNode.texture].textureCGF;
         this.gameState.Pieces.push(new Piece(this, this.gameState.board[z][x], player, -11 +(x*2)+1, -11 +(z*2)+1, true, materialDisplay, textureDisplay));
         break;
 
         case "w":
-        actualNode = this.nodes["white_P"];
+        actualNode = this.nodes[this.ambiente]["white_P"];
         player = 1;
 
-        var materialDisplay = this.materials[actualNode.material].appearance;
-        var textureDisplay = this.textures[actualNode.texture].textureCGF;
+        var materialDisplay = this.materials[this.ambiente][actualNode.material].appearance;
+        var textureDisplay = this.textures[this.ambiente][actualNode.texture].textureCGF;
         this.gameState.Pieces.push(new Piece(this, this.gameState.board[z][x], player, -11 +(x*2)+1, -11 +(z*2)+1, true, materialDisplay, textureDisplay));
         break;
 
         case "k":
-        actualNode = this.nodes["king"];
+        actualNode = this.nodes[this.ambiente]["king"];
         player = 1;
 
-        var materialDisplay = this.materials[actualNode.material].appearance;
-        var textureDisplay = this.textures[actualNode.texture].textureCGF;
-        var texture2Display = this.textures["gold"].textureCGF;
+        var materialDisplay = this.materials[this.ambiente][actualNode.material].appearance;
+        var textureDisplay = this.textures[this.ambiente][actualNode.texture].textureCGF;
+        var texture2Display = this.textures[this.ambiente]["gold"].textureCGF;
 
         this.gameState.Pieces.push(new KingPiece(this, this.gameState.board[z][x], player, -11 +(x*2)+1,-11 + (z*2)+1, true, materialDisplay, textureDisplay, texture2Display));
         break;
@@ -291,19 +307,19 @@ Scene.prototype.display = function () {
   // Initialize Model-View matrix as identity (no transformation
   this.updateProjectionMatrix();
   this.loadIdentity();
-  
+
   //this.camera.setPosition(vec3.fromValues(0,5,20));
 	//this.camera.setTarget(vec3.fromValues(0,0,0));
 
   // Apply transformations corresponding to the camera position relative to the origin
  this.applyViewMatrix();
- 
+
   // ---- END Background, camera and axis setup
 
   // it is important that things depending on the proper loading of the graph
   // only get executed after the graph has loaded correctly.
   // This is one possible way to do it
-  if (this.graph.loadedOk)
+  if (this.graph[this.ambiente].loadedOk)
   {
 
     this.multMatrix(this.matrixInit);
@@ -314,53 +330,55 @@ Scene.prototype.display = function () {
 
     if(this.reference != 0) { this.axis.display(); }
 
-    this.DisplayNode(root_node, root_node.material, root_node.texture, root_node.matrix);
+
+    this.DisplayNode(this.root_node[this.ambiente], this.root_node[this.ambiente].material, this.root_node[this.ambiente].texture, this.root_node[this.ambiente].matrix);
+
 
 
     for (var i = 0; i < this.gameState.Pieces.length; i++) {
       /*var matrix = mat4.create();
       mat4.identity(matrix);
       mat4.translate(matrix, matrix, [this.gameState.Pieces.posX, 0, this.gameState.Pieces.posZ]);*/
-	  
+
 	  //Por as pecas pretas seleccionaveis
-	  
+
 	  if(this.gameState.state == 0 && this.gameState.playersTurn == 1 && this.gameState.Pieces[i].id == "b") {
-		//console.log("----");
+
 		//console.log(this.gameState.Pieces[i].posX);
 		//var actualX = this.gameState.Pieces[i].posX + 5;
 		//console.log(actualX);
 		//console.log(this.gameState.Pieces[i].posZ);
 		//var actualZ = this.gameState.Pieces[i].posZ + 5;
 		//console.log(actualZ);
-		
+
 		//var idPos = parseInt(actualX + "" + actualZ);
 		//console.log(idPos);
-		
+
 		this.registerForPick(pickingindex, this.gameState.Pieces[i]);
 		pickingindex++;
-	   
+
 		this.pushMatrix();
 		this.translate(this.gameState.Pieces[i].posX, 0, this.gameState.Pieces[i].posZ);
 		this.gameState.Pieces[i].display();
 		this.popMatrix();
-	   
+
 		this.clearPickRegistration();
 	  }
-	  
-	  else if(this.gameState.state == 0 && this.gameState.playersTurn == 2 && (this.gameState.Pieces[i].id == "w" || this.gameState.Pieces[i].id == "k" )) { 
+
+	  else if(this.gameState.state == 0 && this.gameState.playersTurn == 2 && (this.gameState.Pieces[i].id == "w" || this.gameState.Pieces[i].id == "k" )) {
 		//var actualX = this.gameState.Pieces[i].posX + 5;
 		//var actualZ = this.gameState.Pieces[i].posZ + 5;
-		
+
 		//var idPos = parseInt(actualX + "" + actualZ);
-		
+
 		this.registerForPick(pickingindex, this.gameState.Pieces[i]);
 		pickingindex++;
-	   
+
 		this.pushMatrix();
 		this.translate(this.gameState.Pieces[i].posX, 0, this.gameState.Pieces[i].posZ);
 		this.gameState.Pieces[i].display();
 		this.popMatrix();
-	   
+
 	   this.clearPickRegistration();
 	  }
 
@@ -403,17 +421,17 @@ Scene.prototype.DisplayNode = function (node, material, texture, matrix) {
 
 
   for (var descendantIndex in node.descendants) {
-    var nextNode = this.nodes[node.descendants[descendantIndex]];
+    var nextNode = this.nodes[this.ambiente][node.descendants[descendantIndex]];
 
     //Verificar se e' folha
     if (nextNode == undefined) {
-      var leaf = this.leaves[node.descendants[descendantIndex]];
+      var leaf = this.leaves[this.ambiente][node.descendants[descendantIndex]];
 
       //console.log("pickin id: "+node.pickingid);
       if (leaf != undefined) {
 
-        var materialDisplay = this.materials[actualMaterial];
-        var textureDisplay = this.textures[actualTexture];
+        var materialDisplay = this.materials[this.ambiente][actualMaterial];
+        var textureDisplay = this.textures[this.ambiente][actualTexture];
 
         if (textureDisplay != undefined) {
           leaf.updateTexCoords(textureDisplay.amplif_factorS, textureDisplay.amplif_factorT);
@@ -451,17 +469,19 @@ Scene.prototype.DisplayNode = function (node, material, texture, matrix) {
         {
           if(this.pickMode==true)
           {
+            console.log(pickingindex+ "  "+ leaf);
             this.registerForPick(pickingindex, leaf);
             pickingindex++;
             leaf.display();
            this.clearPickRegistration();
           }
         }
-		
+
 		else if(node.pickingtable==true && this.gameState.state == 0) {
 			//do nothing
+
 		}
-		
+
 	   else {
           leaf.display();
         }
@@ -482,32 +502,33 @@ Scene.prototype.logPicking = function ()
     if (this.pickResults != null && this.pickResults.length > 0) {
       for (var i=0; i< this.pickResults.length; i++) {
         var obj = this.pickResults[i][0];
-		
+
         if ((this.pickResults[i][0] instanceof Piece) || (this.pickResults[i][0] instanceof KingPiece))
         {
 			var actualX = Math.abs((this.pickResults[i][0].posX+10)/2)+1;
 			var actualZ = Math.abs((this.pickResults[i][0].posZ+10)/2)+1;
-			
+
           console.log("Picked object: " + this.pickResults[i][0] + ", with x " + actualX +" and z " + actualZ);
 		  this.gameState.selectedPiece = this.pickResults[i][0];
 		  this.gameState.state++;
         }
-		
+
 		else if (obj) {
 			var customId = this.pickResults[i][1];
-			
+      console.log("CUSTOM ID" + customId);
+
 			var actualX = Math.abs((this.gameState.selectedPiece.posX+10)/2)+1;
 			var actualZ = Math.abs((this.gameState.selectedPiece.posZ+10)/2)+1;
-			
+
 			var newX = this.getCoordPicking(customId)[0];
 			var newZ = this.getCoordPicking(customId)[1];
-			
+
 			console.log("Picked object: " + obj + ", with x " + newX + " and z " + newZ);
-			
+
 			var idPiece = this.gameState.selectedPiece.id.charAt(0);
-			
+
 			//CHAMAR A FUNCAO DO PROLOG AQUI
-			moveRequest(this.gameState.playersTurn, actualX, actualZ, newX, newZ, this.gameState.board, idPiece);
+			moveRequest(this.gameState.playersTurn, actualX, actualZ, newX, newZ, boardFromProlog, idPiece);
 			this.getBoard();
 			console.log(this.gameState.board);
 		}
@@ -577,7 +598,7 @@ Scene.prototype.getCoordPicking = function (valuePicking) {
 	coordx=valuePicking-110;
 	coordy=11;
   }
-	
+
   coords.push(coordx);
   coords.push(coordy);
   return coords;

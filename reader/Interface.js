@@ -15,11 +15,6 @@ Interface.prototype.init = function(application) {
 
 	this.gui = new dat.GUI();
 
-	return true;
-};
-
-Interface.prototype.addLights = function() {
-
 	//lights control
 	this.gui.add(this.scene, 'All_Lights').name("Todas as luzes");
 	this.scene.tickLights = [];
@@ -34,6 +29,16 @@ this.gui.add(obj, "name");
 var obj = { add:function(){ console.log("clicked") }};
 
 this.gui.add(obj,'add');
+
+this.gui.add(this.scene, 'ambiente', this.scene.ambientes);
+
+	return true;
+};
+
+Interface.prototype.addLights = function() {
+
+
+
 
 /*	var group = this.gui.addFolder("Luzes");
 

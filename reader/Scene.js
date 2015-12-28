@@ -172,9 +172,9 @@ Scene.prototype.onGraphLoaded = function ()
 
   this.matrixInit = this.graph[this.ambiente].matrixInit;
   this.reference = this.graph[this.ambiente].reference;
-
-  for(i=0;i<this.ambientes.length;i++)
-  {
+  
+  
+  for(i=0;i<this.ambientes.length;i++) {
     this.nodes[this.ambientes[i]] = this.graph[this.ambientes[i]].nodes;
     //console.log(this.ambientes[i]);
     this.graphRootId[this.ambientes[i]] = this.graph[this.ambientes[i]].root;
@@ -200,50 +200,48 @@ Scene.prototype.onGraphLoaded = function ()
     }
   }
 
-
-
-
+};
   /*
   INICIAR TABULEIRO DE JOGO E PECAS
   */
+Scene.prototype.initGame = function () {
   var z = 0, x = 0;
   var player;
 
   for (z = 0; z < this.gameState.board.length; z++) {
-
     for (x = 0; x < this.gameState.board[z].length; x++) {
 
       var actualNode;
 
       switch (this.gameState.board[z][x]) {
         case "b":
-        actualNode = this.nodes[this.ambiente]["black_P"];
-        player = 2;
+			actualNode = this.nodes[this.ambiente]["black_P"];
+			player = 2;
 
-        var materialDisplay = this.materials[this.ambiente][actualNode.material].appearance;
-        var textureDisplay = this.textures[this.ambiente][actualNode.texture].textureCGF;
-        this.gameState.Pieces.push(new Piece(this, this.gameState.board[z][x], player, -11 +(x*2)+1, -11 +(z*2)+1, true, materialDisplay, textureDisplay));
-        break;
+			var materialDisplay = this.materials[this.ambiente][actualNode.material].appearance;
+			var textureDisplay = this.textures[this.ambiente][actualNode.texture].textureCGF;
+			this.gameState.Pieces.push(new Piece(this, this.gameState.board[z][x], player, (x*2)+1, (z*2)+1, true, materialDisplay, textureDisplay, this.gameState.Pieces.length));
+		break;
 
         case "w":
-        actualNode = this.nodes[this.ambiente]["white_P"];
-        player = 1;
+			actualNode = this.nodes[this.ambiente]["white_P"];
+			player = 1;
 
-        var materialDisplay = this.materials[this.ambiente][actualNode.material].appearance;
-        var textureDisplay = this.textures[this.ambiente][actualNode.texture].textureCGF;
-        this.gameState.Pieces.push(new Piece(this, this.gameState.board[z][x], player, -11 +(x*2)+1, -11 +(z*2)+1, true, materialDisplay, textureDisplay));
-        break;
+			var materialDisplay = this.materials[this.ambiente][actualNode.material].appearance;
+			var textureDisplay = this.textures[this.ambiente][actualNode.texture].textureCGF;
+			this.gameState.Pieces.push(new Piece(this, this.gameState.board[z][x], player, (x*2)+1, (z*2)+1, true, materialDisplay, textureDisplay, this.gameState.Pieces.length));
+		break;
 
         case "k":
-        actualNode = this.nodes[this.ambiente]["king"];
-        player = 1;
+			actualNode = this.nodes[this.ambiente]["king"];
+			player = 1;
 
-        var materialDisplay = this.materials[this.ambiente][actualNode.material].appearance;
-        var textureDisplay = this.textures[this.ambiente][actualNode.texture].textureCGF;
-        var texture2Display = this.textures[this.ambiente]["gold"].textureCGF;
+			var materialDisplay = this.materials[this.ambiente][actualNode.material].appearance;
+			var textureDisplay = this.textures[this.ambiente][actualNode.texture].textureCGF;
+			var texture2Display = this.textures[this.ambiente]["gold"].textureCGF;
 
-        this.gameState.Pieces.push(new KingPiece(this, this.gameState.board[z][x], player, -11 +(x*2)+1,-11 + (z*2)+1, true, materialDisplay, textureDisplay, texture2Display));
-        break;
+			this.gameState.Pieces.push(new KingPiece(this, this.gameState.board[z][x], player, (x*2)+1, (z*2)+1, true, materialDisplay, textureDisplay, texture2Display, this.gameState.Pieces.length));
+		break;
 
         default:
         break;
@@ -251,11 +249,9 @@ Scene.prototype.onGraphLoaded = function ()
       }
 
     }
-
   }
-
-
 };
+
 
 Scene.prototype.All_Lights = function () {
   //if any light is on, turn all off
@@ -285,6 +281,10 @@ Scene.prototype.All_Lights = function () {
 };
 
 Scene.prototype.display = function () {
+  if(this.gameState.Pieces.length == 0)
+	this.initGame();
+  
+  
   //Board from Prolog
   if(boardFromProlog.length>0)
   {
@@ -333,8 +333,6 @@ Scene.prototype.display = function () {
 
     this.DisplayNode(this.root_node[this.ambiente], this.root_node[this.ambiente].material, this.root_node[this.ambiente].texture, this.root_node[this.ambiente].matrix);
 
-
-
     for (var i = 0; i < this.gameState.Pieces.length; i++) {
       /*var matrix = mat4.create();
       mat4.identity(matrix);
@@ -371,7 +369,7 @@ Scene.prototype.display = function () {
 		//var idPos = parseInt(actualX + "" + actualZ);
 		this.registerForPick(pickingindex, this.gameState.Pieces[i]);
 		pickingindex++;
-
+		
 		this.pushMatrix();
 		this.translate(this.gameState.Pieces[i].posX, 0, this.gameState.Pieces[i].posZ);
 		this.gameState.Pieces[i].display();
@@ -503,8 +501,13 @@ Scene.prototype.logPicking = function ()
 
         if ((this.pickResults[i][0] instanceof Piece) || (this.pickResults[i][0] instanceof KingPiece))
         {
-			var actualX = Math.abs((this.pickResults[i][0].posX+10)/2)+1;
-			var actualZ = Math.abs((this.pickResults[i][0].posZ+10)/2)+1;
+			var customId = this.pickResults[i][1];
+			console.log("CUSTOM ID" + customId);
+			
+			this.gameState.selectedPieceArrayPos = customId;
+			
+			var actualX = Math.abs((this.pickResults[i][0].posX)/2)+0.5;
+			var actualZ = Math.abs((this.pickResults[i][0].posZ)/2)+0.5;
 
           console.log("Picked object: " + this.pickResults[i][0] + ", with x " + actualX +" and z " + actualZ);
 		  this.gameState.selectedPiece = this.pickResults[i][0];
@@ -515,8 +518,8 @@ Scene.prototype.logPicking = function ()
 			var customId = this.pickResults[i][1];
 			//console.log("CUSTOM ID" + customId);
 
-			var actualX = Math.abs((this.gameState.selectedPiece.posX+10)/2)+1;
-			var actualZ = Math.abs((this.gameState.selectedPiece.posZ+10)/2)+1;
+			var actualX = Math.abs((this.gameState.selectedPiece.posX)/2)+0.5;
+			var actualZ = Math.abs((this.gameState.selectedPiece.posZ)/2)+0.5;
 
 			var newZ = this.getCoordPicking(customId)[0];
 			var newX = this.getCoordPicking(customId)[1];
@@ -527,6 +530,9 @@ Scene.prototype.logPicking = function ()
 
 			//CHAMAR A FUNCAO DO PROLOG AQUI
 			moveRequest(this.gameState.playersTurn, actualX, actualZ, newX, newZ, boardFromProlog, idPiece);
+			
+			this.gameState.selectedPieceNewX = (newX*2)-1;
+			this.gameState.selectedPieceNewZ = (newZ*2)-1;
 		}
       }
       this.pickResults.splice(0,this.pickResults.length);
@@ -605,7 +611,6 @@ Scene.prototype.getBoard = function ()
   var newboard = eval(boardFromProlog);
 
   if(!this.gameState.board.equals(newboard)) {
-    //console.log(newboard);
     this.gameState.board = newboard;
 	console.log("MUDOU  TABULEIRO");
 	
@@ -616,6 +621,10 @@ Scene.prototype.getBoard = function ()
 		this.gameState.playersTurn = 1;
 				
 	this.gameState.state = 0;
+
+	this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].posX = this.gameState.selectedPieceNewX;
+	this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].posZ = this.gameState.selectedPieceNewZ;
+
   }
 };
 

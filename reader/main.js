@@ -79,14 +79,6 @@ serialInclude(['../lib/CGF.js', 'Scene.js', 'Parser.js', 'Texture.js', 'Interfac
 
 main=function()
 {
-  //teste
-
-
-
-
-
-
-
 	// Standard application, scene and interface setup
     var app = new CGFapplication(document.body);
     var myScene = new Scene();

@@ -19,7 +19,12 @@ function GameState() {
 	this.whitePieces = [];
 	this.whiteBlack = [];
 	this.playersTurn = 1;
+	
 	this.selectedPiece;
+	this.selectedPieceNewX;
+	this.selectedPieceNewZ;
+//	this.selectedPieceArrayPos;
+	
 	this.boards = [];
 	
 	//0 - Espera seleccao de peca de jogador, 1 - Espera seleccao de posicao para onde mover

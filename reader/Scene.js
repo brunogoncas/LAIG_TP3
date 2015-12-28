@@ -100,15 +100,26 @@ Scene.prototype.reset = function () {
 
 Scene.prototype.update = function(time) {
   if(this.gameState.animating) {
-  console.log("I SHOULD BE ANIMATING");
+ 
 	var diff = (time - this.lastTimeUpdate) / 1000;
     this.lastTimeUpdate = time;
   
 	this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].animation.animate(diff);
 	
-	if(this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].animation.done)
+	//Se termina a animacao muda de jogador
+	if(this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].animation.done) {
 		this.gameState.animating = false;
 		
+		if(this.gameState.playersTurn == 1)
+			this.gameState.playersTurn = 2;
+
+		else
+			this.gameState.playersTurn = 1;
+
+		this.gameState.state = 0;
+	}
+	
+	//Atualiza posicoes da animacao
 	else {
 		var animationPos = this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].animation.lastAnimation;
 	
@@ -700,22 +711,13 @@ Scene.prototype.getBoard = function ()
 {
   var newboard = eval(boardFromProlog);
 
+  //Alterar tabuleiro atual e acrescentar a lista de tabuleiros
   if(!this.gameState.board.equals(newboard)) {
     this.gameState.board = newboard;
 	this.gameState.boards.push(this.gameState.board); 
 
-	if(this.gameState.playersTurn == 1)
-		this.gameState.playersTurn = 2;
-
-	else
-		this.gameState.playersTurn = 1;
-
-	this.gameState.state = 0;
-
-	//this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].posX = this.gameState.selectedPieceNewX;
-	//this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].posZ = this.gameState.selectedPieceNewZ;
 	
-	
+	//Animacao de movimento da peca
 	this.gameState.animating = true;
 	
 	var controlPointsAux = [];

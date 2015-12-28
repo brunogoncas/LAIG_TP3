@@ -45,6 +45,12 @@ Scene.prototype.init = function (application) {
   this.defaultAppearance.setSpecular(0.2, 0.4, 0.8, 1.0);
   this.defaultAppearance.setShininess(10.0);
 
+  this.placardAppearance = new CGFappearance(this);
+  this.placardAppearance.setAmbient(0.2, 0.4, 0.8, 1.0);
+  this.placardAppearance.setDiffuse(0.2, 0.4, 0.8, 1.0);
+  this.placardAppearance.setSpecular(0.2, 0.4, 0.8, 1.0);
+  this.placardAppearance.setShininess(10.0);
+
   this.animating = true;
 
   this.setUpdatePeriod(20);
@@ -60,6 +66,14 @@ Scene.prototype.init = function (application) {
   this.ambiente="Quarto";
 
   this.ambientes=["Quarto","Piquenique"];
+
+  this.fontTexture = new CGFtexture(this, "scenes/1/textures/oolite-font.png");
+  this.placardAppearance.setTexture(this.fontTexture);
+  // plane where texture character will be rendered
+  this.plane=new SimplePlane(this);
+  this.textShader=new CGFshader(this.gl, "scenes/shaders/font.vert", "scenes/shaders/font.frag");
+ // set number of rows and columns in font texture
+  this.textShader.setUniformsValues({'dims': [16, 16]});
 
 };
 
@@ -172,8 +186,8 @@ Scene.prototype.onGraphLoaded = function ()
 
   this.matrixInit = this.graph[this.ambiente].matrixInit;
   this.reference = this.graph[this.ambiente].reference;
-  
-  
+
+
   for(i=0;i<this.ambientes.length;i++) {
     this.nodes[this.ambientes[i]] = this.graph[this.ambientes[i]].nodes;
     //console.log(this.ambientes[i]);
@@ -283,8 +297,8 @@ Scene.prototype.All_Lights = function () {
 Scene.prototype.display = function () {
   if(this.gameState.Pieces.length == 0)
 	this.initGame();
-  
-  
+
+
   //Board from Prolog
   if(boardFromProlog.length>0)
   {
@@ -308,19 +322,76 @@ Scene.prototype.display = function () {
   this.updateProjectionMatrix();
   this.loadIdentity();
 
-  //this.camera.setPosition(vec3.fromValues(0,5,20));
-	//this.camera.setTarget(vec3.fromValues(0,0,0));
 
-  // Apply transformations corresponding to the camera position relative to the origin
- this.applyViewMatrix();
 
-  // ---- END Background, camera and axis setup
-
-  // it is important that things depending on the proper loading of the graph
-  // only get executed after the graph has loaded correctly.
-  // This is one possible way to do it
   if (this.graph[this.ambiente].loadedOk)
   {
+    // activate shader for rendering text characters
+  this.setActiveShaderSimple(this.textShader);
+  // activate texture containing the font
+  this.placardAppearance.apply();
+  this.pushMatrix();
+  this.translate(-2,1.5,-5);
+  this.scale(0.1,0.1,0.1);
+
+
+  var stringtoshow="Player "+this.gameState.playersTurn+ " a jogar";
+
+  for(i=0;i<8;i++)
+  {
+    this.translate(1,0,0);
+    this.getLetter(stringtoshow[i]);
+    this.plane.display();
+  }
+  this.translate(-8,-1,0);
+  for(i=8;i<stringtoshow.length;i++)
+  {
+    this.translate(1,0,0);
+    this.getLetter(stringtoshow[i]);
+    this.plane.display();
+  }
+
+  var pointsplayer1="Player 1: x points";
+  var pointsplayer2="Player 2: x points";
+
+  this.translate(1,1,0);
+
+  for(i=0;i<pointsplayer1.length;i++)
+  {
+    this.translate(1,0,0);
+    this.getLetter(pointsplayer1[i]);
+    this.plane.display();
+  }
+
+  this.translate(-pointsplayer1.length,-1,0);
+
+  for(i=0;i<pointsplayer2.length;i++)
+  {
+    this.translate(1,0,0);
+    this.getLetter(pointsplayer2[i]);
+    this.plane.display();
+  }
+
+
+
+    this.popMatrix();
+
+  this.setActiveShaderSimple(this.defaultShader);
+
+    //this.camera.setPosition(vec3.fromValues(0,5,20));
+    //this.camera.setTarget(vec3.fromValues(0,0,0));
+
+    // Apply transformations corresponding to the camera position relative to the origin
+   this.applyViewMatrix();
+
+
+    // ---- END Background, camera and axis setup
+
+    // it is important that things depending on the proper loading of the graph
+    // only get executed after the graph has loaded correctly.
+    // This is one possible way to do it
+
+
 
     this.multMatrix(this.matrixInit);
 
@@ -361,7 +432,7 @@ Scene.prototype.display = function () {
 
 		this.clearPickRegistration();
 	  }
-	  
+
 	  else if(this.gameState.state == 0 && this.gameState.playersTurn == 2 && (this.gameState.Pieces[i].id == "w" || this.gameState.Pieces[i].id == "k" )) {
 		//var actualX = this.gameState.Pieces[i].posX + 5;
 		//var actualZ = this.gameState.Pieces[i].posZ + 5;
@@ -369,7 +440,7 @@ Scene.prototype.display = function () {
 		//var idPos = parseInt(actualX + "" + actualZ);
 		this.registerForPick(pickingindex, this.gameState.Pieces[i]);
 		pickingindex++;
-		
+
 		this.pushMatrix();
 		this.translate(this.gameState.Pieces[i].posX, 0, this.gameState.Pieces[i].posZ);
 		this.gameState.Pieces[i].display();
@@ -503,9 +574,9 @@ Scene.prototype.logPicking = function ()
         {
 			var customId = this.pickResults[i][1];
 			console.log("CUSTOM ID" + customId);
-			
+
 			this.gameState.selectedPieceArrayPos = customId;
-			
+
 			var actualX = Math.abs((this.pickResults[i][0].posX)/2)+0.5;
 			var actualZ = Math.abs((this.pickResults[i][0].posZ)/2)+0.5;
 
@@ -530,7 +601,7 @@ Scene.prototype.logPicking = function ()
 
 			//CHAMAR A FUNCAO DO PROLOG AQUI
 			moveRequest(this.gameState.playersTurn, actualX, actualZ, newX, newZ, boardFromProlog, idPiece);
-			
+
 			this.gameState.selectedPieceNewX = (newX*2)-1;
 			this.gameState.selectedPieceNewZ = (newZ*2)-1;
 		}
@@ -613,13 +684,13 @@ Scene.prototype.getBoard = function ()
   if(!this.gameState.board.equals(newboard)) {
     this.gameState.board = newboard;
 	console.log("MUDOU  TABULEIRO");
-	
+
 	if(this.gameState.playersTurn == 1)
 				this.gameState.playersTurn = 2;
-			
+
 	else
 		this.gameState.playersTurn = 1;
-				
+
 	this.gameState.state = 0;
 
 	this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].posX = this.gameState.selectedPieceNewX;
@@ -651,6 +722,45 @@ Scene.prototype.changetype = function (type)
 Scene.prototype.undo = function ()
 {
 
+};
+
+Scene.prototype.getLetter = function (letter)
+{
+     var i=0;
+     var j=0;
+     var n = letter.charCodeAt(0);
+     if(n>=32 && n<=47)
+     {
+       j=2;
+       i=n-32;
+     }
+     else if(n>=48 && n<=63)
+     {
+       j=3;
+       i=n-48;
+     }
+     else if(n>=64 && n<=79)
+     {
+       j=4;
+       i=n-64;
+     }
+     else if(n>=80 && n<=95)
+     {
+       j=5;
+       i=n-80;
+     }
+     else if(n>=96 && n<=111)
+     {
+       j=6;
+       i=n-96;
+     }
+     else if(n>=112 && n<=127)
+     {
+       j=7;
+       i=n-112;
+     }
+
+     this.activeShader.setUniformsValues({'charCoords': [i,j]});
 };
 
 // Warn if overriding existing method

@@ -23,11 +23,11 @@ function GameState() {
 	this.selectedPiece;
 	this.selectedPieceNewX;
 	this.selectedPieceNewZ;
-//	this.selectedPieceArrayPos;
 	
 	this.animating = false;
 	
 	this.boards = [];
+	this.boards.push(this.board);
 	
 	//0 - Espera seleccao de peca de jogador, 1 - Espera seleccao de posicao para onde mover
 	this.state = 0;

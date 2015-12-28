@@ -77,6 +77,34 @@ Scene.prototype.init = function (application) {
 
 };
 
+Scene.prototype.Undo = function () {
+	
+	if(this.gameState.boards.length == 1) {
+		return;
+	}
+
+	else {
+		this.gameState.board = this.gameState.boards[this.gameState.boards.length-2];
+		this.gameState.boards.pop();
+		
+		if(this.gameState.playersTurn == 2)
+			this.gameState.playersTurn = 1;
+
+		else
+			this.gameState.playersTurn = 2;
+			
+		this.gameState.state = 0;
+
+		this.selectedPiece;
+		this.selectedPieceNewX;
+		this.selectedPieceNewZ;		
+		  
+		this.initGame();
+		 
+	}
+
+};
+
 Scene.prototype.anim = function () {
   if (this.animating)
   this.animating = false;
@@ -128,28 +156,6 @@ Scene.prototype.update = function(time) {
 		this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].posZ = animationPos['z'];
 	}
   }
-  
- /* if (this.animating) {
-    var diff = (time - this.lastTimeUpdate) / 1000;
-
-    this.lastTimeUpdate = time;
-
-    for (var NodeIndex in this.nodes[this.ambiente]) {
-      var node = this.nodes[this.ambiente][NodeIndex];
-      if(node.animations.length != 0) {
-
-        if(!node.animationsObj[node.currentAnimation-1].done) {
-          node.animationsObj[node.currentAnimation-1].animate(diff);
-        }
-
-        else {
-          if (node.currentAnimation < node.animations.length) {
-            this.nodes[this.ambiente][NodeIndex].currentAnimation++;
-          }
-        }
-      }
-    }
-  }*/
 
   else {
     this.lastTimeUpdate = time;
@@ -252,6 +258,7 @@ Scene.prototype.initGame = function () {
   var z = 0, x = 0;
   var player;
 
+  this.gameState.Pieces = [];
   for (z = 0; z < this.gameState.board.length; z++) {
     for (x = 0; x < this.gameState.board[z].length; x++) {
 
@@ -330,7 +337,7 @@ Scene.prototype.display = function () {
 
 
   //Board from Prolog
-  if(boardFromProlog.length>0)
+  if(boardFromProlog.length>0 && this.gameState.state == 1)
   {
     this.getBoard();
   }
@@ -576,7 +583,6 @@ Scene.prototype.DisplayNode = function (node, material, texture, matrix) {
 
 		else if(node.pickingtable==true && this.gameState.state == 0) {
 			//do nothing
-
 		}
 
 	   else {
@@ -600,8 +606,7 @@ Scene.prototype.logPicking = function ()
       for (var i=0; i< this.pickResults.length; i++) {
         var obj = this.pickResults[i][0];
 
-        if ((this.pickResults[i][0] instanceof Piece) || (this.pickResults[i][0] instanceof KingPiece))
-        {
+        if ((this.pickResults[i][0] instanceof Piece) || (this.pickResults[i][0] instanceof KingPiece)) {
 			var customId = this.pickResults[i][1];
 			console.log("CUSTOM ID" + customId);
 
@@ -715,7 +720,6 @@ Scene.prototype.getBoard = function ()
   if(!this.gameState.board.equals(newboard)) {
     this.gameState.board = newboard;
 	this.gameState.boards.push(this.gameState.board); 
-
 	
 	//Animacao de movimento da peca
 	this.gameState.animating = true;

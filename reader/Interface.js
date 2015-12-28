@@ -18,6 +18,8 @@ Interface.prototype.init = function(application) {
 	//lights control
 	this.gui.add(this.scene, 'All_Lights').name("Todas as luzes");
 	this.scene.tickLights = [];
+	
+	this.gui.add(this.scene, 'Undo').name("Anular Jogada");
 
 var obj = {
 	name: "David Walsh",

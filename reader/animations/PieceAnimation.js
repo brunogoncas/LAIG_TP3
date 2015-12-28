@@ -30,6 +30,8 @@ function PieceAnimation(scene, span, controlPoints) {
 	
 	controlPointsAux.push(controlPoints[1]);
 	
+	this.controlPoints = controlPointsAux;
+	
 };
 
 PieceAnimation.prototype = Object.create(Object.prototype);

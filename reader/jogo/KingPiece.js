@@ -5,13 +5,14 @@ function KingPiece(scene, id, player, posX, posZ, inGame, bodyMaterial, bodyText
   this.player = player;
   this.posX = posX;
   this.posZ = posZ;
+  this.posY = 0;
   this.inGame = inGame;
 
   this.bodyMaterial = bodyMaterial;
   this.bodyTexture = bodyTexture;
   
   this.animating = false;
-  this.animations = [];
+  this.animation;
 
   this.body = new Cylinder(scene, 0.5, 1, 1, 20, 20, 1, 1);
   this.crown = new Cube(scene);

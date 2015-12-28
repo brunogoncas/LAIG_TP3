@@ -99,7 +99,26 @@ Scene.prototype.reset = function () {
 };
 
 Scene.prototype.update = function(time) {
-  if (this.animating) {
+  if(this.gameState.animating) {
+  console.log("I SHOULD BE ANIMATING");
+	var diff = (time - this.lastTimeUpdate) / 1000;
+    this.lastTimeUpdate = time;
+  
+	this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].animation.animate(diff);
+	
+	if(this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].animation.done)
+		this.gameState.animating = false;
+		
+	else {
+		var animationPos = this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].animation.lastAnimation;
+	
+		this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].posX = animationPos['x'];
+		this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].posY = animationPos['y'];
+		this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].posZ = animationPos['z'];
+	}
+  }
+  
+ /* if (this.animating) {
     var diff = (time - this.lastTimeUpdate) / 1000;
 
     this.lastTimeUpdate = time;
@@ -119,7 +138,7 @@ Scene.prototype.update = function(time) {
         }
       }
     }
-  }
+  }*/
 
   else {
     this.lastTimeUpdate = time;
@@ -426,7 +445,7 @@ Scene.prototype.display = function () {
 		pickingindex++;
 
 		this.pushMatrix();
-		this.translate(this.gameState.Pieces[i].posX, 0, this.gameState.Pieces[i].posZ);
+		this.translate(this.gameState.Pieces[i].posX, this.gameState.Pieces[i].posY, this.gameState.Pieces[i].posZ);
 		this.gameState.Pieces[i].display();
 		this.popMatrix();
 
@@ -442,7 +461,7 @@ Scene.prototype.display = function () {
 		pickingindex++;
 
 		this.pushMatrix();
-		this.translate(this.gameState.Pieces[i].posX, 0, this.gameState.Pieces[i].posZ);
+		this.translate(this.gameState.Pieces[i].posX, this.gameState.Pieces[i].posY, this.gameState.Pieces[i].posZ);
 		this.gameState.Pieces[i].display();
 		this.popMatrix();
 
@@ -451,7 +470,7 @@ Scene.prototype.display = function () {
 
       else {
 		  this.pushMatrix();
-		  this.translate(this.gameState.Pieces[i].posX, 0, this.gameState.Pieces[i].posZ);
+		  this.translate(this.gameState.Pieces[i].posX, this.gameState.Pieces[i].posY, this.gameState.Pieces[i].posZ);
 		  this.gameState.Pieces[i].display();
 		  this.popMatrix();
 	  }
@@ -683,18 +702,38 @@ Scene.prototype.getBoard = function ()
 
   if(!this.gameState.board.equals(newboard)) {
     this.gameState.board = newboard;
-	console.log("MUDOU  TABULEIRO");
+	this.gameState.boards.push(this.gameState.board); 
 
 	if(this.gameState.playersTurn == 1)
-				this.gameState.playersTurn = 2;
+		this.gameState.playersTurn = 2;
 
 	else
 		this.gameState.playersTurn = 1;
 
 	this.gameState.state = 0;
 
-	this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].posX = this.gameState.selectedPieceNewX;
-	this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].posZ = this.gameState.selectedPieceNewZ;
+	//this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].posX = this.gameState.selectedPieceNewX;
+	//this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].posZ = this.gameState.selectedPieceNewZ;
+	
+	
+	this.gameState.animating = true;
+	
+	var controlPointsAux = [];
+	
+	var controlPoint = [];
+	controlPoint["x"] = this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].posX;
+	controlPoint["y"] = 0;
+	controlPoint["z"] = this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].posZ;
+	controlPointsAux.push(controlPoint);
+	
+	controlPoint = [];
+	controlPoint["x"] = this.gameState.selectedPieceNewX;
+	controlPoint["y"] = 0;
+	controlPoint["z"] = this.gameState.selectedPieceNewZ;
+	controlPointsAux.push(controlPoint);
+	
+	this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].animation = new PieceAnimation(this, 2, controlPointsAux);
+	
 
   }
 };

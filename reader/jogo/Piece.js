@@ -5,13 +5,14 @@ function Piece(scene, id, player, posX, posZ, inGame, material, texture, arrayPo
   this.player = player;
   this.posX = posX;
   this.posZ = posZ;
+  this.posY = 0;
   this.inGame = inGame;
 
   this.material = material;
   this.texture = texture;
   
   this.animating = false;
-  this.animations = [];
+  this.animation;
 
   this.body = new Cylinder(scene, 0.5, 1, 1, 20, 20, 1, 1);
   

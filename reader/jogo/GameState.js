@@ -25,6 +25,8 @@ function GameState() {
 	this.selectedPieceNewZ;
 //	this.selectedPieceArrayPos;
 	
+	this.animating = false;
+	
 	this.boards = [];
 	
 	//0 - Espera seleccao de peca de jogador, 1 - Espera seleccao de posicao para onde mover

@@ -1,4 +1,4 @@
-function KingPiece(scene, id, player, posX, posZ, inGame, bodyMaterial, bodyTexture, crownTexture, arrayPos){
+function KingPiece(scene, id, player, posX, posZ, inGame, bodyMaterial, bodyTexture, crownTexture, arrayPos, matrixPos){
   CGFobject.call(this, scene);
 
   this.id = id;
@@ -20,6 +20,7 @@ function KingPiece(scene, id, player, posX, posZ, inGame, bodyMaterial, bodyText
   this.crownTexture = crownTexture;
   
   this.arrayPos = arrayPos;
+  this.matrixPos = matrixPos;
 };
 
 KingPiece.prototype = Object.create(CGFobject.prototype);

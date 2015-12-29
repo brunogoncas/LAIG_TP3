@@ -24,6 +24,8 @@ function GameState() {
 	this.selectedPieceNewX;
 	this.selectedPieceNewZ;
 	
+	this.piecesOut = [];
+	
 	this.animating = false;
 	
 	this.boards = [];

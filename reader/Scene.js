@@ -94,10 +94,6 @@ Scene.prototype.Undo = function () {
 			this.gameState.playersTurn = 2;
 			
 		this.gameState.state = 0;
-
-		this.selectedPiece;
-		this.selectedPieceNewX;
-		this.selectedPieceNewZ;		
 		  
 		this.initGame();
 		 
@@ -155,6 +151,25 @@ Scene.prototype.update = function(time) {
 		this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].posY = animationPos['y'];
 		this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].posZ = animationPos['z'];
 	}
+	
+	//Pecas que vao sair de jogo
+	if (this.gameState.piecesOut.length > 0) {
+		this.gameState.Pieces[this.gameState.piecesOut[0]].animation.animate(diff);
+	
+		if(this.gameState.Pieces[this.gameState.piecesOut[0]].animation.done) {
+			this.gameState.Pieces[this.gameState.piecesOut[0]].inGame = false;
+			this.gameState.piecesOut.pop();
+		}
+			
+		else {
+			var animationPos = this.gameState.Pieces[this.gameState.piecesOut[0]].animation.lastAnimation;
+	
+			this.gameState.Pieces[this.gameState.piecesOut[0]].posX = animationPos['x'];
+			this.gameState.Pieces[this.gameState.piecesOut[0]].posY = animationPos['y'];
+			this.gameState.Pieces[this.gameState.piecesOut[0]].posZ = animationPos['z'];
+		}
+	}
+	
   }
 
   else {
@@ -263,6 +278,9 @@ Scene.prototype.initGame = function () {
     for (x = 0; x < this.gameState.board[z].length; x++) {
 
       var actualNode;
+	  var matrixPos = [];
+	  matrixPos.z = z;
+	  matrixPos.x = x;
 
       switch (this.gameState.board[z][x]) {
         case "b":
@@ -271,7 +289,7 @@ Scene.prototype.initGame = function () {
 
 			var materialDisplay = this.materials[this.ambiente][actualNode.material].appearance;
 			var textureDisplay = this.textures[this.ambiente][actualNode.texture].textureCGF;
-			this.gameState.Pieces.push(new Piece(this, this.gameState.board[z][x], player, (x*2)+1, (z*2)+1, true, materialDisplay, textureDisplay, this.gameState.Pieces.length));
+			this.gameState.Pieces.push(new Piece(this, this.gameState.board[z][x], player, (x*2)+1, (z*2)+1, true, materialDisplay, textureDisplay, this.gameState.Pieces.length, matrixPos));
 		break;
 
         case "w":
@@ -280,7 +298,7 @@ Scene.prototype.initGame = function () {
 
 			var materialDisplay = this.materials[this.ambiente][actualNode.material].appearance;
 			var textureDisplay = this.textures[this.ambiente][actualNode.texture].textureCGF;
-			this.gameState.Pieces.push(new Piece(this, this.gameState.board[z][x], player, (x*2)+1, (z*2)+1, true, materialDisplay, textureDisplay, this.gameState.Pieces.length));
+			this.gameState.Pieces.push(new Piece(this, this.gameState.board[z][x], player, (x*2)+1, (z*2)+1, true, materialDisplay, textureDisplay, this.gameState.Pieces.length, matrixPos));
 		break;
 
         case "k":
@@ -291,7 +309,7 @@ Scene.prototype.initGame = function () {
 			var textureDisplay = this.textures[this.ambiente][actualNode.texture].textureCGF;
 			var texture2Display = this.textures[this.ambiente]["gold"].textureCGF;
 
-			this.gameState.Pieces.push(new KingPiece(this, this.gameState.board[z][x], player, (x*2)+1, (z*2)+1, true, materialDisplay, textureDisplay, texture2Display, this.gameState.Pieces.length));
+			this.gameState.Pieces.push(new KingPiece(this, this.gameState.board[z][x], player, (x*2)+1, (z*2)+1, true, materialDisplay, textureDisplay, texture2Display, this.gameState.Pieces.length, matrixPos));
 		break;
 
         default:
@@ -448,51 +466,54 @@ Scene.prototype.display = function () {
 
 	  //Por as pecas pretas seleccionaveis
 //console.log(this.gameState.state);
-	  if(this.gameState.state == 0 && this.gameState.playersTurn == 1 && this.gameState.Pieces[i].id == "b") {
-		//console.log(this.gameState.Pieces[i].posX);
-		//var actualX = this.gameState.Pieces[i].posX + 5;
-		//console.log(actualX);
-		//console.log(this.gameState.Pieces[i].posZ);
-		//var actualZ = this.gameState.Pieces[i].posZ + 5;
-		//console.log(actualZ);
+		if (this.gameState.Pieces[i].inGame) {
 
-		//var idPos = parseInt(actualX + "" + actualZ);
-		//console.log(idPos);
+		  if(this.gameState.state == 0 && this.gameState.playersTurn == 1 && this.gameState.Pieces[i].id == "b") {
+			//console.log(this.gameState.Pieces[i].posX);
+			//var actualX = this.gameState.Pieces[i].posX + 5;
+			//console.log(actualX);
+			//console.log(this.gameState.Pieces[i].posZ);
+			//var actualZ = this.gameState.Pieces[i].posZ + 5;
+			//console.log(actualZ);
 
-		this.registerForPick(pickingindex, this.gameState.Pieces[i]);
-		pickingindex++;
+			//var idPos = parseInt(actualX + "" + actualZ);
+			//console.log(idPos);
 
-		this.pushMatrix();
-		this.translate(this.gameState.Pieces[i].posX, this.gameState.Pieces[i].posY, this.gameState.Pieces[i].posZ);
-		this.gameState.Pieces[i].display();
-		this.popMatrix();
+			this.registerForPick(pickingindex, this.gameState.Pieces[i]);
+			pickingindex++;
 
-		this.clearPickRegistration();
-	  }
+			this.pushMatrix();
+			this.translate(this.gameState.Pieces[i].posX, this.gameState.Pieces[i].posY, this.gameState.Pieces[i].posZ);
+			this.gameState.Pieces[i].display();
+			this.popMatrix();
 
-	  else if(this.gameState.state == 0 && this.gameState.playersTurn == 2 && (this.gameState.Pieces[i].id == "w" || this.gameState.Pieces[i].id == "k" )) {
-		//var actualX = this.gameState.Pieces[i].posX + 5;
-		//var actualZ = this.gameState.Pieces[i].posZ + 5;
+			this.clearPickRegistration();
+		  }
 
-		//var idPos = parseInt(actualX + "" + actualZ);
-		this.registerForPick(pickingindex, this.gameState.Pieces[i]);
-		pickingindex++;
+		  else if(this.gameState.state == 0 && this.gameState.playersTurn == 2 && (this.gameState.Pieces[i].id == "w" || this.gameState.Pieces[i].id == "k" )) {
+			//var actualX = this.gameState.Pieces[i].posX + 5;
+			//var actualZ = this.gameState.Pieces[i].posZ + 5;
 
-		this.pushMatrix();
-		this.translate(this.gameState.Pieces[i].posX, this.gameState.Pieces[i].posY, this.gameState.Pieces[i].posZ);
-		this.gameState.Pieces[i].display();
-		this.popMatrix();
+			//var idPos = parseInt(actualX + "" + actualZ);
+			this.registerForPick(pickingindex, this.gameState.Pieces[i]);
+			pickingindex++;
 
-	   this.clearPickRegistration();
-	  }
+			this.pushMatrix();
+			this.translate(this.gameState.Pieces[i].posX, this.gameState.Pieces[i].posY, this.gameState.Pieces[i].posZ);
+			this.gameState.Pieces[i].display();
+			this.popMatrix();
 
-      else {
-		  this.pushMatrix();
-		  this.translate(this.gameState.Pieces[i].posX, this.gameState.Pieces[i].posY, this.gameState.Pieces[i].posZ);
-		  this.gameState.Pieces[i].display();
-		  this.popMatrix();
-	  }
-    }
+		   this.clearPickRegistration();
+		  }
+
+		  else {
+			  this.pushMatrix();
+			  this.translate(this.gameState.Pieces[i].posX, this.gameState.Pieces[i].posY, this.gameState.Pieces[i].posZ);
+			  this.gameState.Pieces[i].display();
+			  this.popMatrix();
+		  }
+		}
+	}
 
   };
 
@@ -712,13 +733,118 @@ Scene.prototype.getCoordPicking = function (valuePicking) {
   return coords;
 };
 
+Scene.prototype.findPiece = function (matrixPosZ, matrixPosX) {
+	 for (var i = 0; i < this.gameState.Pieces.length; i++) {
+	 console.log("---");
+	 console.log(this.gameState.Pieces[i].matrixPos.x);
+	 console.log(matrixPosX);
+	 console.log(this.gameState.Pieces[i].matrixPos.z);
+	 console.log(matrixPosZ);
+	 
+		if((this.gameState.Pieces[i].matrixPos.x == matrixPosX) && (this.gameState.Pieces[i].matrixPos.z == matrixPosZ)) {
+
+			var controlPointsAux = [];
+
+			var controlPoint = [];
+			controlPoint["x"] = this.gameState.Pieces[i].posX;
+			controlPoint["y"] = 0;
+			controlPoint["z"] = this.gameState.Pieces[i].posZ;
+			controlPointsAux.push(controlPoint);
+			
+			controlPoint = [];
+			controlPoint["x"] = 25;
+			controlPoint["y"] = 0;
+			controlPoint["z"] = 25;
+			controlPointsAux.push(controlPoint);
+			
+			this.gameState.Pieces[i].animation = new PieceAnimation(this, 2, controlPointsAux);
+			this.gameState.piecesOut.push(this.gameState.Pieces[i].arrayPos);
+		}
+	}
+}
+
 Scene.prototype.getBoard = function ()
 {
   var newboard = eval(boardFromProlog);
 
   //Alterar tabuleiro atual e acrescentar a lista de tabuleiros
   if(!this.gameState.board.equals(newboard)) {
-    this.gameState.board = newboard;
+    
+	var oldCol = Math.abs((this.gameState.selectedPiece.posX)/2)+0.5;
+	var oldRow = Math.abs((this.gameState.selectedPiece.posZ)/2)+0.5;
+	
+	var newCol = (this.gameState.selectedPieceNewX/2)+0.5;
+	var newRow = (this.gameState.selectedPieceNewZ/2)+0.5;
+	
+	//Verificacao horizontal
+	if(Math.abs(this.gameState.selectedPiece.posX-this.gameState.selectedPieceNewX) > 0) {
+
+		for (x = 0; x < this.gameState.board[newRow-1].length; x++) {
+			if((this.gameState.board[newRow-1][x] != newboard[newRow-1][x]) && (x != oldCol-1) && (x != newCol-1)) {
+				console.log("Peca " + this.gameState.board[newRow-1][x] + " foi-se.");
+				
+				this.findPiece(newRow-1,x);
+			}
+				
+		}
+		
+		//cima
+		if(newRow > 1 && newRow != 11) {
+			for (x = 0; x < this.gameState.board[newRow-2].length; x++) {
+				if(this.gameState.board[newRow-2][x] != newboard[newRow-2][x]) {
+					console.log("Peca " + this.gameState.board[newRow-2][x] + " foi-se.");
+					
+					this.findPiece(newRow-2,x);
+				}
+					
+			}
+		}
+		
+		//baixo
+		if(newRow < 11 && newRow != 1) {
+			for (x = 0; x < this.gameState.board[newRow].length; x++) {
+				if(this.gameState.board[newRow][x] != newboard[newRow][x]) {
+					console.log("Peca " + this.gameState.board[newRow][x] + " foi-se.");
+					
+					this.findPiece(newRow,x);
+				}
+					
+			}
+		}
+	}
+	
+	//Verificacao vertical
+	else {
+		 for (z = 0; z < this.gameState.board.length; z++) {
+			
+			if((this.gameState.board[z][oldCol-1] != newboard[z][oldCol-1]) && (z != oldRow-1) && (z != newRow-1)) {
+					console.log("Peca " + this.gameState.board[z][oldCol-1] + " foi-se.");
+					
+					this.findPiece(z,oldCol-1);
+			}
+			
+			//direita
+			if(newCol > 1 && newCol != 11) {
+				if(this.gameState.board[z][oldCol] != newboard[z][oldCol]) {
+					console.log("Peca " + this.gameState.board[z][oldCol] + " foi-se.");
+					
+					this.findPiece(z,oldCol);
+				}
+			}
+			
+			//esquerda
+			if(newCol < 11 && newCol != 1) {
+				if(this.gameState.board[z][oldCol-2] != newboard[z][oldCol-2]) {
+					console.log("Peca " + this.gameState.board[z][oldCol-2] + " foi-se.");
+					
+					this.findPiece(z,oldCol-2);
+				}
+			}
+		
+		}
+	}
+	
+	this.gameState.board = newboard;
 	this.gameState.boards.push(this.gameState.board); 
 	
 	//Animacao de movimento da peca

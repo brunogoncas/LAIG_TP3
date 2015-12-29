@@ -1,4 +1,4 @@
-function Piece(scene, id, player, posX, posZ, inGame, material, texture, arrayPos) {
+function Piece(scene, id, player, posX, posZ, inGame, material, texture, arrayPos, matrixPos) {
   CGFobject.call(this, scene);
 
   this.id = id;
@@ -17,6 +17,7 @@ function Piece(scene, id, player, posX, posZ, inGame, material, texture, arrayPo
   this.body = new Cylinder(scene, 0.5, 1, 1, 20, 20, 1, 1);
   
   this.arrayPos = arrayPos;
+  this.matrixPos = matrixPos;
 };
 
 Piece.prototype = Object.create(Object.prototype);

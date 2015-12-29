@@ -32,7 +32,7 @@ var obj = { add:function(){ console.log("clicked") }};
 
 this.gui.add(obj,'add');
 
-this.gui.add(this.scene, 'ambiente', this.scene.ambientes);
+this.gui.add(this.scene, 'ambiente', this.scene.ambientes).name("Ambiente de Jogo");
 
 	return true;
 };

@@ -54,10 +54,10 @@ board([
 board2([
 	[	'x',	'e',	'e',	'b',	'b',	'b',	'b',	'b',	'e',	'b',	'x'	],
 	[	'e',	'e',	'e',	'w',	'e',	'b',	'e',	'e',	'e',	'e',	'e'	],
-	[	'e',	'e', 	'e', 	'e', 	'b', 	'k',	'b',	'e',	'b',	'e',	'e'	],
-	[	'e',	'e',	'b',	'w',	'e',	'e',	'e',	'e',	'e',	'e',	'e'	],
+	[	'e',	'e', 	'e', 	'e', 	'b', 	'e',	'b',	'e',	'b',	'k',	'e'	],
+	[	'e',	'e',	'b',	'w',	'e',	'e',	'e',	'b',	'e',	'e',	'e'	],
 	[	'e',	'e', 	'w', 	'e', 	'b', 	'b',	'b',	'e',	'b',	'e',	'e'	],
-	[	'b', 	'w', 	'e', 	'w', 	'b', 	'e', 	'w', 	'w',	'e',	'b',	'b'	],
+	[	'b', 	'w', 	'e', 	'w', 	'b', 	'T', 	'w', 	'w',	'e',	'b',	'b'	],
 	[	'b', 	'e', 	'b', 	'b', 	'w', 	'w', 	'w', 	'e', 	'e',	'e',	'b'	],
 	[	'b', 	'e',	'e', 	'e', 	'e', 	'w', 	'e', 	'e', 	'e',	'e',	'b'	],
 	[	'e', 	'b', 	'w', 	'e',	'e', 	'e', 	'e', 	'b', 	'e',	'e',	'e'	],
@@ -460,8 +460,8 @@ verify_king_eaten(Board, NewBoard):-
 	piece_owner(1, Right_Piece),
 	piece_owner(1, Upper_Piece),
 	piece_owner(1, Down_Piece),
-	search_row(Board, 'e', COL, ROW, 1, OB),
-	print_board(OB).
+	search_row(Board, 'e', COL, ROW, 1, NewBoard),
+	print_board(NewBoard).
 
 /********************************************************************************************
 * Encontra a posição actual do rei.															*

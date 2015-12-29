@@ -51,8 +51,9 @@ function handleReply(data){
   boardFromProlog = boardFromProlog.replace(/w/g, String.fromCharCode(39)+"w"+String.fromCharCode(39));
   boardFromProlog = boardFromProlog.replace(/k/g, String.fromCharCode(39)+"k"+String.fromCharCode(39));
   boardFromProlog = boardFromProlog.replace(/e/g, String.fromCharCode(39)+"e"+String.fromCharCode(39));
+  boardFromProlog = boardFromProlog.replace(/T/g, String.fromCharCode(39)+"T"+String.fromCharCode(39));
 
-  console.log(boardFromProlog);
+  //console.log(boardFromProlog);
 }
 
 

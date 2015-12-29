@@ -25,8 +25,11 @@ function GameState() {
 	this.selectedPieceNewZ;
 	
 	this.piecesOut = [];
+	this.piecesAnimatingOut = [];
 	
 	this.animating = false;
+	
+	this.winner = 0;
 	
 	this.boards = [];
 	this.boards.push(this.board);

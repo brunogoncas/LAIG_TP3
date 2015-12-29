@@ -78,7 +78,7 @@ Scene.prototype.init = function (application) {
 };
 
 Scene.prototype.Undo = function () {
-	
+
 	if(this.gameState.boards.length == 1) {
 		return;
 	}
@@ -86,17 +86,17 @@ Scene.prototype.Undo = function () {
 	else {
 		this.gameState.board = this.gameState.boards[this.gameState.boards.length-2];
 		this.gameState.boards.pop();
-		
+
 		if(this.gameState.playersTurn == 2)
 			this.gameState.playersTurn = 1;
 
 		else
 			this.gameState.playersTurn = 2;
-			
+
 		this.gameState.state = 0;
-		  
+
 		this.initGame();
-		 
+
 	}
 
 };
@@ -123,53 +123,68 @@ Scene.prototype.reset = function () {
 };
 
 Scene.prototype.update = function(time) {
+
+
+
   if(this.gameState.animating) {
- 
+
 	var diff = (time - this.lastTimeUpdate) / 1000;
     this.lastTimeUpdate = time;
-  
+
 	this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].animation.animate(diff);
-	
+
 	//Se termina a animacao muda de jogador
 	if(this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].animation.done) {
-		this.gameState.animating = false;
-		
-		if(this.gameState.playersTurn == 1)
-			this.gameState.playersTurn = 2;
+    this.cameraanimation.animate(diff);
 
+
+    if(this.cameraanimation.done)
+    {
+		this.gameState.animating = false;
+
+		if(this.gameState.playersTurn == 1)
+			{
+      this.gameState.playersTurn = 2;
+
+    }
 		else
-			this.gameState.playersTurn = 1;
+    {
+      this.gameState.playersTurn = 1;
+
+    }
+
 
 		this.gameState.state = 0;
+  }
 	}
-	
+
 	//Atualiza posicoes da animacao
 	else {
 		var animationPos = this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].animation.lastAnimation;
-	
+
 		this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].posX = animationPos['x'];
 		this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].posY = animationPos['y'];
 		this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].posZ = animationPos['z'];
 	}
-	
+
 	//Pecas que vao sair de jogo
 	if (this.gameState.piecesOut.length > 0) {
 		this.gameState.Pieces[this.gameState.piecesOut[0]].animation.animate(diff);
-	
+
 		if(this.gameState.Pieces[this.gameState.piecesOut[0]].animation.done) {
 			this.gameState.Pieces[this.gameState.piecesOut[0]].inGame = false;
 			this.gameState.piecesOut.pop();
 		}
-			
+
 		else {
 			var animationPos = this.gameState.Pieces[this.gameState.piecesOut[0]].animation.lastAnimation;
-	
+
 			this.gameState.Pieces[this.gameState.piecesOut[0]].posX = animationPos['x'];
 			this.gameState.Pieces[this.gameState.piecesOut[0]].posY = animationPos['y'];
 			this.gameState.Pieces[this.gameState.piecesOut[0]].posZ = animationPos['z'];
 		}
 	}
-	
+
   }
 
   else {
@@ -215,7 +230,9 @@ Scene.prototype.initLights = function () {
 
 Scene.prototype.initCameras = function () {
   //( fov, near, far, position, target )
-  this.camera = new CGFcamera(0.6, 0.1, 500, vec3.fromValues(0,5,20), vec3.fromValues(0, 0, 0));
+  this.camera = new CGFcamera(0.6, 0.1, 500, vec3.fromValues(0,10,15), vec3.fromValues(0, 0, 0));
+
+
 
 };
 
@@ -381,6 +398,7 @@ Scene.prototype.display = function () {
 
   if (this.graph[this.ambiente].loadedOk)
   {
+
     // activate shader for rendering text characters
   this.setActiveShaderSimple(this.textShader);
   // activate texture containing the font
@@ -483,7 +501,7 @@ Scene.prototype.display = function () {
 			pickingindex++;
 
 			this.pushMatrix();
-			this.translate(this.gameState.Pieces[i].posX, this.gameState.Pieces[i].posY, this.gameState.Pieces[i].posZ);
+			this.translate(this.gameState.Pieces[i].posX-11, this.gameState.Pieces[i].posY, this.gameState.Pieces[i].posZ-11);
 			this.gameState.Pieces[i].display();
 			this.popMatrix();
 
@@ -499,7 +517,7 @@ Scene.prototype.display = function () {
 			pickingindex++;
 
 			this.pushMatrix();
-			this.translate(this.gameState.Pieces[i].posX, this.gameState.Pieces[i].posY, this.gameState.Pieces[i].posZ);
+			this.translate(this.gameState.Pieces[i].posX-11, this.gameState.Pieces[i].posY, this.gameState.Pieces[i].posZ-11);
 			this.gameState.Pieces[i].display();
 			this.popMatrix();
 
@@ -508,7 +526,7 @@ Scene.prototype.display = function () {
 
 		  else {
 			  this.pushMatrix();
-			  this.translate(this.gameState.Pieces[i].posX, this.gameState.Pieces[i].posY, this.gameState.Pieces[i].posZ);
+			  this.translate(this.gameState.Pieces[i].posX-11, this.gameState.Pieces[i].posY, this.gameState.Pieces[i].posZ-11);
 			  this.gameState.Pieces[i].display();
 			  this.popMatrix();
 		  }
@@ -657,6 +675,7 @@ Scene.prototype.logPicking = function ()
 
 			//CHAMAR A FUNCAO DO PROLOG AQUI
 			moveRequest(this.gameState.playersTurn, actualX, actualZ, newX, newZ, boardFromProlog, idPiece);
+      this.cameraanimation= new CameraAnimation(this,2,180);
 
 			this.gameState.selectedPieceNewX = (newX*2)-1;
 			this.gameState.selectedPieceNewZ = (newZ*2)-1;
@@ -740,7 +759,7 @@ Scene.prototype.findPiece = function (matrixPosZ, matrixPosX) {
 	 console.log(matrixPosX);
 	 console.log(this.gameState.Pieces[i].matrixPos.z);
 	 console.log(matrixPosZ);
-	 
+
 		if((this.gameState.Pieces[i].matrixPos.x == matrixPosX) && (this.gameState.Pieces[i].matrixPos.z == matrixPosZ)) {
 
 			var controlPointsAux = [];
@@ -750,13 +769,13 @@ Scene.prototype.findPiece = function (matrixPosZ, matrixPosX) {
 			controlPoint["y"] = 0;
 			controlPoint["z"] = this.gameState.Pieces[i].posZ;
 			controlPointsAux.push(controlPoint);
-			
+
 			controlPoint = [];
 			controlPoint["x"] = 25;
 			controlPoint["y"] = 0;
 			controlPoint["z"] = 25;
 			controlPointsAux.push(controlPoint);
-			
+
 			this.gameState.Pieces[i].animation = new PieceAnimation(this, 2, controlPointsAux);
 			this.gameState.piecesOut.push(this.gameState.Pieces[i].arrayPos);
 		}
@@ -769,103 +788,103 @@ Scene.prototype.getBoard = function ()
 
   //Alterar tabuleiro atual e acrescentar a lista de tabuleiros
   if(!this.gameState.board.equals(newboard)) {
-    
+
 	var oldCol = Math.abs((this.gameState.selectedPiece.posX)/2)+0.5;
 	var oldRow = Math.abs((this.gameState.selectedPiece.posZ)/2)+0.5;
-	
+
 	var newCol = (this.gameState.selectedPieceNewX/2)+0.5;
 	var newRow = (this.gameState.selectedPieceNewZ/2)+0.5;
-	
+
 	//Verificacao horizontal
 	if(Math.abs(this.gameState.selectedPiece.posX-this.gameState.selectedPieceNewX) > 0) {
 
 		for (x = 0; x < this.gameState.board[newRow-1].length; x++) {
 			if((this.gameState.board[newRow-1][x] != newboard[newRow-1][x]) && (x != oldCol-1) && (x != newCol-1)) {
 				console.log("Peca " + this.gameState.board[newRow-1][x] + " foi-se.");
-				
+
 				this.findPiece(newRow-1,x);
 			}
-				
+
 		}
-		
+
 		//cima
 		if(newRow > 1 && newRow != 11) {
 			for (x = 0; x < this.gameState.board[newRow-2].length; x++) {
 				if(this.gameState.board[newRow-2][x] != newboard[newRow-2][x]) {
 					console.log("Peca " + this.gameState.board[newRow-2][x] + " foi-se.");
-					
+
 					this.findPiece(newRow-2,x);
 				}
-					
+
 			}
 		}
-		
+
 		//baixo
 		if(newRow < 11 && newRow != 1) {
 			for (x = 0; x < this.gameState.board[newRow].length; x++) {
 				if(this.gameState.board[newRow][x] != newboard[newRow][x]) {
 					console.log("Peca " + this.gameState.board[newRow][x] + " foi-se.");
-					
+
 					this.findPiece(newRow,x);
 				}
-					
+
 			}
 		}
 	}
-	
+
 	//Verificacao vertical
 	else {
 		 for (z = 0; z < this.gameState.board.length; z++) {
-			
+
 			if((this.gameState.board[z][oldCol-1] != newboard[z][oldCol-1]) && (z != oldRow-1) && (z != newRow-1)) {
 					console.log("Peca " + this.gameState.board[z][oldCol-1] + " foi-se.");
-					
+
 					this.findPiece(z,oldCol-1);
 			}
-			
+
 			//direita
 			if(newCol > 1 && newCol != 11) {
 				if(this.gameState.board[z][oldCol] != newboard[z][oldCol]) {
 					console.log("Peca " + this.gameState.board[z][oldCol] + " foi-se.");
-					
+
 					this.findPiece(z,oldCol);
 				}
 			}
-			
+
 			//esquerda
 			if(newCol < 11 && newCol != 1) {
 				if(this.gameState.board[z][oldCol-2] != newboard[z][oldCol-2]) {
 					console.log("Peca " + this.gameState.board[z][oldCol-2] + " foi-se.");
-					
+
 					this.findPiece(z,oldCol-2);
 				}
 			}
-		
+
 		}
 	}
-	
+
 	this.gameState.board = newboard;
-	this.gameState.boards.push(this.gameState.board); 
-	
+	this.gameState.boards.push(this.gameState.board);
+
 	//Animacao de movimento da peca
 	this.gameState.animating = true;
-	
+
 	var controlPointsAux = [];
-	
+
 	var controlPoint = [];
 	controlPoint["x"] = this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].posX;
 	controlPoint["y"] = 0;
 	controlPoint["z"] = this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].posZ;
 	controlPointsAux.push(controlPoint);
-	
+
 	controlPoint = [];
 	controlPoint["x"] = this.gameState.selectedPieceNewX;
 	controlPoint["y"] = 0;
 	controlPoint["z"] = this.gameState.selectedPieceNewZ;
 	controlPointsAux.push(controlPoint);
-	
+
 	this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].animation = new PieceAnimation(this, 2, controlPointsAux);
-	
+
 
   }
 };
@@ -890,10 +909,7 @@ Scene.prototype.changetype = function (type)
 };
 
 
-Scene.prototype.undo = function ()
-{
 
-};
 
 Scene.prototype.getLetter = function (letter)
 {

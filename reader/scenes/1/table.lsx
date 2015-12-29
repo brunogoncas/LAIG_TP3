@@ -136,7 +136,7 @@
   <NODE id="root">
     <MATERIAL id="mat_normal" />
     <TEXTURE id="null" />
-	<TRANSLATION x="5.5" y="0" z="5.5" />
+	<TRANSLATION x="0" y="0" z="0" />
 
     <DESCENDANTS>
     <DESCENDANT id="cena" />
@@ -259,7 +259,7 @@
   <NODE id="perna1">
     <MATERIAL id="mat_normal" />
     <TEXTURE id="null" />
-    <TRANSLATION x="18" y="-10" z="18" />
+    <TRANSLATION x="18" y="-13" z="18" />
     <SCALE sx="2" sy="20" sz="2" />
     <DESCENDANTS>
 	  <DESCENDANT id="Cube" />
@@ -269,7 +269,7 @@
   <NODE id="perna2">
     <MATERIAL id="mat_normal" />
     <TEXTURE id="null" />
-    <TRANSLATION x="18" y="-10" z="-18" />
+    <TRANSLATION x="18" y="-13" z="-18" />
     <SCALE sx="2" sy="20" sz="2" />
     <DESCENDANTS>
 	  <DESCENDANT id="Cube" />
@@ -279,7 +279,7 @@
   <NODE id="perna3">
     <MATERIAL id="mat_normal" />
     <TEXTURE id="null" />
-    <TRANSLATION x="-18" y="-10" z="18" />
+    <TRANSLATION x="-18" y="-13" z="18" />
     <SCALE sx="2" sy="20" sz="2" />
     <DESCENDANTS>
 	  <DESCENDANT id="Cube" />
@@ -289,7 +289,7 @@
   <NODE id="perna4">
     <MATERIAL id="mat_normal" />
     <TEXTURE id="null" />
-    <TRANSLATION x="-18" y="-10" z="-18" />
+    <TRANSLATION x="-18" y="-13" z="-18" />
     <SCALE sx="2" sy="20" sz="2" />
     <DESCENDANTS>
 	  <DESCENDANT id="Cube" />

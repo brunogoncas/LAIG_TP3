@@ -71,7 +71,7 @@ serialInclude(['../lib/CGF.js', 'Scene.js', 'Parser.js', 'Texture.js', 'Interfac
 'primitives/Rectangle.js', 'primitives/Cylinder.js', 'primitives/Sphere.js', 'primitives/Triangle.js',
 'primitives/CylinderCircle.js', 'primitives/CylinderShell.js', 'primitives/Vehicle.js',
 'primitives/Plane.js','primitives/SimplePlane.js', 'primitives/Patch.js', 'primitives/Terrain.js', 'primitives/cube.js',
-'animations/CircularAnimation.js', 'animations/LinearAnimation.js', 'animations/PieceAnimation.js',
+'animations/CircularAnimation.js', 'animations/LinearAnimation.js', 'animations/PieceAnimation.js', 'animations/CameraAnimation.js',
 'jogo/GameState.js', 'jogo/Piece.js', 'jogo/KingPiece.js',
 
 
@@ -102,7 +102,7 @@ main=function()
       //var parser3 = new Parser(filename3, myScene , "Outro");
       //var interface = new Interface(myInterface);
       var myInterface = new Interface(myScene);
-      myInterface.setActiveCamera(myScene.camera);
+    //  myInterface.setActiveCamera(myScene.camera);
       app.setInterface(myInterface);
       // start
 

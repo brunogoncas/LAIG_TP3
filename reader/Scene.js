@@ -133,7 +133,7 @@ Scene.prototype.update = function (time) {
         //Se termina a animacao muda de jogador
         if (this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].animation.done) {
 			this.cameraanimation.animate(diff);
-			
+
 			if(this.cameraanimation.done) {
 				this.gameState.animating = false;
 
@@ -219,7 +219,7 @@ Scene.prototype.initLights = function () {
 
 Scene.prototype.initCameras = function () {
     //( fov, near, far, position, target )
-    this.camera = new CGFcamera(0.6, 0.1, 500, vec3.fromValues(0, 5, 20), vec3.fromValues(0, 0, 0));
+    this.camera = new CGFcamera(0.6, 0.1, 500, vec3.fromValues(0, 10, 15), vec3.fromValues(0, 0, 0));
 
 };
 
@@ -383,48 +383,55 @@ Scene.prototype.display = function () {
 
 
     if (this.graph[this.ambiente].loadedOk) {
+
+      // Apply transformations corresponding to the camera position relative to the origin
+        this.applyViewMatrix();
+
+          this.multMatrix(this.matrixInit);
         // activate shader for rendering text characters
         this.setActiveShaderSimple(this.textShader);
         // activate texture containing the font
         this.placardAppearance.apply();
         this.pushMatrix();
-        this.translate(-2, 1.5, -5);
-        this.scale(0.1, 0.1, 0.1);
+
+        if(this.gameState.playersTurn==1)
+        {
+          this.translate(-10, -6, -59);
+        }
+        else {
+          this.translate(10, -6, 59);
+          this.rotate(Math.PI,0,1,0);
+        }
+
+        this.scale(2, 2, 2);
 
 
-        var stringtoshow = "Player " + this.gameState.playersTurn + " a jogar";
+        var stringtoshow = "Player " + this.gameState.playersTurn;
 
-        for (i = 0; i < 8; i++) {
+        for (i = 0; i <  stringtoshow.length; i++) {
             this.translate(1, 0, 0);
             this.getLetter(stringtoshow[i]);
             this.plane.display();
         }
-        this.translate(-8, -1, 0);
-        for (i = 8; i < stringtoshow.length; i++) {
+
+
+        this.translate(-stringtoshow.length, -2, 0);
+
+        this.msgtoplayer="Jogue uma peca";
+
+        for (i = 0; i < 10; i++) {
             this.translate(1, 0, 0);
-            this.getLetter(stringtoshow[i]);
+            this.getLetter(this.msgtoplayer[i]);
             this.plane.display();
         }
 
-        var pointsplayer1 = "Player 1: x points";
-        var pointsplayer2 = "Player 2: x points";
+        this.translate(-10, -1, 0);
 
-        this.translate(1, 1, 0);
-
-        for (i = 0; i < pointsplayer1.length; i++) {
+        for (i = 10; i < this.msgtoplayer.length; i++) {
             this.translate(1, 0, 0);
-            this.getLetter(pointsplayer1[i]);
+            this.getLetter(this.msgtoplayer[i]);
             this.plane.display();
         }
-
-        this.translate(-pointsplayer1.length, -1, 0);
-
-        for (i = 0; i < pointsplayer2.length; i++) {
-            this.translate(1, 0, 0);
-            this.getLetter(pointsplayer2[i]);
-            this.plane.display();
-        }
-
 
         this.popMatrix();
 
@@ -433,8 +440,7 @@ Scene.prototype.display = function () {
         //this.camera.setPosition(vec3.fromValues(0,5,20));
         //this.camera.setTarget(vec3.fromValues(0,0,0));
 
-        // Apply transformations corresponding to the camera position relative to the origin
-        this.applyViewMatrix();
+
 
 
         // ---- END Background, camera and axis setup
@@ -444,7 +450,7 @@ Scene.prototype.display = function () {
         // This is one possible way to do it
 
 
-        this.multMatrix(this.matrixInit);
+
 
         for (var i = 0; i < this.lightsScene.length; i++) {
             this.lightsScene[i]['light'].update();
@@ -466,7 +472,7 @@ Scene.prototype.display = function () {
                 pickingindex++;
 
                 this.pushMatrix();
-                this.translate(this.gameState.Pieces[i].posX, this.gameState.Pieces[i].posY, this.gameState.Pieces[i].posZ);
+                this.translate(this.gameState.Pieces[i].posX-11, this.gameState.Pieces[i].posY, this.gameState.Pieces[i].posZ-11);
                 this.gameState.Pieces[i].display();
                 this.popMatrix();
 
@@ -478,7 +484,7 @@ Scene.prototype.display = function () {
                 pickingindex++;
 
                 this.pushMatrix();
-                this.translate(this.gameState.Pieces[i].posX, this.gameState.Pieces[i].posY, this.gameState.Pieces[i].posZ);
+                this.translate(this.gameState.Pieces[i].posX-11, this.gameState.Pieces[i].posY, this.gameState.Pieces[i].posZ-11);
                 this.gameState.Pieces[i].display();
                 this.popMatrix();
 
@@ -487,7 +493,7 @@ Scene.prototype.display = function () {
 
             else {
                 this.pushMatrix();
-                this.translate(this.gameState.Pieces[i].posX, this.gameState.Pieces[i].posY, this.gameState.Pieces[i].posZ);
+                this.translate(this.gameState.Pieces[i].posX-11, this.gameState.Pieces[i].posY, this.gameState.Pieces[i].posZ-11);
                 this.gameState.Pieces[i].display();
                 this.popMatrix();
             }
@@ -621,13 +627,14 @@ Scene.prototype.logPicking = function () {
                     var newZ = this.getCoordPicking(customId)[0];
                     var newX = this.getCoordPicking(customId)[1];
 
-                    console.log("Picked object: " + obj + ", with x " + newX + " and z " + newZ);
+                    this.msgtoplayer="Picked object: " + obj + ", with x " + newX + " and z " + newZ;
+                    console.log(this.msgtoplayer);
 
                     var idPiece = this.gameState.selectedPiece.id.charAt(0);
 
                     //CHAMAR A FUNCAO DO PROLOG AQUI
                     moveRequest(this.gameState.playersTurn, actualX, actualZ, newX, newZ, boardFromProlog, idPiece);
-					this.cameraanimation= new CameraAnimation(this,2,180);
+					          this.cameraanimation= new CameraAnimation(this,2,180);
 
                     this.gameState.selectedPieceNewX = (newX * 2) - 1;
                     this.gameState.selectedPieceNewZ = (newZ * 2) - 1;
@@ -716,7 +723,7 @@ Scene.prototype.findPiece = function (id, matrixPosZ, matrixPosX) {
                 controlPoint = [];
                 controlPoint["x"] = 25;
                 controlPoint["y"] = 0;
-                controlPoint["z"] = this.gameState.piecesOut.length + 2;
+                controlPoint["z"] = this.gameState.piecesOut.length * 2;
                 controlPointsAux.push(controlPoint);
 
                 this.gameState.Pieces[i].animation = new PieceAnimation(this, 2, controlPointsAux);

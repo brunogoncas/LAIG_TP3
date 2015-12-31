@@ -139,11 +139,33 @@
 	<TRANSLATION x="0" y="0" z="0" />
 
     <DESCENDANTS>
+    <DESCENDANT id="cubo1" />
+    <DESCENDANT id="cubo2" />
     <DESCENDANT id="cena" />
 	  <DESCENDANT id="tabuleiro" />
 	  <DESCENDANT id="tabuleiro_pick" />
     </DESCENDANTS>
   </NODE>
+
+    <NODE id="cubo1">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="null" />
+    <TRANSLATION x="0" y="-10" z="59" />
+    <SCALE sx="24" sy="13.5" sz="1" />
+    <DESCENDANTS>
+	  <DESCENDANT id="Cube" />
+    </DESCENDANTS>
+    </NODE>
+
+    <NODE id="cubo2">
+    <MATERIAL id="mat_normal" />
+    <TEXTURE id="black_Piece" />
+    <TRANSLATION x="0" y="-10" z="-59" />
+    <SCALE sx="24" sy="13.5" sz="1" />
+    <DESCENDANTS>
+	  <DESCENDANT id="Cube" />
+    </DESCENDANTS>
+    </NODE>
 
   <NODE id="cena">
     <MATERIAL id="mat_normal" />

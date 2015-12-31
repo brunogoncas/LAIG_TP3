@@ -156,10 +156,32 @@
 	<TRANSLATION x="0" y="0" z="0" />
 
     <DESCENDANTS>
+    <DESCENDANT id="cubo1" />
+    <DESCENDANT id="cubo2" />
     <DESCENDANT id="cena" />
 	  <DESCENDANT id="tabuleiro" />
 	  <DESCENDANT id="tabuleiro_pick" />
     </DESCENDANTS>
+  </NODE>
+
+  <NODE id="cubo1">
+  <MATERIAL id="mat_normal" />
+  <TEXTURE id="null" />
+  <TRANSLATION x="0" y="-10" z="59" />
+  <SCALE sx="24" sy="13.5" sz="1" />
+  <DESCENDANTS>
+  <DESCENDANT id="Cube" />
+  </DESCENDANTS>
+  </NODE>
+
+  <NODE id="cubo2">
+  <MATERIAL id="mat_normal" />
+  <TEXTURE id="black_Piece" />
+  <TRANSLATION x="0" y="-10" z="-59" />
+  <SCALE sx="24" sy="13.5" sz="1" />
+  <DESCENDANTS>
+  <DESCENDANT id="Cube" />
+  </DESCENDANTS>
   </NODE>
 
   <NODE id="cena">
@@ -185,7 +207,7 @@
   <NODE id="parede1">
   <MATERIAL id="mat_normal" />
   <TEXTURE id="paisagem" />
-  <SCALE sx="480" sy="480" sz="480" />
+  <SCALE sx="130" sy="130" sz="130" />
   <ROTATION axis="x" angle="90" />
   <DESCENDANTS>
   <DESCENDANT id="Patch"/>
@@ -196,7 +218,7 @@
   <NODE id="parede2">
   <MATERIAL id="mat_normal" />
   <TEXTURE id="paisagem" />
-  <SCALE sx="480" sy="480" sz="480" />
+  <SCALE sx="130" sy="130" sz="130" />
   <ROTATION axis="x" angle="90" />
   <ROTATION axis="z" angle="180" />
 
@@ -226,7 +248,7 @@
     <MATERIAL id="mat_normal" />
     <TEXTURE id="grass" />
     <TRANSLATION x="0" y="-22" z="0" />
-    <SCALE sx="500" sy="0" sz="500" />
+    <SCALE sx="120" sy="0" sz="120" />
     <ROTATION axis="x" angle="-90" />
     <DESCENDANTS>
     <DESCENDANT id="quad_1x1" />

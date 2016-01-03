@@ -58,6 +58,7 @@ Scene.prototype.init = function (application) {
     initRequest();
 
     this.gameState = new GameState();
+	this.gameState.boardsFromProlog.push(boardFromProlog);
 	
 	this.gametype = "HvsH";
 	this.gametypes = ["HvsH", "HvsM", "MvsM"];
@@ -106,6 +107,9 @@ Scene.prototype.Undo = function () {
     else {
         this.gameState.board = this.gameState.boards[this.gameState.boards.length - 2];
         this.gameState.boards.pop();
+		
+		boardFromProlog = this.gameState.boardsFromProlog[this.gameState.boardsFromProlog.length - 2];
+		this.gameState.boardsFromProlog.pop();
 
         if (this.gameState.playersTurn == 2)
             this.gameState.playersTurn = 1;
@@ -897,6 +901,7 @@ Scene.prototype.getBoard = function () {
 
         this.gameState.board = newboard;
         this.gameState.boards.push(this.gameState.board);
+		this.gameState.boardsFromProlog.push(boardFromProlog);
 
         //Animacao de movimento da peca
         this.gameState.animating = true;

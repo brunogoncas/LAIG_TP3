@@ -37,6 +37,7 @@ function GameState() {
 	
 	this.boards = [];
 	this.boards.push(this.board);
+	this.boardsFromProlog = [];
 	
 	//0 - Espera seleccao de peca de jogador, 1 - Espera seleccao de posicao para onde mover
 	this.state = 0;

@@ -4,7 +4,6 @@ serialInclude=function(a){var b=console,c=serialInclude.l;if(a.length>0)c.splice
 
 var boardFromProlog= [];
 
-
 function getPrologRequest(requestString, onSuccess, onError, port)
 {
   console.log("Request!!");
@@ -61,7 +60,6 @@ function handleReply(data){
   boardFromProlog = boardFromProlog.replace(/k/g, String.fromCharCode(39)+"k"+String.fromCharCode(39));
   boardFromProlog = boardFromProlog.replace(/e/g, String.fromCharCode(39)+"e"+String.fromCharCode(39));
   boardFromProlog = boardFromProlog.replace(/T/g, String.fromCharCode(39)+"T"+String.fromCharCode(39));
-
   //console.log(boardFromProlog);
 }
 

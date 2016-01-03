@@ -3,6 +3,7 @@ function Scene() {
     this.graph = [];
 }
 var pickingindex;
+var count;
 
 Scene.prototype = Object.create(CGFscene.prototype);
 Scene.prototype.constructor = Scene;
@@ -75,6 +76,9 @@ Scene.prototype.init = function (application) {
     // set number of rows and columns in font texture
     this.textShader.setUniformsValues({'dims': [16, 16]});
 
+    count=60;
+
+    counter=setInterval(timer, 1000);
 };
 
 Scene.prototype.Undo = function () {
@@ -143,6 +147,9 @@ Scene.prototype.update = function (time) {
 				else
 					this.gameState.playersTurn = 1;
 
+        count=60;
+
+        counter=setInterval(timer, 1000);
 				this.gameState.state = 0;
 			}
         }
@@ -156,23 +163,28 @@ Scene.prototype.update = function (time) {
             this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].posZ = animationPos['z'];
         }
 
-        //Pecas que vao sair de jogo
-        if (this.gameState.piecesAnimatingOut.length > 0) {
-            this.gameState.Pieces[this.gameState.piecesAnimatingOut[0]].animation.animate(diff);
+         if (this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].animation.done) {
 
-            if (this.gameState.Pieces[this.gameState.piecesAnimatingOut[0]].animation.done) {
-                this.gameState.Pieces[this.gameState.piecesAnimatingOut[0]].inGame = false;
-                this.gameState.piecesAnimatingOut.pop();
-            }
+           //Pecas que vao sair de jogo
+           if (this.gameState.piecesAnimatingOut.length > 0) {
+               this.gameState.Pieces[this.gameState.piecesAnimatingOut[0]].animation.animate(diff);
 
-            else {
-                var animationPos = this.gameState.Pieces[this.gameState.piecesAnimatingOut[0]].animation.lastAnimation;
+               if (this.gameState.Pieces[this.gameState.piecesAnimatingOut[0]].animation.done) {
+                   this.gameState.Pieces[this.gameState.piecesAnimatingOut[0]].inGame = false;
+                   this.gameState.piecesAnimatingOut.pop();
+               }
 
-                this.gameState.Pieces[this.gameState.piecesAnimatingOut[0]].posX = animationPos['x'];
-                this.gameState.Pieces[this.gameState.piecesAnimatingOut[0]].posY = animationPos['y'];
-                this.gameState.Pieces[this.gameState.piecesAnimatingOut[0]].posZ = animationPos['z'];
-            }
-        }
+               else {
+                   var animationPos = this.gameState.Pieces[this.gameState.piecesAnimatingOut[0]].animation.lastAnimation;
+
+                   this.gameState.Pieces[this.gameState.piecesAnimatingOut[0]].posX = animationPos['x'];
+                   this.gameState.Pieces[this.gameState.piecesAnimatingOut[0]].posY = animationPos['y'];
+                   this.gameState.Pieces[this.gameState.piecesAnimatingOut[0]].posZ = animationPos['z'];
+               }
+           }
+
+         }
+
 
     }
 
@@ -414,8 +426,16 @@ Scene.prototype.display = function () {
             this.plane.display();
         }
 
+        this.translate(-stringtoshow.length, -1, 0);
+        this.clock=count.toString();
+        console.log(this.clock);
+        for (i = 0; i < this.clock.length; i++) {
+            this.translate(1, 0, 0);
+            this.getLetter(this.clock[i]);
+            this.plane.display();
+        }
 
-        this.translate(-stringtoshow.length, -2, 0);
+        this.translate(-this.clock.length, -2, 0);
 
         this.msgtoplayer="Jogue uma peca";
 
@@ -721,9 +741,17 @@ Scene.prototype.findPiece = function (id, matrixPosZ, matrixPosX) {
                 controlPointsAux.push(controlPoint);
 
                 controlPoint = [];
-                controlPoint["x"] = 25;
+                if(this.gameState.piecesOut.length>11){
+                  controlPoint["x"] = 27;
+                  controlPoint["z"] = (this.gameState.piecesOut.length-12) * 2;
+                }
+                else {
+                  controlPoint["x"] = 25;
+                  controlPoint["z"] = this.gameState.piecesOut.length * 2;
+                }
                 controlPoint["y"] = 0;
-                controlPoint["z"] = this.gameState.piecesOut.length * 2;
+
+
                 controlPointsAux.push(controlPoint);
 
                 this.gameState.Pieces[i].animation = new PieceAnimation(this, 2, controlPointsAux);
@@ -934,4 +962,18 @@ Array.prototype.equals = function (array) {
 }
 // Hide method from for-in loops
 Object.defineProperty(Array.prototype, "equals", {enumerable: false});
-z
+
+function timer()
+{
+  console.log(count);
+  count=count-1;
+    console.log(count);
+  if (count <= 0)
+  {
+     clearInterval(counter);
+
+     return;
+  }
+
+  //Do code for showing the number of seconds here
+}

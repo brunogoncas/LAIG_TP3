@@ -4,6 +4,7 @@ function Scene() {
 }
 var pickingindex;
 var count;
+var timecount;
 
 Scene.prototype = Object.create(CGFscene.prototype);
 Scene.prototype.constructor = Scene;
@@ -80,7 +81,7 @@ Scene.prototype.init = function (application) {
     this.textShader = new CGFshader(this.gl, "scenes/shaders/font.vert", "scenes/shaders/font.frag");
     // set number of rows and columns in font texture
     this.textShader.setUniformsValues({'dims': [16, 16]});
-
+    this.SetTimer();
     count=timecount;
     var t = this;
     counter=setInterval(function(){t.timer();}, 1000);
@@ -177,6 +178,7 @@ Scene.prototype.update = function (time) {
 				else
 					this.gameState.playersTurn = 1;
           clearInterval(counter);
+          this.SetTimer();
           count=timecount;
           var t = this;
           counter=setInterval(function(){t.timer();}, 1000);
@@ -229,6 +231,7 @@ Scene.prototype.update = function (time) {
         if(this.cameraanimation.done)
         {
           clearInterval(counter);
+          this.SetTimer();
           count=timecount;
           var t = this;
           counter=setInterval(function(){t.timer();}, 1000);

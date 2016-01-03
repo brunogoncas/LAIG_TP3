@@ -58,7 +58,7 @@ Scene.prototype.init = function (application) {
     initRequest();
 
     this.gameState = new GameState();
-	this.gameState.boardsFromProlog.push(boardFromProlog);
+	
 	
 	this.gametype = "HvsH";
 	this.gametypes = ["HvsH", "HvsM", "MvsM"];
@@ -80,6 +80,8 @@ Scene.prototype.init = function (application) {
 	this.SetTimer();
 	
     counter=setInterval(timer, 1000);
+	
+	//this.gameState.boardsFromProlog.push(boardFromProlog);
 };
 
 Scene.prototype.SetTimer = function () {
@@ -107,6 +109,8 @@ Scene.prototype.Undo = function () {
     else {
         this.gameState.board = this.gameState.boards[this.gameState.boards.length - 2];
         this.gameState.boards.pop();
+	
+		console.log(this.gameState.boardsFromProlog);
 		
 		boardFromProlog = this.gameState.boardsFromProlog[this.gameState.boardsFromProlog.length - 2];
 		this.gameState.boardsFromProlog.pop();
@@ -821,6 +825,9 @@ Scene.prototype.findPiece = function (id, matrixPosZ, matrixPosX) {
 
 Scene.prototype.getBoard = function () {
     var newboard = eval(boardFromProlog);
+	
+	if (this.gameState.boardsFromProlog.length == 0)
+		this.gameState.boardsFromProlog.push(boardFromProlog);
 
     //Alterar tabuleiro atual e acrescentar a lista de tabuleiros
     if (!this.gameState.board.equals(newboard)) {
@@ -953,10 +960,6 @@ Scene.prototype.getBoard = function () {
 			this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].matrixPos = newMatrixPos;*/
 		}
     }
-};
-
-Scene.prototype.undo = function () {
-
 };
 
 Scene.prototype.getLetter = function (letter) {

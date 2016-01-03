@@ -361,7 +361,7 @@ move_Piece(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode, FFBoard)
 		game_play(2, FFBoard, Game_mode));
 	(Player == 2,
 		game_play(1, FFBoard, Game_mode)))*/
-		.
+		
 
 /********************************************************************************************
 * Verificar a peça que foi movida na última jogada, remove alguma peça inimiga.				*

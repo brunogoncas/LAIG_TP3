@@ -76,10 +76,26 @@ Scene.prototype.init = function (application) {
     // set number of rows and columns in font texture
     this.textShader.setUniformsValues({'dims': [16, 16]});
 
-    count=60;
-
+	this.SetTimer();
+	
     counter=setInterval(timer, 1000);
 };
+
+Scene.prototype.SetTimer = function () {
+	switch (this.level) {
+		case "Fácil":
+			count=45;
+		break;
+			
+		case "Normal":
+			count=25;
+		break;
+		
+		case "Difícil":
+			count=10;
+		break;
+	}
+}
 
 Scene.prototype.Undo = function () {
 
@@ -102,6 +118,8 @@ Scene.prototype.Undo = function () {
 		this.gameState.undo = true;
 		
         this.initGame();
+		
+		this.SetTimer();
 
     }
 
@@ -129,9 +147,28 @@ Scene.prototype.reset = function () {
 };
 
 Scene.prototype.update = function (time) {
-    if (this.gameState.animating) {
+   var diff = (time - this.lastTimeUpdate) / 1000;
+   
+   if(count == 0) {
+		//this.cameraanimation.animate(diff);
 
-        var diff = (time - this.lastTimeUpdate) / 1000;
+			//if(this.cameraanimation.done) {
+				//this.gameState.animating = false;
+
+				if (this.gameState.playersTurn == 1)
+					this.gameState.playersTurn = 2;
+
+				else
+					this.gameState.playersTurn = 1;
+
+        this.SetTimer();
+
+        counter=setInterval(timer, 1000);
+				this.gameState.state = 0;
+			//	}
+	}
+	
+	if (this.gameState.animating) {
         this.lastTimeUpdate = time;
 
         this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].animation.animate(diff);
@@ -149,7 +186,7 @@ Scene.prototype.update = function (time) {
 				else
 					this.gameState.playersTurn = 1;
 
-        count=60;
+        this.SetTimer();
 
         counter=setInterval(timer, 1000);
 				this.gameState.state = 0;
@@ -982,8 +1019,13 @@ Object.defineProperty(Array.prototype, "equals", {enumerable: false});
 function timer()
 {
  // console.log(count);
-  count=count-1;
+  count--;
    // console.log(count);
+  if(count == 0) {
+	//this.cameraanimation = new CameraAnimation(this,2,180);
+	console.log("NEW ANIM");
+  }
+  
   if (count <= 0)
   {
      clearInterval(counter);

@@ -17,7 +17,7 @@ Interface.prototype.init = function (application) {
 
     this.gui.add(this.scene, 'Undo').name("Anular Jogada");
 
-	this.gui.add(this.scene, 'gametype', this.scene.gametypes).name("Modo de jogo de Jogo");
+	this.gui.add(this.scene, 'gametype', this.scene.gametypes).name("Modo de Jogo");
 	
 	this.gui.add(this.scene, 'level', this.scene.levels).name("Dificuldade do Jogo");
 

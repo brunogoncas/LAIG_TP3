@@ -4,6 +4,7 @@ function CameraAnimation(scene, span, angle) {
 	this.angle= angle;
 	this.timeElapsed = 0;
 	this.done = false;
+  this.totalangle=0;
 
 
 };
@@ -24,7 +25,12 @@ CameraAnimation.prototype.animate = function (delta) {
 
 	//calcula o angulo a rodar no delta time
 	var currangle = this.angle * (delta/this.span);
-
+  this.totalangle= this.totalangle+currangle;
+  if(this.totalangle>=this.angle)
+  {
+    currangle=this.angle-this.lastangle;
+  }
+  this.lastangle=this.totalangle;
 
 	this.scene.camera.orbit(vec3.fromValues(0,0,0),currangle * Math.PI / 180);
 

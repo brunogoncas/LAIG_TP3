@@ -149,7 +149,7 @@
 
     <NODE id="cubo1">
     <MATERIAL id="mat_normal" />
-    <TEXTURE id="null" />
+    <TEXTURE id="black_Piece" />
     <TRANSLATION x="0" y="-10" z="59" />
     <SCALE sx="24" sy="13.5" sz="1" />
     <DESCENDANTS>

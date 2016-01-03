@@ -119,13 +119,7 @@ Scene.prototype.Undo = function () {
 
     		boardFromProlog = this.gameState.boardsFromProlog[this.gameState.boardsFromProlog.length - 2];
     		this.gameState.boardsFromProlog.pop();
-        if (this.gameState.playersTurn == 2)
-            this.gameState.playersTurn = 1;
-
-        else
-            this.gameState.playersTurn = 2;
-
-        this.gameState.state = 0;
+       this.changeTurn();
 
         this.initGame();
 

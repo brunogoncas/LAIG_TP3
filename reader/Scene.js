@@ -81,7 +81,7 @@ Scene.prototype.init = function (application) {
     // set number of rows and columns in font texture
     this.textShader.setUniformsValues({'dims': [16, 16]});
 
-    count=30;
+    count=timecount;
     var t = this;
     counter=setInterval(function(){t.timer();}, 1000);
 
@@ -177,7 +177,7 @@ Scene.prototype.update = function (time) {
 				else
 					this.gameState.playersTurn = 1;
           clearInterval(counter);
-          count=30;
+          count=timecount;
           var t = this;
           counter=setInterval(function(){t.timer();}, 1000);
 				this.gameState.state = 0;
@@ -229,7 +229,7 @@ Scene.prototype.update = function (time) {
         if(this.cameraanimation.done)
         {
           clearInterval(counter);
-          count=30;
+          count=timecount;
           var t = this;
           counter=setInterval(function(){t.timer();}, 1000);
             this.changeplayer= false;

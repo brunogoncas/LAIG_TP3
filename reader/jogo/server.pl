@@ -106,6 +106,7 @@ print_header_line(_).
 
 parse_input(init, Board):-board(Board).
 parse_input(verify_NEW(Player,OldX,OldY,NewX,NewY,Board,Piece), NewBoard) :-verify_NEW(Player,OldX,OldY,NewX,NewY,Board,Piece,1,NewBoard).
+parse_input(read_move(Player,Board,Game_mode), NewBoard) :-read_move(Player,Board,Game_mode,NewBoard).
 parse_input(quit, goodbye).
 
 test(_,[],N) :- N =< 0.

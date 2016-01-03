@@ -31,12 +31,21 @@ function initRequest()
   getPrologRequest(requestString, handleReply);
 }
 
-function moveRequest(Player,OldX,OldY,NewX,NewY,Board,Piece)
+function moveRequest(Player,OldX,OldY,NewX,NewY,Board,Piece,GameMode)
 {
+
+	var requestString = "";
   // Get Parameter Values
-  var requestString = "verify_NEW("+Player+","+OldX+","+OldY+","+NewX+","+NewY+","+Board+","+Piece+")";
-  //console.log("MOVE REQUEST");
-  //console.log(Board);
+  if(GameMode == "HvsH" || (GameMode == "HvsM" && Player == 1))
+	requestString = "verify_NEW("+Player+","+OldX+","+OldY+","+NewX+","+NewY+","+Board+","+Piece+")";
+
+	else {
+		if(GameMode == "HvsM")
+			requestString = "read_move("+Player+","+Board+","+2+")";
+		else
+			requestString = "read_move("+Player+","+Board+","+3+")";
+	}
+		
 
   // Make Request
   getPrologRequest(requestString, handleReply);

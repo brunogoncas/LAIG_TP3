@@ -146,55 +146,55 @@ game_play(Player, Board, Game_mode):-	print_board(Board),
 * Verificar a posição actual, ou seja, se está a jogar uma peça das suas.					*
 *********************************************************************************************/
 
-read_move(Player, Board, Game_mode):-	read_move_C_OLD(Player, C_OLD, R_OLD, Board, Game_mode).
+read_move(Player, Board, Game_mode,NewBoard):-	read_move_C_OLD(Player, C_OLD, R_OLD, Board, Game_mode, NewBoard).
 
-read_move_C_OLD(Player, C_OLD, R_OLD, Board, Game_mode):-	(((Game_mode == 1; (Game_mode == 2, Player == 1)),
+read_move_C_OLD(Player, C_OLD, R_OLD, Board, Game_mode, NewBoard):-	(((Game_mode == 1; (Game_mode == 2, Player == 1)),
 																write('Coluna da peca que deseja mover|:'),
 																read(C_OLD),
 																column_row(C_OLD),
 																integer(C_OLD));
 
 															(random(1, 11, C_OLD))), !,
-															read_move_R_OLD(Player, C_OLD, R_OLD, Board, Game_mode).
+															read_move_R_OLD(Player, C_OLD, R_OLD, Board, Game_mode,NewBoard).
 
-read_move_C_OLD(Player, C_OLD, R_OLD, Board, Game_mode):-	(((Game_mode == 1; (Game_mode == 2, Player == 1)),
+read_move_C_OLD(Player, C_OLD, R_OLD, Board, Game_mode,NewBoard):-	(((Game_mode == 1; (Game_mode == 2, Player == 1)),
 																write('Erro, insira um valor valido para a coluna (entre 1 e 11)'),
 																nl, nl);
 															(Game_mode == 3; (Game_mode == 2, Player == 2))),
-															read_move_C_OLD(Player, NC_OLD, R_OLD, Board, Game_mode).
+															read_move_C_OLD(Player, NC_OLD, R_OLD, Board, Game_mode,NewBoard).
 
-read_move_R_OLD(Player, C_OLD, R_OLD, Board, Game_mode):-	(((Game_mode == 1; (Game_mode == 2, Player == 1)),
+read_move_R_OLD(Player, C_OLD, R_OLD, Board, Game_mode,NewBoard):-	(((Game_mode == 1; (Game_mode == 2, Player == 1)),
 																write('Linha da peca que deseja mover'),
 																read(R_OLD),
 																column_row(R_OLD),
 																integer(R_OLD));
 															(random(1, 11, R_OLD))), !,
-															verify_OLD(Player, C_OLD, R_OLD, Board, Game_mode).
+															verify_OLD(Player, C_OLD, R_OLD, Board, Game_mode,NewBoard).
 
-read_move_R_OLD(Player, C_OLD, R_OLD, Board, Game_mode):-	(((Game_mode == 1; (Game_mode == 2, Player == 1)),
+read_move_R_OLD(Player, C_OLD, R_OLD, Board, Game_mode,NewBoard):-	(((Game_mode == 1; (Game_mode == 2, Player == 1)),
 																write('Erro, insira um valor valido para a linha (entre 1 e 11)'),
 																nl, nl);
 															(Game_mode == 3; (Game_mode == 2, Player == 2))),
-															read_move_R_OLD(Player, C_OLD, NR_OLD, Board, Game_mode).
+															read_move_R_OLD(Player, C_OLD, NR_OLD, Board, Game_mode,NewBoard).
 
-verify_OLD(Player, C_OLD, R_OLD, Board, Game_mode):-	nth(R_OLD, Board, R_LIST),
+verify_OLD(Player, C_OLD, R_OLD, Board, Game_mode,NewBoard):-	nth(R_OLD, Board, R_LIST),
 														nth(C_OLD, R_LIST, Piece),
 														piece_owner(Player, Piece),
 														!,
-														read_move_C_NEW(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode).
+														read_move_C_NEW(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode,NewBoard).
 
-verify_OLD(Player, C_OLD, R_OLD, Board, Game_mode):-	(((Game_mode == 1; (Game_mode == 2, Player == 1)),
+verify_OLD(Player, C_OLD, R_OLD, Board, Game_mode,NewBoard):-	(((Game_mode == 1; (Game_mode == 2, Player == 1)),
 															write('Nao pode mover essa peca. Escolha uma peca da sua equipa para mover'),
 														nl, nl);
 														(Game_mode == 3; (Game_mode == 2, Player == 2))),
-														read_move(Player, Board, Game_mode).
+														read_move(Player, Board, Game_mode,NewBoard).
 
 
 /********************************************************************************************
 * Verificar a nova posição, ou seja, se está livre.											*
 *********************************************************************************************/
 
-read_move_C_NEW(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode):-
+read_move_C_NEW(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode,NewBoard):-
 	((
 		(Game_mode == 1; (Game_mode == 2, Player == 1)),
 		write('Coluna para onde deseja mover a peca'),
@@ -204,18 +204,18 @@ read_move_C_NEW(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode):-
 		(random(1, 11, C_NEW)
 	)),
 	!,
-	read_move_R_NEW(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode).
+	read_move_R_NEW(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode,NewBoard).
 
-read_move_C_NEW(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode):-
+read_move_C_NEW(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode,NewBoard):-
 	((
 		(Game_mode == 1; (Game_mode == 2, Player == 1)),
 		write('Erro, insira um valor valido para a coluna (entre 1 e 11)'),
 		nl, nl);
 		(Game_mode == 3; (Game_mode == 2, Player == 2)
 	)),
-	read_move_C_NEW(Player, NC_OLD, R_OLD, NC_NEW, R_NEW, Board, Piece, Game_mode).
+	read_move_C_NEW(Player, NC_OLD, R_OLD, NC_NEW, R_NEW, Board, Piece, Game_mode,NewBoard).
 
-read_move_R_NEW(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode):-
+read_move_R_NEW(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode,NewBoard):-
 	((
 		(Game_mode == 1; (Game_mode == 2, Player == 1)),
 		write('Linha para onde deseja mover a peca'),
@@ -225,16 +225,16 @@ read_move_R_NEW(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode):-
 		(random(1, 11, R_NEW)
 	)),
 	!,
-	verify_NEW(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode).
+	verify_NEW(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode,NewBoard).
 
-read_move_R_NEW(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode):-
+read_move_R_NEW(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode,NewBoard):-
 	((
 		(Game_mode == 1; (Game_mode == 2, Player == 1)),
 		write('Erro, insira um valor valido para a linha (entre 1 e 11)'),
 		nl, nl);
 		(Game_mode == 3; (Game_mode == 2, Player == 2))
 	),
-	read_move_R_NEW(Player, C_OLD, R_OLD, C_NEW, NR_NEW, Board, Piece, Game_mode).
+	read_move_R_NEW(Player, C_OLD, R_OLD, C_NEW, NR_NEW, Board, Piece, Game_mode,NewBoard).
 
 verify_NEW(Player, C_OLD, R_OLD, C_NEW, R_NEW, Board, Piece, Game_mode, NewBoard):-
 	nth(R_NEW, Board, R_LIST),

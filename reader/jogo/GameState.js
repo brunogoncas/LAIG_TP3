@@ -24,6 +24,10 @@ function GameState() {
 	this.selectedPieceNewX;
 	this.selectedPieceNewZ;
 	
+	this.undo = false;
+	
+	this.gametype = "HvsH";
+	
 	this.piecesOut = [];
 	this.piecesAnimatingOut = [];
 	

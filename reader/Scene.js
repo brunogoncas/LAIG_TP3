@@ -31,7 +31,6 @@ Scene.prototype.init = function (application) {
     this.matrixInit;
     this.reference;
 
-
     this.leaves = [];
     this.materials = [];
     this.textures = [];
@@ -56,17 +55,18 @@ Scene.prototype.init = function (application) {
 
     this.setUpdatePeriod(20);
 
-    this.initLevels();
-
-    this.inittypes();
-
     initRequest();
 
     this.gameState = new GameState();
+	
+	this.gametype = "HvsH";
+	this.gametypes = ["HvsH", "HvsM", "MvsM"];
 
     this.ambiente = "Quarto";
-
     this.ambientes = ["Quarto", "Piquenique"];
+	
+	this.level = "Normal";
+	this.levels = ["Fácil", "Normal", "Difícil"];
 
     this.fontTexture = new CGFtexture(this, "scenes/1/textures/oolite-font.png");
     this.placardAppearance.setTexture(this.fontTexture);
@@ -98,7 +98,9 @@ Scene.prototype.Undo = function () {
             this.gameState.playersTurn = 2;
 
         this.gameState.state = 0;
-
+		
+		this.gameState.undo = true;
+		
         this.initGame();
 
     }
@@ -367,20 +369,24 @@ Scene.prototype.All_Lights = function () {
 };
 
 Scene.prototype.display = function () {
-    if (this.gameState.Pieces.length == 0)
+    if(this.gametype != this.gameState.gametype)
+		this.gameState.gametype = this.gametype;
+	
+	if (this.gameState.Pieces.length == 0)
         this.initGame();
 
 
     //Board from Prolog
-    if (boardFromProlog.length > 0 && this.gameState.state == 1) {
+    if (boardFromProlog.length > 0 && (this.gameState.state == 1 || this.gameState.gametype == "MvsM") && this.gameState.undo == false) {
         this.getBoard();
     }
 
     // Picking
-
-    this.logPicking();
-    this.clearPickRegistration();
-    pickingindex = 1;
+	if(this.gameState.gametype == "HvsH" || (this.gameState.gametype == "HvsM" && this.gameState.playersTurn == 1)) {
+		this.logPicking();
+		this.clearPickRegistration();
+		pickingindex = 1;
+	}
 
     // ---- BEGIN Background, camera and axis setup
 
@@ -428,7 +434,7 @@ Scene.prototype.display = function () {
 
         this.translate(-stringtoshow.length, -1, 0);
         this.clock=count.toString();
-        console.log(this.clock);
+        //console.log(this.clock);
         for (i = 0; i < this.clock.length; i++) {
             this.translate(1, 0, 0);
             this.getLetter(this.clock[i]);
@@ -487,7 +493,8 @@ Scene.prototype.display = function () {
         for (var i = 0; i < this.gameState.Pieces.length; i++) {
 
             //Por as pecas pretas seleccionaveis
-            if (this.gameState.state == 0 && this.gameState.playersTurn == 1 && this.gameState.Pieces[i].id == "b" && this.gameState.Pieces[i].inGame && this.gameState.winner == 0) {
+            if (this.gameState.state == 0 && this.gameState.playersTurn == 1 && this.gameState.Pieces[i].id == "b" && 
+			this.gameState.Pieces[i].inGame && this.gameState.winner == 0 && (this.gameState.gametype == "HvsH" || this.gameState.gametype == "HvsM")) {
                 this.registerForPick(pickingindex, this.gameState.Pieces[i]);
                 pickingindex++;
 
@@ -499,7 +506,8 @@ Scene.prototype.display = function () {
                 this.clearPickRegistration();
             }
 
-            else if (this.gameState.state == 0 && this.gameState.playersTurn == 2 && (this.gameState.Pieces[i].id == "w" || this.gameState.Pieces[i].id == "k" ) && this.gameState.Pieces[i].inGame && this.gameState.winner == 0) {
+            else if (this.gameState.state == 0 && this.gameState.playersTurn == 2 && (this.gameState.Pieces[i].id == "w" || this.gameState.Pieces[i].id == "k" ) && 
+			this.gameState.Pieces[i].inGame && this.gameState.winner == 0 && this.gameState.gametype == "HvsH" ) {
                 this.registerForPick(pickingindex, this.gameState.Pieces[i]);
                 pickingindex++;
 
@@ -518,7 +526,7 @@ Scene.prototype.display = function () {
                 this.popMatrix();
             }
         }
-
+		
     }
     ;
 
@@ -653,7 +661,7 @@ Scene.prototype.logPicking = function () {
                     var idPiece = this.gameState.selectedPiece.id.charAt(0);
 
                     //CHAMAR A FUNCAO DO PROLOG AQUI
-                    moveRequest(this.gameState.playersTurn, actualX, actualZ, newX, newZ, boardFromProlog, idPiece);
+                    moveRequest(this.gameState.playersTurn, actualX, actualZ, newX, newZ, boardFromProlog, idPiece, this.gameState.gametype);
 					          this.cameraanimation= new CameraAnimation(this,2,180);
 
                     this.gameState.selectedPieceNewX = (newX * 2) - 1;
@@ -665,6 +673,8 @@ Scene.prototype.logPicking = function () {
                     newMatrixPos.z = newZ - 1;
 
                     this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].matrixPos = newMatrixPos;
+					
+					this.gameState.undo = false;
                 }
             }
             this.pickResults.splice(0, this.pickResults.length);
@@ -878,24 +888,30 @@ Scene.prototype.getBoard = function () {
             this.gameState.winner = 2;
             console.log("JOGADOR 2 GANHOU O JOGO");
         }
+		
+		
+		if (this.gameState.gametype == "MvsM") {
+			moveRequest(this.gameState.playersTurn, 0, 0, 0, 0, boardFromProlog, 0, this.gameState.gametype);
+			this.cameraanimation= new CameraAnimation(this,2,180);
+			
+			/*if(this.gameState.state == 0)
+				this.gameState.state++;
+			
+			else 
+				this.gameState.state = 0;*/
+
+			/*this.gameState.selectedPieceNewX = (newX * 2) - 1;
+			this.gameState.selectedPieceNewZ = (newZ * 2) - 1;
+
+
+			var newMatrixPos = [];
+			newMatrixPos.x = newX - 1;
+			newMatrixPos.z = newZ - 1;
+
+			this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].matrixPos = newMatrixPos;*/
+		}
     }
 };
-
-Scene.prototype.initLevels = function () {
-    this.levels = ["Easy", "Medium", "Hard"];
-};
-
-Scene.prototype.changelevel = function (level) {
-
-};
-
-Scene.prototype.inittypes = function () {
-    this.gametypes = ["HvsH", "HvsM", "MvsM"];
-};
-Scene.prototype.changetype = function (type) {
-
-};
-
 
 Scene.prototype.undo = function () {
 
@@ -965,9 +981,9 @@ Object.defineProperty(Array.prototype, "equals", {enumerable: false});
 
 function timer()
 {
-  console.log(count);
+ // console.log(count);
   count=count-1;
-    console.log(count);
+   // console.log(count);
   if (count <= 0)
   {
      clearInterval(counter);

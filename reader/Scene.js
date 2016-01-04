@@ -442,7 +442,7 @@ Scene.prototype.display = function () {
         if (this.gameState.playersTurn == 1)
             this.msgtoplayer = this.msgtoplayer1;
         else
-            tthis.msgtoplayer = this.msgtoplayer2;
+            this.msgtoplayer = this.msgtoplayer2;
 
 
         for (i = 0; i < stringtoshow.length; i++) {

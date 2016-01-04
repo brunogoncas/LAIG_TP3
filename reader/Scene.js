@@ -57,10 +57,6 @@ Scene.prototype.init = function (application) {
 
     this.setUpdatePeriod(20);
 
-    this.initLevels();
-
-    this.inittypes();
-
     initRequest();
 
     this.gameState = new GameState();
@@ -70,9 +66,9 @@ Scene.prototype.init = function (application) {
     this.ambientes = ["Quarto", "Piquenique"];
 
     this.gametype = "HvsH";
-  	this.gametypes = ["HvsH", "HvsM", "MvsM"];
+    this.gametypes = ["HvsH", "HvsM", "MvsM"];
     this.level = "Normal";
-  	this.levels = ["Fácil", "Normal", "Difícil"];
+    this.levels = ["Fácil", "Normal", "Difícil"];
 
     this.fontTexture = new CGFtexture(this, "scenes/1/textures/oolite-font.png");
     this.placardAppearance.setTexture(this.fontTexture);
@@ -82,27 +78,32 @@ Scene.prototype.init = function (application) {
     // set number of rows and columns in font texture
     this.textShader.setUniformsValues({'dims': [16, 16]});
     this.SetTimer();
-    count=timecount;
+    count = timecount;
     var t = this;
-    counter=setInterval(function(){t.timer();}, 1000);
+    counter = setInterval(function () {
+        t.timer();
+    }, 1000);
 
-    this.gamemovie=[];
+    this.gamemovie = [];
+
+    this.msgtoplayer1 = "Jogue uma peca preta";
+    this.msgtoplayer2 = "Jogue uma peca branca";
 };
 
 Scene.prototype.SetTimer = function () {
-	switch (this.level) {
-		case "Fácil":
-			timecount=45;
-		break;
+    switch (this.level) {
+        case "Fácil":
+            timecount = 45;
+            break;
 
-		case "Normal":
-			timecount=25;
-		break;
+        case "Normal":
+            timecount = 25;
+            break;
 
-		case "Difícil":
-			timecount=10;
-		break;
-	}
+        case "Difícil":
+            timecount = 10;
+            break;
+    }
 }
 
 Scene.prototype.Undo = function () {
@@ -117,9 +118,9 @@ Scene.prototype.Undo = function () {
 
         console.log(this.gameState.boardsFromProlog);
 
-    		boardFromProlog = this.gameState.boardsFromProlog[this.gameState.boardsFromProlog.length - 2];
-    		this.gameState.boardsFromProlog.pop();
-       this.changeTurn();
+        boardFromProlog = this.gameState.boardsFromProlog[this.gameState.boardsFromProlog.length - 2];
+        this.gameState.boardsFromProlog.pop();
+        this.changeTurn();
 
         this.initGame();
 
@@ -161,23 +162,25 @@ Scene.prototype.update = function (time) {
 
         //Se termina a animacao muda de jogador
         if (this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].animation.done) {
-			this.cameraanimation.animate(diff);
+            this.cameraanimation.animate(diff);
 
-			if(this.cameraanimation.done) {
-				this.gameState.animating = false;
+            if (this.cameraanimation.done) {
+                this.gameState.animating = false;
 
-				if (this.gameState.playersTurn == 1)
-					this.gameState.playersTurn = 2;
+                if (this.gameState.playersTurn == 1)
+                    this.gameState.playersTurn = 2;
 
-				else
-					this.gameState.playersTurn = 1;
-          clearInterval(counter);
-          this.SetTimer();
-          count=timecount;
-          var t = this;
-          counter=setInterval(function(){t.timer();}, 1000);
-				this.gameState.state = 0;
-			}
+                else
+                    this.gameState.playersTurn = 1;
+                clearInterval(counter);
+                this.SetTimer();
+                count = timecount;
+                var t = this;
+                counter = setInterval(function () {
+                    t.timer();
+                }, 1000);
+                this.gameState.state = 0;
+            }
         }
 
         //Atualiza posicoes da animacao
@@ -189,50 +192,50 @@ Scene.prototype.update = function (time) {
             this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].posZ = animationPos['z'];
         }
 
-         if (this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].animation.done) {
+        if (this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].animation.done) {
 
-           //Pecas que vao sair de jogo
-           if (this.gameState.piecesAnimatingOut.length > 0) {
-               this.gameState.Pieces[this.gameState.piecesAnimatingOut[0]].animation.animate(diff);
+            //Pecas que vao sair de jogo
+            if (this.gameState.piecesAnimatingOut.length > 0) {
+                this.gameState.Pieces[this.gameState.piecesAnimatingOut[0]].animation.animate(diff);
 
-               if (this.gameState.Pieces[this.gameState.piecesAnimatingOut[0]].animation.done) {
-                   this.gameState.Pieces[this.gameState.piecesAnimatingOut[0]].inGame = false;
-                   this.gameState.piecesAnimatingOut.pop();
-               }
+                if (this.gameState.Pieces[this.gameState.piecesAnimatingOut[0]].animation.done) {
+                    this.gameState.Pieces[this.gameState.piecesAnimatingOut[0]].inGame = false;
+                    this.gameState.piecesAnimatingOut.pop();
+                }
 
-               else {
-                   var animationPos = this.gameState.Pieces[this.gameState.piecesAnimatingOut[0]].animation.lastAnimation;
+                else {
+                    var animationPos = this.gameState.Pieces[this.gameState.piecesAnimatingOut[0]].animation.lastAnimation;
 
-                   this.gameState.Pieces[this.gameState.piecesAnimatingOut[0]].posX = animationPos['x'];
-                   this.gameState.Pieces[this.gameState.piecesAnimatingOut[0]].posY = animationPos['y'];
-                   this.gameState.Pieces[this.gameState.piecesAnimatingOut[0]].posZ = animationPos['z'];
-               }
-           }
+                    this.gameState.Pieces[this.gameState.piecesAnimatingOut[0]].posX = animationPos['x'];
+                    this.gameState.Pieces[this.gameState.piecesAnimatingOut[0]].posY = animationPos['y'];
+                    this.gameState.Pieces[this.gameState.piecesAnimatingOut[0]].posZ = animationPos['z'];
+                }
+            }
 
-         }
+        }
 
 
     }
 
     else {
-      if(this.changeplayer)
-      {
-        var diff = (time - this.lastTimeUpdate) / 1000;
-        this.lastTimeUpdate = time;
-        this.cameraanimation.animate(diff);
-        console.log(this.cameraanimation.animate.timeElapsed);
+        if (this.changeplayer) {
+            var diff = (time - this.lastTimeUpdate) / 1000;
+            this.lastTimeUpdate = time;
+            this.cameraanimation.animate(diff);
+            //console.log(this.cameraanimation.animate.timeElapsed);
 
-        if(this.cameraanimation.done)
-        {
-          clearInterval(counter);
-          this.SetTimer();
-          count=timecount;
-          var t = this;
-          counter=setInterval(function(){t.timer();}, 1000);
-            this.changeplayer= false;
+            if (this.cameraanimation.done) {
+                clearInterval(counter);
+                this.SetTimer();
+                count = timecount;
+                var t = this;
+                counter = setInterval(function () {
+                    t.timer();
+                }, 1000);
+                this.changeplayer = false;
+            }
+
         }
-
-      }
         this.lastTimeUpdate = time;
     }
 };
@@ -302,11 +305,8 @@ Scene.prototype.onGraphLoaded = function () {
 
     for (i = 0; i < this.ambientes.length; i++) {
         this.nodes[this.ambientes[i]] = this.graph[this.ambientes[i]].nodes;
-        //console.log(this.ambientes[i]);
         this.graphRootId[this.ambientes[i]] = this.graph[this.ambientes[i]].root;
-        // console.log(this.nodes[this.ambientes[i]][this.graphRootId[this.ambientes[i]]]);
         this.root_node[this.ambientes[i]] = this.nodes[this.ambientes[i]][this.graphRootId[this.ambientes[i]]];
-        // console.log(this.root_node);
 
         this.leaves[this.ambientes[i]] = this.graph[this.ambientes[i]].leaves;
         this.materials[this.ambientes[i]] = this.graph[this.ambientes[i]].materials;
@@ -382,52 +382,25 @@ Scene.prototype.initGame = function () {
     }
 };
 
-
-Scene.prototype.All_Lights = function () {
-    //if any light is on, turn all off
-    //else turn all on
-    var nextState = true;
-
-    //check current state
-    for (i = 0; i < this.lightsScene.length; i++) {
-
-        if (this.lightsScene[i]['light'].enabled) {
-            nextState = false;
-            break;
-        }
-    }
-
-    //apply next state and change in GUI
-    for (i = 0; i < this.lightsScene.length; i++) {
-
-        if (nextState) {
-            this.lightsScene[i]['light'].enable();
-        } else {
-            this.lightsScene[i]['light'].disable();
-        }
-
-        this.tickLights[i].setValue(nextState);
-    }
-};
-
 Scene.prototype.display = function () {
-  if(this.gametype != this.gameState.gametype)
-  this.gameState.gametype = this.gametype;
+    if (this.gametype != this.gameState.gametype)
+        this.gameState.gametype = this.gametype;
+
     if (this.gameState.Pieces.length == 0)
         this.initGame();
 
 
     //Board from Prolog
-    if (boardFromProlog.length > 0 && (this.gameState.state == 1 || this.gameState.gametype == "MvsM") && this.gameState.undo == false) {
+    if (boardFromProlog.length > 0 && (this.gameState.state == 1) && this.gameState.undo == false) {
         this.getBoard();
     }
 
     // Picking
-  if(this.gameState.gametype == "HvsH" || (this.gameState.gametype == "HvsM" && this.gameState.playersTurn == 1)) {
-    this.logPicking();
-    this.clearPickRegistration();
-    pickingindex = 1;
-  }
+    if (this.gameState.gametype == "HvsH" || (this.gameState.gametype == "HvsM" && this.gameState.playersTurn == 1)) {
+        this.logPicking();
+        this.clearPickRegistration();
+        pickingindex = 1;
+    }
 
     // ---- BEGIN Background, camera and axis setup
 
@@ -443,26 +416,22 @@ Scene.prototype.display = function () {
 
     if (this.graph[this.ambiente].loadedOk) {
 
-
-
-
-      // Apply transformations corresponding to the camera position relative to the origin
+        // Apply transformations corresponding to the camera position relative to the origin
         this.applyViewMatrix();
 
-          this.multMatrix(this.matrixInit);
+        this.multMatrix(this.matrixInit);
         // activate shader for rendering text characters
         this.setActiveShaderSimple(this.textShader);
         // activate texture containing the font
         this.placardAppearance.apply();
         this.pushMatrix();
 
-        if(this.gameState.playersTurn==1)
-        {
-          this.translate(-12, -6, -59);
+        if (this.gameState.playersTurn == 1) {
+            this.translate(-12, -6, -59);
         }
         else {
-          this.translate(12, -6, 59);
-          this.rotate(Math.PI,0,1,0);
+            this.translate(12, -6, 59);
+            this.rotate(Math.PI, 0, 1, 0);
         }
 
         this.scale(2, 2, 2);
@@ -470,21 +439,21 @@ Scene.prototype.display = function () {
 
         var stringtoshow = "Player " + this.gameState.playersTurn;
 
-        if(this.gameState.playersTurn==1)
-        this.msgtoplayer="Jogue uma peca preta";
+        if (this.gameState.playersTurn == 1)
+            this.msgtoplayer = this.msgtoplayer1;
         else
-        this.msgtoplayer="Jogue uma peca branca";
+            tthis.msgtoplayer = this.msgtoplayer2;
 
 
-        for (i = 0; i <  stringtoshow.length; i++) {
+        for (i = 0; i < stringtoshow.length; i++) {
             this.translate(1, 0, 0);
             this.getLetter(stringtoshow[i]);
             this.plane.display();
         }
 
         this.translate(-stringtoshow.length, -1, 0);
-        this.clock=count.toString();
-        console.log(this.clock);
+        this.clock = count.toString();
+        //console.log(this.clock);
         for (i = 0; i < this.clock.length; i++) {
             this.translate(1, 0, 0);
             this.getLetter(this.clock[i]);
@@ -492,7 +461,6 @@ Scene.prototype.display = function () {
         }
 
         this.translate(-this.clock.length, -2, 0);
-
 
 
         for (i = 0; i < 10; i++) {
@@ -517,8 +485,6 @@ Scene.prototype.display = function () {
         //this.camera.setTarget(vec3.fromValues(0,0,0));
 
 
-
-
         // ---- END Background, camera and axis setup
 
         // it is important that things depending on the proper loading of the graph
@@ -526,15 +492,13 @@ Scene.prototype.display = function () {
         // This is one possible way to do it
 
 
-
-
         for (var i = 0; i < this.lightsScene.length; i++) {
             this.lightsScene[i]['light'].update();
         }
 
-        if (this.reference != 0) {
-            this.axis.display();
-        }
+        /*if (this.reference != 0) {
+         this.axis.display();
+         }*/
 
 
         this.DisplayNode(this.root_node[this.ambiente], this.root_node[this.ambiente].material, this.root_node[this.ambiente].texture, this.root_node[this.ambiente].matrix);
@@ -544,12 +508,12 @@ Scene.prototype.display = function () {
 
             //Por as pecas pretas seleccionaveis
             if (this.gameState.state == 0 && this.gameState.playersTurn == 1 && this.gameState.Pieces[i].id == "b" &&
-			this.gameState.Pieces[i].inGame && this.gameState.winner == 0 && (this.gameState.gametype == "HvsH" || this.gameState.gametype == "HvsM")) {
+                this.gameState.Pieces[i].inGame && this.gameState.winner == 0 && (this.gameState.gametype == "HvsH" || this.gameState.gametype == "HvsM")) {
                 this.registerForPick(pickingindex, this.gameState.Pieces[i]);
                 pickingindex++;
 
                 this.pushMatrix();
-                this.translate(this.gameState.Pieces[i].posX-11, this.gameState.Pieces[i].posY, this.gameState.Pieces[i].posZ-11);
+                this.translate(this.gameState.Pieces[i].posX - 11, this.gameState.Pieces[i].posY, this.gameState.Pieces[i].posZ - 11);
                 this.gameState.Pieces[i].display();
                 this.popMatrix();
 
@@ -557,12 +521,12 @@ Scene.prototype.display = function () {
             }
 
             else if (this.gameState.state == 0 && this.gameState.playersTurn == 2 && (this.gameState.Pieces[i].id == "w" || this.gameState.Pieces[i].id == "k" ) &&
-			this.gameState.Pieces[i].inGame && this.gameState.winner == 0 && this.gameState.gametype == "HvsH" ) {
+                this.gameState.Pieces[i].inGame && this.gameState.winner == 0 && this.gameState.gametype == "HvsH") {
                 this.registerForPick(pickingindex, this.gameState.Pieces[i]);
                 pickingindex++;
 
                 this.pushMatrix();
-                this.translate(this.gameState.Pieces[i].posX-11, this.gameState.Pieces[i].posY, this.gameState.Pieces[i].posZ-11);
+                this.translate(this.gameState.Pieces[i].posX - 11, this.gameState.Pieces[i].posY, this.gameState.Pieces[i].posZ - 11);
                 this.gameState.Pieces[i].display();
                 this.popMatrix();
 
@@ -571,7 +535,7 @@ Scene.prototype.display = function () {
 
             else {
                 this.pushMatrix();
-                this.translate(this.gameState.Pieces[i].posX-11, this.gameState.Pieces[i].posY, this.gameState.Pieces[i].posZ-11);
+                this.translate(this.gameState.Pieces[i].posX - 11, this.gameState.Pieces[i].posY, this.gameState.Pieces[i].posZ - 11);
                 this.gameState.Pieces[i].display();
                 this.popMatrix();
             }
@@ -684,7 +648,7 @@ Scene.prototype.logPicking = function () {
 
                 if ((this.pickResults[i][0] instanceof Piece) || (this.pickResults[i][0] instanceof KingPiece)) {
                     var customId = this.pickResults[i][1];
-                    console.log("CUSTOM ID" + customId);
+                    //console.log("CUSTOM ID" + customId);
 
                     this.gameState.selectedPieceArrayPos = customId;
 
@@ -705,14 +669,14 @@ Scene.prototype.logPicking = function () {
                     var newZ = this.getCoordPicking(customId)[0];
                     var newX = this.getCoordPicking(customId)[1];
 
-                    this.msgtoplayer="Picked object: " + obj + ", with x " + newX + " and z " + newZ;
+                    this.msgtoplayer = "Picked object: " + obj + ", with x " + newX + " and z " + newZ;
                     console.log(this.msgtoplayer);
 
                     var idPiece = this.gameState.selectedPiece.id.charAt(0);
 
                     //CHAMAR A FUNCAO DO PROLOG AQUI
                     moveRequest(this.gameState.playersTurn, actualX, actualZ, newX, newZ, boardFromProlog, idPiece, this.gameState.gametype);
-					          this.cameraanimation= new CameraAnimation(this,2,180);
+                    this.cameraanimation = new CameraAnimation(this, 2, 180);
 
 
                     this.gameState.selectedPieceNewX = (newX * 2) - 1;
@@ -801,13 +765,13 @@ Scene.prototype.findPiece = function (id, matrixPosZ, matrixPosX) {
                 controlPointsAux.push(controlPoint);
 
                 controlPoint = [];
-                if(this.gameState.piecesOut.length>11){
-                  controlPoint["x"] = 27;
-                  controlPoint["z"] = (this.gameState.piecesOut.length-12) * 2;
+                if (this.gameState.piecesOut.length > 11) {
+                    controlPoint["x"] = 27;
+                    controlPoint["z"] = (this.gameState.piecesOut.length - 12) * 2;
                 }
                 else {
-                  controlPoint["x"] = 25;
-                  controlPoint["z"] = this.gameState.piecesOut.length * 2;
+                    controlPoint["x"] = 25;
+                    controlPoint["z"] = this.gameState.piecesOut.length * 2;
                 }
                 controlPoint["y"] = 0;
 
@@ -821,6 +785,9 @@ Scene.prototype.findPiece = function (id, matrixPosZ, matrixPosX) {
                 if (id == "k") {
                     this.gameState.winner = 1;
                     console.log("JOGADOR 1 GANHOU O JOGO");
+                    clearInterval(counter);
+                    this.msgtoplayer1 = "GANHOU O  JOGO";
+                    this.msgtoplayer2 = "PERDEU O  JOGO";
                 }
 
             }
@@ -832,156 +799,132 @@ Scene.prototype.getBoard = function () {
     var newboard = eval(boardFromProlog);
 
     if (this.gameState.boardsFromProlog.length == 0)
-  		this.gameState.boardsFromProlog.push(boardFromProlog);
+        this.gameState.boardsFromProlog.push(boardFromProlog);
 
     //Alterar tabuleiro atual e acrescentar a lista de tabuleiros
     if (!this.gameState.board.equals(newboard)) {
 
-        var oldCol = Math.abs((this.gameState.selectedPiece.posX) / 2) + 0.5;
-        var oldRow = Math.abs((this.gameState.selectedPiece.posZ) / 2) + 0.5;
+        if (this.gameState.gametype == "HvsH" || (this.gameState.gametype == "HvsM" && this.gameState.playersTurn == 1)) {
 
-        var newCol = (this.gameState.selectedPieceNewX / 2) + 0.5;
-        var newRow = (this.gameState.selectedPieceNewZ / 2) + 0.5;
+            var oldCol = Math.abs((this.gameState.selectedPiece.posX) / 2) + 0.5;
+            var oldRow = Math.abs((this.gameState.selectedPiece.posZ) / 2) + 0.5;
 
-        //Verificacao horizontal
-        if (Math.abs(this.gameState.selectedPiece.posX - this.gameState.selectedPieceNewX) > 0) {
+            var newCol = (this.gameState.selectedPieceNewX / 2) + 0.5;
+            var newRow = (this.gameState.selectedPieceNewZ / 2) + 0.5;
 
-            for (x = 0; x < this.gameState.board[newRow - 1].length; x++) {
-                if ((this.gameState.board[newRow - 1][x] != newboard[newRow - 1][x]) && (x != oldCol - 1) && (x != newCol - 1)) {
-                    //console.log("Peca " + this.gameState.board[newRow-1][x] + " foi-se.");
+            //Verificacao horizontal
+            if (Math.abs(this.gameState.selectedPiece.posX - this.gameState.selectedPieceNewX) > 0) {
 
-                    this.findPiece(this.gameState.board[newRow - 1][x], newRow - 1, x);
+                for (x = 0; x < this.gameState.board[newRow - 1].length; x++) {
+                    if ((this.gameState.board[newRow - 1][x] != newboard[newRow - 1][x]) && (x != oldCol - 1) && (x != newCol - 1)) {
+                        //console.log("Peca " + this.gameState.board[newRow-1][x] + " foi-se.");
+
+                        this.findPiece(this.gameState.board[newRow - 1][x], newRow - 1, x);
+                    }
+
                 }
 
+                //cima
+                if (newRow > 1 && newRow != 11) {
+                    for (x = 0; x < this.gameState.board[newRow - 2].length; x++) {
+                        if (this.gameState.board[newRow - 2][x] != newboard[newRow - 2][x]) {
+                            //console.log("Peca " + this.gameState.board[newRow-2][x] + " foi-se.");
+
+                            this.findPiece(this.gameState.board[newRow - 2][x], newRow - 2, x);
+                        }
+
+                    }
+                }
+
+                //baixo
+                if (newRow < 11 && newRow != 1) {
+                    for (x = 0; x < this.gameState.board[newRow].length; x++) {
+                        if (this.gameState.board[newRow][x] != newboard[newRow][x]) {
+                            //console.log("Peca " + this.gameState.board[newRow][x] + " foi-se.");
+
+                            this.findPiece(this.gameState.board[newRow][x], newRow, x);
+                        }
+
+                    }
+                }
             }
 
-            //cima
-            if (newRow > 1 && newRow != 11) {
-                for (x = 0; x < this.gameState.board[newRow - 2].length; x++) {
-                    if (this.gameState.board[newRow - 2][x] != newboard[newRow - 2][x]) {
-                        //console.log("Peca " + this.gameState.board[newRow-2][x] + " foi-se.");
+            //Verificacao vertical
+            else {
+                for (z = 0; z < this.gameState.board.length; z++) {
 
-                        this.findPiece(this.gameState.board[newRow - 2][x], newRow - 2, x);
+                    if ((this.gameState.board[z][oldCol - 1] != newboard[z][oldCol - 1]) && (z != oldRow - 1) && (z != newRow - 1)) {
+                        //console.log("Peca " + this.gameState.board[z][oldCol-1] + " foi-se.");
+
+                        this.findPiece(this.gameState.board[z][oldCol - 1], z, oldCol - 1);
+                    }
+
+                    //direita
+                    if (newCol > 1 && newCol != 11) {
+                        if (this.gameState.board[z][oldCol] != newboard[z][oldCol]) {
+                            //console.log("Peca " + this.gameState.board[z][oldCol] + " foi-se.");
+
+                            this.findPiece(this.gameState.board[z][oldCol - 1], z, oldCol);
+                        }
+                    }
+
+                    //esquerda
+                    if (newCol < 11 && newCol != 1) {
+                        if (this.gameState.board[z][oldCol - 2] != newboard[z][oldCol - 2]) {
+                            //console.log("Peca " + this.gameState.board[z][oldCol-2] + " foi-se.");
+
+                            this.findPiece(this.gameState.board[z][oldCol - 1], z, oldCol - 2);
+                        }
                     }
 
                 }
             }
 
-            //baixo
-            if (newRow < 11 && newRow != 1) {
-                for (x = 0; x < this.gameState.board[newRow].length; x++) {
-                    if (this.gameState.board[newRow][x] != newboard[newRow][x]) {
-                        //console.log("Peca " + this.gameState.board[newRow][x] + " foi-se.");
+            this.gameState.board = newboard;
+            this.gameState.boards.push(this.gameState.board);
+            this.gameState.boardsFromProlog.push(boardFromProlog);
 
-                        this.findPiece(this.gameState.board[newRow][x], newRow, x);
-                    }
+            //Animacao de movimento da peca
+            this.gameState.animating = true;
 
-                }
+            var controlPointsAux = [];
+
+            var controlPoint = [];
+            controlPoint["x"] = this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].posX;
+            controlPoint["y"] = 0;
+            controlPoint["z"] = this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].posZ;
+            controlPointsAux.push(controlPoint);
+
+            controlPoint = [];
+            controlPoint["x"] = this.gameState.selectedPieceNewX;
+            controlPoint["y"] = 0;
+            controlPoint["z"] = this.gameState.selectedPieceNewZ;
+            controlPointsAux.push(controlPoint);
+
+            this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].animation = new PieceAnimation(this, 2, controlPointsAux);
+
+            if ((this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].id == "k") &&
+                ((this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].matrixPos.x == 0) ||
+                (this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].matrixPos.x == 10) ||
+                (this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].matrixPos.z == 0) ||
+                (this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].matrixPos.z == 10))) {
+                this.gameState.winner = 2;
+                console.log("JOGADOR 2 GANHOU O JOGO");
+
+                clearInterval(counter);
+                this.msgtoplayer2 = "GANHOU O  JOGO";
+                this.msgtoplayer1 = "PERDEU O  JOGO";
             }
         }
 
-        //Verificacao vertical
         else {
-            for (z = 0; z < this.gameState.board.length; z++) {
-
-                if ((this.gameState.board[z][oldCol - 1] != newboard[z][oldCol - 1]) && (z != oldRow - 1) && (z != newRow - 1)) {
-                    //console.log("Peca " + this.gameState.board[z][oldCol-1] + " foi-se.");
-
-                    this.findPiece(this.gameState.board[z][oldCol - 1], z, oldCol - 1);
-                }
-
-                //direita
-                if (newCol > 1 && newCol != 11) {
-                    if (this.gameState.board[z][oldCol] != newboard[z][oldCol]) {
-                        //console.log("Peca " + this.gameState.board[z][oldCol] + " foi-se.");
-
-                        this.findPiece(this.gameState.board[z][oldCol - 1], z, oldCol);
-                    }
-                }
-
-                //esquerda
-                if (newCol < 11 && newCol != 1) {
-                    if (this.gameState.board[z][oldCol - 2] != newboard[z][oldCol - 2]) {
-                        //console.log("Peca " + this.gameState.board[z][oldCol-2] + " foi-se.");
-
-                        this.findPiece(this.gameState.board[z][oldCol - 1], z, oldCol - 2);
-                    }
-                }
-
-            }
-        }
-
-        this.gameState.board = newboard;
-        this.gameState.boards.push(this.gameState.board);
-        this.gameState.boardsFromProlog.push(boardFromProlog);
-
-        //Animacao de movimento da peca
-        this.gameState.animating = true;
-
-        var controlPointsAux = [];
-
-        var controlPoint = [];
-        controlPoint["x"] = this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].posX;
-        controlPoint["y"] = 0;
-        controlPoint["z"] = this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].posZ;
-        controlPointsAux.push(controlPoint);
-
-        controlPoint = [];
-        controlPoint["x"] = this.gameState.selectedPieceNewX;
-        controlPoint["y"] = 0;
-        controlPoint["z"] = this.gameState.selectedPieceNewZ;
-        controlPointsAux.push(controlPoint);
-
-        this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].animation = new PieceAnimation(this, 2, controlPointsAux);
-
-        if ((this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].id == "k") &&
-            ((this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].matrixPos.x == 0) ||
-            (this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].matrixPos.x == 10) ||
-            (this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].matrixPos.z == 0) ||
-            (this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].matrixPos.z == 10))) {
-            this.gameState.winner = 2;
-            console.log("JOGADOR 2 GANHOU O JOGO");
-        }
-
-        if (this.gameState.gametype == "MvsM") {
-          moveRequest(this.gameState.playersTurn, 0, 0, 0, 0, boardFromProlog, 0, this.gameState.gametype);
-          this.cameraanimation= new CameraAnimation(this,2,180);
-
-          /*if(this.gameState.state == 0)
-            this.gameState.state++;
-
-          else
-            this.gameState.state = 0;*/
-
-          /*this.gameState.selectedPieceNewX = (newX * 2) - 1;
-          this.gameState.selectedPieceNewZ = (newZ * 2) - 1;
-
-
-          var newMatrixPos = [];
-          newMatrixPos.x = newX - 1;
-          newMatrixPos.z = newZ - 1;
-
-          this.gameState.Pieces[this.gameState.selectedPiece.arrayPos].matrixPos = newMatrixPos;*/
+            this.gameState.board = newboard;
+            this.gameState.boards.push(this.gameState.board);
+            this.gameState.boardsFromProlog.push(boardFromProlog);
+            this.initGame();
         }
     }
 };
-
-Scene.prototype.initLevels = function () {
-    this.levels = ["Easy", "Medium", "Hard"];
-};
-
-Scene.prototype.changelevel = function (level) {
-
-};
-
-Scene.prototype.inittypes = function () {
-    this.gametypes = ["HvsH", "HvsM", "MvsM"];
-};
-Scene.prototype.changetype = function (type) {
-
-};
-
-
 
 Scene.prototype.getLetter = function (letter) {
     var i = 0;
@@ -1015,45 +958,45 @@ Scene.prototype.getLetter = function (letter) {
     this.activeShader.setUniformsValues({'charCoords': [i, j]});
 };
 
-Scene.prototype.timer= function (){
-  count=count-1;
-  console.log(count);
-  if (count <= 0)
-  {
-     clearInterval(counter);
+Scene.prototype.timer = function () {
+    count = count - 1;
+    //console.log(count);
+    if (count <= 0) {
+        clearInterval(counter);
 
-     this.changeTurn();
+        if (this.gameState.gametype == "MvsM") {
+            moveRequest(this.gameState.playersTurn, 0, 0, 0, 0, boardFromProlog, 0, this.gameState.gametype);
+        }
 
-     return;
-  }
+        this.changeTurn();
 
-  //Do code for showing the number of seconds here
+        return;
+    }
+
+    //Do code for showing the number of seconds here
 };
 
-Scene.prototype.changeTurn= function (){
+Scene.prototype.changeTurn = function () {
 
-  //Animacao de movimento da peca
-  this.changeplayer = true;
-  if (this.gameState.playersTurn == 2)
-      this.gameState.playersTurn = 1;
+    //Animacao de movimento da peca
+    this.changeplayer = true;
+    if (this.gameState.playersTurn == 2)
+        this.gameState.playersTurn = 1;
 
-  else
-      this.gameState.playersTurn = 2;
+    else
+        this.gameState.playersTurn = 2;
 
-  this.cameraanimation= new CameraAnimation(this,2,180);
+    this.cameraanimation = new CameraAnimation(this, 2, 180);
 
-  this.gameState.state = 0;
+    this.gameState.state = 0;
 };
 
 
-
-
-Scene.prototype.movieofgame= function (){
-  for(i=0;i<this.gameState.boards.length;i++){
-    console.log("Mas faz?");
-    this.gameState.board=this.gameState.boards[i];
-      this.initGame();
-  }
+Scene.prototype.movieofgame = function () {
+    for (var i = 0; i < this.gameState.boards.length; i++) {
+        this.gameState.board = this.gameState.boards[i];
+        this.initGame();
+    }
 };
 // Warn if overriding existing method
 if (Array.prototype.equals)

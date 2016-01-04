@@ -6,13 +6,13 @@ function CylinderCircle(scene, slices) {
     this.ang = 2 * Math.PI / (this.slices);
 
     this.initBuffers();
- };
+};
 
- CylinderCircle.prototype = Object.create(CGFobject.prototype);
- CylinderCircle.prototype.constructor = CylinderCircle;
+CylinderCircle.prototype = Object.create(CGFobject.prototype);
+CylinderCircle.prototype.constructor = CylinderCircle;
 
- CylinderCircle.prototype.initBuffers = function() {
-	
+CylinderCircle.prototype.initBuffers = function () {
+
     this.vertices = [];
     this.indices = [];
     this.normals = [];
@@ -48,4 +48,4 @@ function CylinderCircle(scene, slices) {
 
     this.primitiveType = this.scene.gl.TRIANGLES;
     this.initGLBuffers();
- };
+};
